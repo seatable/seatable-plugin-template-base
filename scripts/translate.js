@@ -9,14 +9,12 @@ const files = fs.readdirSync(path.join(sourcePath, SUPPORT_LANGUAGES[0]));
 const pluginName = files[0];
 
 const generatorLanguage = (lang, content) => {
-  return (
-`const ${lang} = ${content};
+  return `const ${lang} = ${content};
 
-export default ${lang};`
-  );
-}
+export default ${lang};`;
+};
 
-SUPPORT_LANGUAGES.forEach(lang => {
+SUPPORT_LANGUAGES.forEach((lang) => {
   // 读出
   const contentPath = path.join(sourcePath, lang, pluginName);
   const isExist = fs.existsSync(contentPath);

@@ -1,5 +1,5 @@
 export interface IAppProps {
-    isDevelopment?: boolean,
-    showDialog: boolean,
-    row?: any
+  isDevelopment?: boolean;
+  showDialog: boolean;
+  row?: any;
 }

@@ -75,13 +75,13 @@ In the production environment, the table data is already in the browser, so it d
 
 ### 1. clone project
 
-* clone current project to local
-  
+- clone current project to local
+
 ### 2. Modify the plugin information file
 
-* Add a custom icon.png as the icon of the plugin in the plugin-config folder (if it is not provided, the default icon will be used. icon.png requires 128x128 pixels)
-* Add custom card_image.png as the background image of the plugin icon in the plugin-config folder (if it is not provided, the default background is displayed. card_image.png is required to be 560x240 pixels, the actual display is 280x120 pixels.
-* Modify info.json configuration file in plugin-config folder
+- Add a custom icon.png as the icon of the plugin in the plugin-config folder (if it is not provided, the default icon will be used. icon.png requires 128x128 pixels)
+- Add custom card_image.png as the background image of the plugin icon in the plugin-config folder (if it is not provided, the default background is displayed. card_image.png is required to be 560x240 pixels, the actual display is 280x120 pixels.
+- Modify info.json configuration file in plugin-config folder
 
 ```
   "name": '', // English name of plugin, can only contain letters, numbers, underscores, and underscores
@@ -125,7 +125,6 @@ const config = {
 1. Plugin display name internationalization
 2. Internationalization of the internal content of the plugin: The translation strings should be placed in js files and packaged with the plugin's other js source files into a final js file.
 
-
 #### Plugin display name internationalization
 
 The name displayed by the plug-in can also provide an international display. If you need to provide internationalization for the display name of the plug-in, you can modify the display_name parameter in the plug-in configuration information file `info.json`, the modification type is as follows:
@@ -146,12 +145,12 @@ If you do not need to provide internationalization for the display name of the p
 display_name: ''
 ```
 
-
 #### Internationalization of the internal content of the plugin
 
 We recommend to use [react-intl-universal](https://github.com/alibaba/react-intl-universal) for plugin internationalization.
 
 This library support internationalization for the following contents:
+
 1. Number
 2. Currency
 3. Date
@@ -159,25 +158,24 @@ This library support internationalization for the following contents:
 5. Message（Default Message、Message With Variables、HTML Message)
 
 Steps:
-1. Add supported language files in `src/locale/lang` **. Js
+
+1. Add supported language files in `src/locale/lang` \*\*. Js
 2. Add the corresponding international key and value key-value pairs in the file
 3. In `src/locale/index.ts` file
-    * Import the defined language file
-    * Define the language type supported by default
-    * Add language to locales object
+   - Import the defined language file
+   - Define the language type supported by default
+   - Add language to locales object
 4. Import translation components in components that need to add internationalized content `import intl from 'react-intl-universal`
 5. Call the intl interface function to complete the corresponding international call work, please use the documentation to move ➡️[react-intl-universal](https://github.com/alibaba/react-intl-universal)
 
 ### 6. Start development
 
-* Run `npm install` to install plugin dependencies
-* Run `npm run start` to run the local development environment
-* At this time, the values ​​of all subtables of the dtable and the details of collaborators in the table are displayed on the interface (the local development version uses the configuration in settings to obtain dtable data. The integrated version directly obtains the current browser DTable data).
+- Run `npm install` to install plugin dependencies
+- Run `npm run start` to run the local development environment
+- At this time, the values ​​of all subtables of the dtable and the details of collaborators in the table are displayed on the interface (the local development version uses the configuration in settings to obtain dtable data. The integrated version directly obtains the current browser DTable data).
   1. The dtable value (tables) can be obtained through the getTables interface function provided by dtable.
   2. The collaborators can be obtained through the getRelatedUsers interface function provided by dtable.
-  
-* According to requirements, use the interface functions provided by dtable-sdk to update app.tsx to complete the plug-in function development
-
+- According to requirements, use the interface functions provided by dtable-sdk to update app.tsx to complete the plug-in function development
 
 ## Build zip package and upload plugin
 

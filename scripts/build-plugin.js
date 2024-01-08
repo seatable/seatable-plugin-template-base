@@ -1,12 +1,12 @@
-const JSZip = require("jszip");
+const JSZip = require('jszip');
 const fs = require('fs-extra');
 const path = require('path');
 const dayjs = require('dayjs');
 const paths = require('../config/paths');
 
 const config = {
-  dir: paths.appBuild + '/static/'
-}
+  dir: paths.appBuild + '/static/',
+};
 
 const zip = new JSZip();
 
@@ -28,7 +28,7 @@ if (isFileExist(paths.pluginConfigPath, 'icon.png')) {
 }
 
 if (isFileExist(paths.pluginConfigPath, 'card_image.png')) {
-  const cardImagePath = path.join(paths.pluginConfigPath, 'card_image.png'); 
+  const cardImagePath = path.join(paths.pluginConfigPath, 'card_image.png');
   zip.file('task/media/card_image.png', fs.readFileSync(cardImagePath));
 }
 
@@ -37,26 +37,26 @@ const pluginInfoFilePath = path.join(paths.pluginConfigPath, 'info.json');
 const pluginInfoContent = JSON.parse(getFileContent(pluginInfoFilePath));
 
 const pluginInfoContentExpand = {
-  "last_modified": dayjs().format(),
-  "has_css": (isDirExist(paths.appBuild + '/static/css') && cssFilePath) ? true : false,
-  "has_icon": isFileExist(paths.pluginConfigPath, 'icon.png'),
-  "has_card_image": isFileExist(paths.pluginConfigPath, 'card_image.png')
-}
+  last_modified: dayjs().format(),
+  has_css: isDirExist(paths.appBuild + '/static/css') && cssFilePath ? true : false,
+  has_icon: isFileExist(paths.pluginConfigPath, 'icon.png'),
+  has_card_image: isFileExist(paths.pluginConfigPath, 'card_image.png'),
+};
 
 let jsonFileContent = Object.assign({}, pluginInfoContent, pluginInfoContentExpand);
 
 zip.file('task/info.json', JSON.stringify(jsonFileContent, null, '  '));
 
-zip.generateAsync({type: "nodebuffer"}).then(function(content) { 
+zip.generateAsync({ type: 'nodebuffer' }).then(function (content) {
   let zip = `${pluginInfoContent.name}-${pluginInfoContent.version}.zip`;
-  fs.writeFile(paths.zipPath + '/' + zip, content, function(err) {
+  fs.writeFile(paths.zipPath + '/' + zip, content, function (err) {
     if (err) {
       console.log(zip + ' failed');
-      console.log(err)
+      console.log(err);
       return;
     }
     console.log(zip + ' successful');
-  })
+  });
 });
 
 function isDirExist(path) {
@@ -69,17 +69,17 @@ function isFileExist(overallPath, fileName) {
 
 /**
  * Get the full file path
- * @param  {string} overallPath File parent path 
+ * @param  {string} overallPath File parent path
  */
 function getFullFileName(overallPath) {
   if (!isDirExist(overallPath)) {
     return false;
   }
   const moduleFileExtensions = ['js', 'css'];
-  const fileName = fs.readdirSync(overallPath).find(fileItem => {
+  const fileName = fs.readdirSync(overallPath).find((fileItem) => {
     let extension = fileItem.substring(fileItem.lastIndexOf('.') + 1);
     if (moduleFileExtensions.includes(extension)) {
-      return fileItem
+      return fileItem;
     }
   });
   if (!fileName) {
@@ -92,8 +92,8 @@ function getFullFileName(overallPath) {
  * Get file content
  * @param  {string} overallPath full file path
  */
-function getFileContent (overallPath) {
-　　// Specifying encoding returns a string, otherwise returns a Buffer
-  let content = fs.readFileSync(overallPath, { encoding: "utf-8" });
+function getFileContent(overallPath) {
+  // Specifying encoding returns a string, otherwise returns a Buffer
+  let content = fs.readFileSync(overallPath, { encoding: 'utf-8' });
   return content;
 }

@@ -1,17 +1,8 @@
 module.exports = {
-  roots: [
-    '<rootDir>/tests/',
-  ],
-  collectCoverageFrom: [
-    'tests/**/*.{js,jsx,ts,tsx}',
-    '!tests/**/*.d.ts',
-  ],
-  setupFiles: [
-    'react-app-polyfill/jsdom',
-  ],
-  setupFilesAfterEnv: [
-    '<rootDir>/tests/setupTests.js',
-  ],
+  roots: ['<rootDir>/tests/'],
+  collectCoverageFrom: ['tests/**/*.{js,jsx,ts,tsx}', '!tests/**/*.d.ts'],
+  setupFiles: ['react-app-polyfill/jsdom'],
+  setupFilesAfterEnv: ['<rootDir>/tests/setupTests.js'],
   testMatch: [
     '<rootDir>/tests/**/__tests__/**/*.{js,jsx,ts,tsx}',
     '<rootDir>/tests/**/*.{spec,test}.{js,jsx,ts,tsx}',
@@ -44,9 +35,6 @@ module.exports = {
     'jsx',
     'node',
   ],
-  watchPlugins: [
-    'jest-watch-typeahead/filename',
-    'jest-watch-typeahead/testname',
-  ],
+  watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
   resetMocks: true,
 };

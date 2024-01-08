@@ -26,18 +26,12 @@ const App: React.FC<IAppProps> = ({ isDevelopment, showDialog, row }) => {
         onDTableConnect();
       });
     }
-    unsubscribeLocalDtableChanged = window.dtableSDK.subscribe(
-      'local-dtable-changed',
-      () => {
-        onDTableChanged();
-      }
-    );
-    unsubscribeRemoteDtableChanged = window.dtableSDK.subscribe(
-      'remote-dtable-changed',
-      () => {
-        onDTableChanged();
-      }
-    );
+    unsubscribeLocalDtableChanged = window.dtableSDK.subscribe('local-dtable-changed', () => {
+      onDTableChanged();
+    });
+    unsubscribeRemoteDtableChanged = window.dtableSDK.subscribe('remote-dtable-changed', () => {
+      onDTableChanged();
+    });
     resetData();
   };
 
@@ -74,13 +68,13 @@ const App: React.FC<IAppProps> = ({ isDevelopment, showDialog, row }) => {
     <Modal
       isOpen={showDialog}
       toggle={onPluginToggle}
-      className='dtable-plugin plugin-container'
-      size='lg'
+      className="dtable-plugin plugin-container"
+      size="lg"
     >
-      <ModalHeader className='test-plugin-header' toggle={onPluginToggle}>
+      <ModalHeader className="test-plugin-header" toggle={onPluginToggle}>
         {'Plugin'}
       </ModalHeader>
-      <ModalBody className='test-plugin-content'>
+      <ModalBody className="test-plugin-content">
         <div>{`'dtable-subtables: '${JSON.stringify(subtables)}`}</div>
         <br></br>
         <div>{`'dtable-collaborators: '${JSON.stringify(collaborators)}`}</div>
