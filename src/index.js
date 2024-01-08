@@ -5,7 +5,6 @@ import App from './app';
 import './setting.ts';
 
 class TaskList {
-
   static async init() {
     const dtableSDK = new DTable();
 
@@ -30,12 +29,15 @@ class TaskList {
     await this.init();
     ReactDOM.render(<App isDevelopment showDialog />, document.getElementById('root'));
   }
-
 }
 
 TaskList.execute();
 
 const openBtn = document.getElementById('plugin-controller');
-openBtn.addEventListener('click', function() {
-  TaskList.execute();
-}, false);
+openBtn.addEventListener(
+  'click',
+  function () {
+    TaskList.execute();
+  },
+  false
+);

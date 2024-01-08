@@ -26,13 +26,13 @@
   font-weight: bold;
 }
 
-.dtable-plugin .xx-plugin-header .plugin-close>span {
+.dtable-plugin .xx-plugin-header .plugin-close > span {
   font-size: 20px;
   color: #999;
   cursor: pointer;
 }
 
-.dtable-plugin .xx-plugin-header .plugin-close>span:hover {
+.dtable-plugin .xx-plugin-header .plugin-close > span:hover {
   font-size: 20px;
   color: #333;
 }

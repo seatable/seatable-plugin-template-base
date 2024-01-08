@@ -39,12 +39,12 @@ src ------------------------------------- 项目源码文件夹
 插件包是一个 zip 格式的文件。它解压后的目录结构如下
 
 ```
-   your-plugin                        
+   your-plugin
      -- main.js             // 插件编译后的 js 文件
      -- info.json           // 插件的信息文件
      -- media               // 插件静态文件文件夹
      -- media/main.css      // 编译后的 css 文件
-     -- media/icon.png      // 插件的 icon 图片 
+     -- media/icon.png      // 插件的 icon 图片
      -- media/card_image.png // 插件 icon 的背景图片
 ```
 
@@ -71,18 +71,17 @@ info.json 说明
 
 生产环境下，表格的数据已经在浏览器中，所以不需要加载。程序初始化的时候 (entry.js) 向 SeaTable 注册一个回调函数。用户点击插件对应的按钮的时候这个回调函数会被执行。在这个模板中，回调函数的行为是让插件弹出一个对话框，并在其中显示能通过 dtable SDK 接口
 
-
 ## 插件开发基本流程
 
 ### 1. clone 项目
 
-* clone 当前项目到本地
-  
+- clone 当前项目到本地
+
 ### 2. 修改插件信息文件
 
-* 在 plugin-config 文件夹中添加自定义的 icon.png 作为插件的图标（可不提供，采用默认图标。icon.png 要求是 128x128 像素)
-* 在 plugin-config 文件夹中添加自定义的 card_image.png 作为插件图标的背景图（可不提供，显示默认背景。card_image.png 要求是 560x240 像素，实际显示为 280x120 像素，这是为了在高清屏上显示不会模糊)
-* 修改 plugin-config 文件夹中 info.json 配置文件
+- 在 plugin-config 文件夹中添加自定义的 icon.png 作为插件的图标（可不提供，采用默认图标。icon.png 要求是 128x128 像素)
+- 在 plugin-config 文件夹中添加自定义的 card_image.png 作为插件图标的背景图（可不提供，显示默认背景。card_image.png 要求是 560x240 像素，实际显示为 280x120 像素，这是为了在高清屏上显示不会模糊)
+- 修改 plugin-config 文件夹中 info.json 配置文件
 
 ```
   "name": '',                   // 插件英文名字，只能包含字母、数字、下划线、中划线
@@ -93,7 +92,7 @@ info.json 说明
 
 这里不需要添加其他配置参数，其他参数由打包工具自动生成
 
-### 3. 修改entry.js文件中的插件注册函数 
+### 3. 修改entry.js文件中的插件注册函数
 
 ```
   更新 window.app.registerPluginItemCallback('test', TaskList.execute);
@@ -123,7 +122,7 @@ const config = {
 
 1. 插件显示名字国际化
 2. 插件内部内容国际化：翻译字符串应该放在 js 文件中，并和插件的其他 js 源码文件一起打包成一个 js 文件。
-   
+
 #### 插件显示名字国际化
 
 插件显示的名字也可以提供国际化显示。如果需要对插件的显示名字提供国际化，可以在插件配置信息文件 `info.json` 中修改display_name参数，修改类型如下：
@@ -149,6 +148,7 @@ display_name: ''
 这里推荐使用 [react-intl-universal](https://github.com/alibaba/react-intl-universal) 来实现插件的国际化。
 
 这个库支持的翻译内容包含
+
 1. 数值
 2. 货币
 3. 日期
@@ -156,27 +156,27 @@ display_name: ''
 5. 文本（普通文本、包含变量的文本、html文本）
 
 使用方法:
-1. 在`src/locale/lang`中添加支持的语言文件 **.js
+
+1. 在`src/locale/lang`中添加支持的语言文件 \*\*.js
 2. 在文件中添加需要国际化的key、value键值对
 3. 在`src/locale/index.js`文件中
-    * 导入定义的语言文件
-    * 定义默认支持的语言类型LANUGUAGE
-    * 将语言添加到locales对象中
+   - 导入定义的语言文件
+   - 定义默认支持的语言类型LANUGUAGE
+   - 将语言添加到locales对象中
 4. 在需要添加国际化内容的组件中导入翻译组件 `import intl from 'react-intl-universal`
 5. 调用intl的接口函数完成相应的国际化工作，使用文档请移步➡️[react-intl-universal](https://github.com/alibaba/react-intl-universal)
 
-
 ### 6. 开始开发
 
-* 运行 npm install 安装插件依赖项
-* 运行 npm run start 运行本地开发环境
-* 此时在界面上显示出 dtable 表格所有子表的value值，及表格中协作人 (collaborators) 的详细信息（本地开发版本使用 settings 中的配置来获取 dtable 数据。集成版本直接获取当前浏览器中的 dtable 数据）。
+- 运行 npm install 安装插件依赖项
+- 运行 npm run start 运行本地开发环境
+- 此时在界面上显示出 dtable 表格所有子表的value值，及表格中协作人 (collaborators) 的详细信息（本地开发版本使用 settings 中的配置来获取 dtable 数据。集成版本直接获取当前浏览器中的 dtable 数据）。
   1. dtable 表格的中子表(tables)的相关数据，可以通过 dtable 提供的 getTables 接口函数获取
   2. dtable 表格协作人(collaborators)的详细信息，可以通过 dtable 提供的 getRelatedUsers 接口函数获取
-  
-* 依据需求，使用 dtable-sdk 提供的接口函数，更新 app.js 完成插件功能开发
+- 依据需求，使用 dtable-sdk 提供的接口函数，更新 app.js 完成插件功能开发
 
 app.js 代码结构说明
+
 ```
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -203,13 +203,13 @@ class App extends React.Component {
 
   // 说明: 初始化 dtable-sdk 插件的接口对象 DTable 数据
   componentDidMount() {
-    this.initPluginDTableData();  
+    this.initPluginDTableData();
   }
 
   // 说明: 集成插件后，控制插件内容的显示
   componentWillReceiveProps(nextProps) {
-    this.setState({showDialog: nextProps.showDialog});  
-  } 
+    this.setState({showDialog: nextProps.showDialog});
+  }
 
   // 说明: 模版函数，无需改动
   async initPluginDTableData() {
@@ -219,7 +219,7 @@ class App extends React.Component {
       await this.dtable.init(window.dtablePluginConfig);
       await this.dtable.syncWithServer();
       this.dtable.subscribe('dtable-connect', () => { this.onDTableConnect(); });
-    } else { 
+    } else {
       // integrated to dtable app
       this.dtable.initInBrowser(window.app.dtableStore);
     }
@@ -259,7 +259,7 @@ class App extends React.Component {
 
     let subtables = this.dtable.getTables();
     let collaborators = this.dtable.getRelatedUsers();
-    
+
     return (
       <Modal isOpen={showDialog} toggle={this.onPluginToggle} className="dtable-plugin plugin-container" size="lg">
         <ModalHeader className="test-plugin-header" toggle={this.onPluginToggle}>{'插件'}</ModalHeader>

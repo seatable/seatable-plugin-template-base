@@ -3,11 +3,7 @@
     "browser": true,
     "es6": true
   },
-  "extends": [
-    "react-app",
-    "react-app/jest",
-    "eslint:recommended"
-  ],
+  "extends": ["react-app", "react-app/jest", "eslint:recommended"],
   "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -16,30 +12,14 @@
     },
     "sourceType": "module",
     "babelOptions": {
-      "presets": [
-        ["babel-preset-react-app", false],
-        "babel-preset-react-app/prod"
-      ]
+      "presets": [["babel-preset-react-app", false], "babel-preset-react-app/prod"]
     }
   },
-  "plugins": [
-    "react",
-    "jsx-a11y"
-  ],
+  "plugins": ["react", "jsx-a11y"],
   "rules": {
-    "indent": [
-      "warn",
-      2,
-      { "SwitchCase": 1 }
-    ],
-    "linebreak-style": [
-      "warn",
-      "unix"
-    ],
-    "quotes": [
-      "warn",
-      "single"
-    ],
+    "indent": ["warn", 2, { "SwitchCase": 1 }],
+    "linebreak-style": ["warn", "unix"],
+    "quotes": ["warn", "single"],
     "semi": [
       "warn",
       "always",

@@ -3,11 +3,6 @@
   "version": "0.1.2",
   "private": true,
   "dependencies": {
-    "dtable-utils": "4.3.3",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-intl-universal": "^2.9.0",
-    "reactstrap": "8.9.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -15,6 +10,11 @@
     "@types/node": "^16.18.69",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.2",
+    "dtable-utils": "4.3.3",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-intl-universal": "^2.9.0",
+    "reactstrap": "8.9.0",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
@@ -26,7 +26,8 @@
     "translate": "node scripts/translate.js",
     "push-translate": "tx push -s",
     "pull-translate": "tx pull -a -f && npm run translate",
-    "build-plugin": "export GENERATE_SOURCEMAP=false && npm run clean && npm run build && node scripts/build-plugin.js"
+    "build-plugin": "export GENERATE_SOURCEMAP=false && npm run clean && npm run build && node scripts/build-plugin.js",
+    "format": "prettier --write ."
   },
   "browserslist": {
     "production": [
@@ -91,6 +92,7 @@
     "postcss-loader": "^6.2.1",
     "postcss-normalize": "^10.0.1",
     "postcss-preset-env": "^7.0.1",
+    "prettier": "^3.1.1",
     "prompts": "^2.4.2",
     "react-app-polyfill": "^3.0.0",
     "react-dev-utils": "^12.0.1",
@@ -112,5 +114,6 @@
     "webpack-manifest-plugin": "^4.0.2",
     "workbox-webpack-plugin": "^6.4.1",
     "worker-loader": "3.0.8"
-  }
+  },
+  "prettier": "./prettier.config.json"
 }
