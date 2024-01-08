@@ -1,4 +1,4 @@
-
+// @ts-nocheck
 import intl from 'react-intl-universal';
 
 /** (1/5) initialize config object */
