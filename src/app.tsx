@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import './locale';
-import './assets/css/plugin-layout.css';
+import { ModalBody } from 'reactstrap';
 import { IAppProps } from './utils/Interfaces/App.interface';
+import styles from './styles/Modal.module.scss';
+import Header from './components/Header';
 import PluginSettings from './components/PluginSettings';
+import './assets/css/plugin-layout.css';
+import './locale';
 
 const App: React.FC<IAppProps> = ({ isDevelopment, showDialog, row }) => {
+  const [showSettings, setShowSettings] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [_showDialog, setShowDialog] = useState<boolean>(showDialog || false);
   const [baseViews, setBaseViews] = useState<any[]>([]);
   const [currentTable, setCurrentTable] = useState<any>({});
+  const customPluginName: string = 'Plugin Name'; // this name will change accordingly to the Custom Plugin
 
   useEffect(() => {
     initPluginDTableData();
@@ -32,6 +37,10 @@ const App: React.FC<IAppProps> = ({ isDevelopment, showDialog, row }) => {
       onDTableChanged();
     });
     resetData();
+  };
+
+  const toggleSettings = () => {
+    setShowSettings((prev) => !prev);
   };
 
   let unsubscribeLocalDtableChanged = () => {
@@ -68,15 +77,22 @@ const App: React.FC<IAppProps> = ({ isDevelopment, showDialog, row }) => {
   return isLoading ? (
     <div></div>
   ) : (
-    <div>
-      {/* header placeholder  */}
+    <div className={styles.modal}>
+      <Header
+        toggleSettings={toggleSettings}
+        showSettings={showSettings}
+        toggle={onPluginToggle}
+        customPluginName={customPluginName}
+      />
       {/* views placeholder  */}
       {/* main content placeholder  */}
-      <PluginSettings
-        subtables={subtables}
-        baseViews={baseViews}
-        currentTableID={currentTable._id}
-      />
+      {showSettings && (
+        <PluginSettings
+          subtables={subtables}
+          baseViews={baseViews}
+          currentTableID={currentTable._id}
+        />
+      )}
     </div>
   );
 };
