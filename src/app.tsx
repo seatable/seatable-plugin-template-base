@@ -13,6 +13,7 @@ const App: React.FC<IAppProps> = ({ isDevelopment, showDialog, row }) => {
   const [_showDialog, setShowDialog] = useState<boolean>(showDialog || false);
   const [baseViews, setBaseViews] = useState<any[]>([]);
   const [currentTable, setCurrentTable] = useState<any>({});
+  const customPluginName: string = 'Plugin Name'; // this name will change accordingly to the Custom Plugin
 
   useEffect(() => {
     initPluginDTableData();
@@ -77,14 +78,21 @@ const App: React.FC<IAppProps> = ({ isDevelopment, showDialog, row }) => {
     <div></div>
   ) : (
     <div className={styles.modal}>
-      <Header toggleSettings={toggleSettings} showSettings={showSettings} toggle={onPluginToggle} />
+      <Header
+        toggleSettings={toggleSettings}
+        showSettings={showSettings}
+        toggle={onPluginToggle}
+        customPluginName={customPluginName}
+      />
       {/* views placeholder  */}
       {/* main content placeholder  */}
-      <PluginSettings
-        subtables={subtables}
-        baseViews={baseViews}
-        currentTableID={currentTable._id}
-      />
+      {showSettings && (
+        <PluginSettings
+          subtables={subtables}
+          baseViews={baseViews}
+          currentTableID={currentTable._id}
+        />
+      )}
     </div>
   );
 };

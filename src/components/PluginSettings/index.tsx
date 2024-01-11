@@ -43,7 +43,6 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
         <div className={styles.settings_dropdowns}>
           <div>
             <p className="d-inline-block mb-2">Table</p>
-
             {/* toggle table view  */}
             <DtableSelect value={tableSelectedOption} options={tableOptions} />
           </div>

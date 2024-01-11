@@ -7,7 +7,7 @@ import { IHeaderProps } from '../../utils/Interfaces/Header.interface';
 import { compareLoose } from 'semver';
 
 const Header: React.FC<IHeaderProps> = (props) => {
-  const { showSettings, toggleSettings, toggle } = props;
+  const { showSettings, toggleSettings, toggle, customPluginName } = props;
   const [orgChartContent, setOrgChartContent] = useState<string | null>(null);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
         <div className={`bg-info py-1 px-2 rounded mr-2 ${styles.modal_header_logo}`}>
           <RiOrganizationChart size={16} color="#fff" />
         </div>
-        <p className={styles.modal_header_name}>Org Chart</p>
+        <p className={styles.modal_header_name}>{customPluginName}</p>
       </div>
 
       {/* settings and close icons  */}
