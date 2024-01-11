@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
-import intl from 'react-intl-universal';
-
 import './locale';
-
 import './assets/css/plugin-layout.css';
 import { IAppProps } from './utils/Interfaces/App.interface';
+import PluginSettings from './components/PluginSettings';
 
 const App: React.FC<IAppProps> = ({ isDevelopment, showDialog, row }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [_showDialog, setShowDialog] = useState(showDialog || false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [_showDialog, setShowDialog] = useState<boolean>(showDialog || false);
+  const [baseViews, setBaseViews] = useState<any[]>([]);
+  const [currentTable, setCurrentTable] = useState<any>({});
 
   useEffect(() => {
     initPluginDTableData();
@@ -51,6 +50,10 @@ const App: React.FC<IAppProps> = ({ isDevelopment, showDialog, row }) => {
   };
 
   const resetData = () => {
+    let table = window.dtableSDK.getActiveTable();
+    let baseViews = window.dtableSDK.getViews(table);
+    setCurrentTable(table);
+    setBaseViews(baseViews);
     setIsLoading(false);
   };
 
@@ -60,26 +63,21 @@ const App: React.FC<IAppProps> = ({ isDevelopment, showDialog, row }) => {
   };
 
   const { collaborators } = window.app.state;
-  const subtables = window.dtableSDK.getTables();
+  const subtables: any[] = window.dtableSDK.getTables();
 
   return isLoading ? (
     <div></div>
   ) : (
-    <Modal
-      isOpen={showDialog}
-      toggle={onPluginToggle}
-      className="dtable-plugin plugin-container"
-      size="lg"
-    >
-      <ModalHeader className="test-plugin-header" toggle={onPluginToggle}>
-        {'Plugin'}
-      </ModalHeader>
-      <ModalBody className="test-plugin-content">
-        <div>{`'dtable-subtables: '${JSON.stringify(subtables)}`}</div>
-        <br></br>
-        <div>{`'dtable-collaborators: '${JSON.stringify(collaborators)}`}</div>
-      </ModalBody>
-    </Modal>
+    <div>
+      {/* header placeholder  */}
+      {/* views placeholder  */}
+      {/* main content placeholder  */}
+      <PluginSettings
+        subtables={subtables}
+        baseViews={baseViews}
+        currentTableID={currentTable._id}
+      />
+    </div>
   );
 };
 
