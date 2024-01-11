@@ -3,13 +3,16 @@ import { ModalBody } from 'reactstrap';
 import { IAppProps } from './utils/Interfaces/App.interface';
 import styles from './styles/Modal.module.scss';
 import Header from './components/Header';
+import PluginSettings from './components/PluginSettings';
 import './assets/css/plugin-layout.css';
 import './locale';
 
 const App: React.FC<IAppProps> = ({ isDevelopment, showDialog, row }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [_showDialog, setShowDialog] = useState(showDialog || false);
   const [showSettings, setShowSettings] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [_showDialog, setShowDialog] = useState<boolean>(showDialog || false);
+  const [baseViews, setBaseViews] = useState<any[]>([]);
+  const [currentTable, setCurrentTable] = useState<any>({});
 
   useEffect(() => {
     initPluginDTableData();
@@ -55,6 +58,10 @@ const App: React.FC<IAppProps> = ({ isDevelopment, showDialog, row }) => {
   };
 
   const resetData = () => {
+    let table = window.dtableSDK.getActiveTable();
+    let baseViews = window.dtableSDK.getViews(table);
+    setCurrentTable(table);
+    setBaseViews(baseViews);
     setIsLoading(false);
   };
 
@@ -64,24 +71,20 @@ const App: React.FC<IAppProps> = ({ isDevelopment, showDialog, row }) => {
   };
 
   const { collaborators } = window.app.state;
-  const subtables = window.dtableSDK.getTables();
+  const subtables: any[] = window.dtableSDK.getTables();
 
   return isLoading ? (
     <div></div>
   ) : (
     <div className={styles.modal}>
-      {/* <Modal
-      isOpen={showDialog}
-      toggle={onPluginToggle}
-      className="dtable-plugin plugin-container"
-      size="lg"
-    ></Modal> */}
       <Header toggleSettings={toggleSettings} showSettings={showSettings} toggle={onPluginToggle} />
-      {/* <ModalBody className="test-plugin-content">
-        <div>{`'dtable-subtables: '${JSON.stringify(subtables)}`}</div>
-        <br></br>
-        <div>{`'dtable-collaborators: '${JSON.stringify(collaborators)}`}</div>
-      </ModalBody> */}
+      {/* views placeholder  */}
+      {/* main content placeholder  */}
+      <PluginSettings
+        subtables={subtables}
+        baseViews={baseViews}
+        currentTableID={currentTable._id}
+      />
     </div>
   );
 };
