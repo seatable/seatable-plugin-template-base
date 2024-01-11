@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DTable from 'dtable-sdk';
-import App from './app';
+import App from './app.tsx';
 import './setting.ts';
 
 class TaskList {

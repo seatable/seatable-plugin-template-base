@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
-import intl from 'react-intl-universal';
-
-import './locale';
-
-import './assets/css/plugin-layout.css';
+import { ModalBody } from 'reactstrap';
 import { IAppProps } from './utils/Interfaces/App.interface';
+import styles from './styles/Modal.module.scss';
+import Header from './components/Header';
+import './assets/css/plugin-layout.css';
+import './locale';
 
 const App: React.FC<IAppProps> = ({ isDevelopment, showDialog, row }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [_showDialog, setShowDialog] = useState(showDialog || false);
+  const [showSettings, setShowSettings] = useState(false);
 
   useEffect(() => {
     initPluginDTableData();
@@ -33,6 +33,10 @@ const App: React.FC<IAppProps> = ({ isDevelopment, showDialog, row }) => {
       onDTableChanged();
     });
     resetData();
+  };
+
+  const toggleSettings = () => {
+    setShowSettings((prev) => !prev);
   };
 
   let unsubscribeLocalDtableChanged = () => {
@@ -65,21 +69,20 @@ const App: React.FC<IAppProps> = ({ isDevelopment, showDialog, row }) => {
   return isLoading ? (
     <div></div>
   ) : (
-    <Modal
+    <div className={styles.modal}>
+      {/* <Modal
       isOpen={showDialog}
       toggle={onPluginToggle}
       className="dtable-plugin plugin-container"
       size="lg"
-    >
-      <ModalHeader className="test-plugin-header" toggle={onPluginToggle}>
-        {'Plugin'}
-      </ModalHeader>
-      <ModalBody className="test-plugin-content">
+    ></Modal> */}
+      <Header toggleSettings={toggleSettings} showSettings={showSettings} toggle={onPluginToggle} />
+      {/* <ModalBody className="test-plugin-content">
         <div>{`'dtable-subtables: '${JSON.stringify(subtables)}`}</div>
         <br></br>
         <div>{`'dtable-collaborators: '${JSON.stringify(collaborators)}`}</div>
-      </ModalBody>
-    </Modal>
+      </ModalBody> */}
+    </div>
   );
 };
 

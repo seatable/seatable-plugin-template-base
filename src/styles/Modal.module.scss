@@ -1,0 +1,333 @@
+@import './abstracts/_media.scss';
+// STYLE FOR MODAL COMPONENT
+
+.modal {
+  width: 100%;
+  position: fixed;
+  height: 95%;
+  bottom: 0;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.134);
+  background: rgb(250, 250, 250);
+
+  &_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 15px 15px 10px;
+    border-bottom: 1px solid rgba(113, 113, 113, 0.079);
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+
+    @include mobile {
+      padding: 10px 10px 7px;
+    }
+
+    &_logo {
+      @include mobile {
+        transform: scale(0.7);
+      }
+    }
+
+    &_name {
+      color: #132043;
+      font-weight: 600;
+      font-size: 15px;
+      white-space: nowrap;
+
+      @include mobile {
+        font-size: 11px;
+        margin-left: -5px;
+      }
+    }
+
+    &_views {
+      display: flex;
+      max-width: 50%;
+      // overflow-x: scroll;
+      align-items: center;
+      flex-wrap: nowrap;
+      padding-bottom: 15px;
+      margin-right: 10px;
+      margin-bottom: -15px;
+
+      @include mobile {
+        width: 40%;
+      }
+    }
+
+    &_icon_btn {
+      all: unset;
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      border-radius: 3px;
+      outline: none;
+      margin-right: 7px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3px;
+
+      p {
+        font-size: 12px;
+        color: #132043;
+      }
+
+      &:hover,
+      &_active {
+        background: #ff800146;
+      }
+
+      &_active {
+        width: auto;
+        padding-inline: 3px;
+      }
+
+      &:focus {
+        display: none;
+      }
+    }
+
+    &_viewBtn,
+    &_viewBtn_active {
+      all: unset;
+      position: relative;
+      font-size: 15px;
+      padding: 10px 20px;
+      border-radius: 5px;
+      color: #212529;
+      cursor: pointer;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      @include mobile {
+        font-size: 10px;
+      }
+
+      &_icons {
+        opacity: 0;
+        color: #c2c2c2;
+      }
+
+      &:hover {
+        .modal_header_viewBtn_icons {
+          opacity: 1;
+        }
+      }
+    }
+
+    &_viewBtn_active {
+      background-color: #0000001f;
+    }
+
+    &_settings {
+      width: 25%;
+
+      @include mobile {
+        width: 15%;
+      }
+    }
+  }
+}
+
+.main {
+  padding-top: 50px;
+  align-items: flex-start;
+}
+
+.sub {
+  position: relative;
+  padding-top: 10px;
+  max-width: fit-content;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -50px;
+    height: 50px;
+    width: 2px;
+    background: #9ba4b5;
+  }
+
+  &_cards,
+  &_cards_f,
+  &_cards_l {
+    position: relative;
+    flex: 1;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: -10px;
+      height: 10px;
+      width: 2px;
+      background: #9ba4b5;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: -10px;
+      transform: translateX(-50%);
+      height: 2px;
+      width: 100%;
+      background: #9ba4b5;
+    }
+  }
+
+  &_cards_f {
+    &::after {
+      left: 50%;
+      transform: translateX(0);
+      width: 50%;
+    }
+  }
+
+  &_cards_l {
+    &::after {
+      left: 0%;
+      width: 50%;
+      transform: translateX(0);
+    }
+  }
+
+  &_cards_one {
+    &::after {
+      display: none;
+    }
+  }
+
+  &_ends {
+    position: relative;
+  }
+}
+
+.Person {
+  width: 150px;
+  border-radius: 5px;
+  position: relative;
+  padding: 130px 10px 10px;
+  margin-bottom: 50px;
+
+  &_columns {
+    max-height: 100px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &::-webkit-scrollbar {
+      width: 0; /* Remove scrollbar space */
+      background: transparent; /* just make scrollbar invisible */
+    }
+  }
+
+  &_toggle_btn {
+    all: unset;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    display: grid;
+    place-items: center;
+    opacity: 0.5;
+    transition: opacity 0.3s ease-in-out;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &:focus {
+      display: none;
+    }
+  }
+
+  figure {
+    width: 100%;
+    height: 120px;
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-bottom: 2px solid #eee;
+  }
+
+  h6 {
+    text-transform: uppercase;
+    color: #9ba4b5;
+    font-size: 10px;
+    font-weight: 600;
+  }
+
+  &_data {
+    font-size: 11px;
+    display: inline-block;
+    border-radius: 3px;
+  }
+}
+
+.view_dropdown {
+  position: absolute;
+  top: 0;
+  right: -160px;
+  background-color: #fff;
+  border: 1px solid rgba(0, 40, 100, 0.12);
+  box-shadow: 0 0 5px #ccc;
+  z-index: 100;
+
+  li {
+    padding: 10px 20px;
+    font-weight: 400;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #d7d7d7;
+    }
+  }
+}
+
+.add_row {
+  border: none;
+  cursor: pointer;
+  width: 60px;
+  height: 60px;
+  background-color: #ff8001;
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  border-radius: 50%;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.body {
+  height: 100%;
+  overflow: scroll;
+  padding-bottom: 50px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
