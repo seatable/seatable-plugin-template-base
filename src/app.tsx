@@ -7,7 +7,8 @@ import PluginSettings from './components/PluginSettings';
 import './assets/css/plugin-layout.css';
 import './locale';
 
-const App: React.FC<IAppProps> = ({ isDevelopment, showDialog, row }) => {
+const App: React.FC<IAppProps> = (props) => {
+  const { isDevelopment, showDialog, row } = props;
   const [showSettings, setShowSettings] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [_showDialog, setShowDialog] = useState<boolean>(showDialog || false);
@@ -85,7 +86,11 @@ const App: React.FC<IAppProps> = ({ isDevelopment, showDialog, row }) => {
         customPluginName={customPluginName}
       />
       {/* views placeholder  */}
-      {/* main content placeholder  */}
+      {/* content  */}
+      <div className={styles.body}>
+        <div>{`'rows: '${JSON.stringify(row)}`}</div>
+        <div>{`'dtable-subtables: '${JSON.stringify(subtables)}`}</div>
+      </div>
       {showSettings && (
         <PluginSettings
           subtables={subtables}
