@@ -74,7 +74,6 @@ const App: React.FC<IAppProps> = (props) => {
 
   const { collaborators } = window.app.state;
   const subtables: any[] = window.dtableSDK.getTables();
-  console.log('subtables', subtables);
 
   return isLoading ? (
     <div></div>
