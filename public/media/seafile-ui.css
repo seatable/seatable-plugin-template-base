@@ -8641,7 +8641,8 @@ p,
 ul,
 ol,
 blockquote {
-  margin-bottom: 1em;
+  margin-bottom: 0;
+  /* margin-bottom: 1em; */
 }
 blockquote {
   font-style: italic;
