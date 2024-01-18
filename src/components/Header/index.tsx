@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../styles/Modal.module.scss';
-import { RiOrganizationChart } from 'react-icons/ri';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import { IHeaderProps } from '../../utils/Interfaces/Header.interface';
+import { PLUGIN_ICON } from '../../constants';
 import { compareLoose } from 'semver';
 
 const Header: React.FC<IHeaderProps> = (props) => {
@@ -45,7 +45,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
       {/* logo and plugin name  */}
       <div className="d-flex align-items-center">
         <div className={`bg-info py-1 px-2 rounded mr-2 ${styles.modal_header_logo}`}>
-          <RiOrganizationChart size={16} color="#fff" />
+          <PLUGIN_ICON size={16} color="#fff" />
         </div>
         <p className={styles.modal_header_name}>{customPluginName}</p>
       </div>
