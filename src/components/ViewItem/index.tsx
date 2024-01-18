@@ -1,10 +1,11 @@
-import React, { Component, useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styles from '../../styles/Modal.module.scss';
 import styles2 from '../../styles/Views.module.scss';
 import '../../assets/css/plugin-layout.css';
 import { BsThreeDots } from 'react-icons/bs';
 import ViewDropdown from '../ViewDropdown/index';
 import { IViewItemProps } from '../../utils/Interfaces/ViewItem.interfaces';
+import useClickOut from '../../hooks/useClickOut';
 
 const ViewItem: React.FC<IViewItemProps> = ({
   v,
@@ -20,21 +21,14 @@ const ViewItem: React.FC<IViewItemProps> = ({
 }) => {
   const [showViewDropdown, setShowViewDropdown] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const popupRef = useRef<any>();
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, []);
+  let editDomNode = useClickOut(() => {
+    setIsEditing(false);
+  });
 
-  const handleOutsideClick = (event: any) => {
-    if (popupRef?.current && !popupRef.current.contains(event.target)) {
-      // Click outside the popup, close it
-      setShowViewDropdown(false);
-    }
-  };
+  let popupDomNode = useClickOut(() => {
+    setShowViewDropdown(false);
+  });
 
   // toggle view dropdown(edit/delete)
   const toggleViewDropdown = () => {
@@ -75,7 +69,10 @@ const ViewItem: React.FC<IViewItemProps> = ({
 
   return (
     <div>
-      <div className={styles2.views_input} style={{ display: !isEditing ? 'none' : 'flex' }}>
+      <div
+        className={styles2.views_input}
+        ref={editDomNode}
+        style={{ display: !isEditing ? 'none' : 'flex' }}>
         <input autoFocus value={viewName} onKeyDown={editOnEnterKeyPress} onChange={onViewNameChange} />
         <button onClick={onEditViewSubmit}>
           <span className="dtable-font dtable-icon-check-mark"></span>
@@ -104,7 +101,7 @@ const ViewItem: React.FC<IViewItemProps> = ({
 
         {showViewDropdown && (
           <ViewDropdown
-            dropdownRef={popupRef}
+            dropdownRef={popupDomNode}
             deleteView={onDeleteView}
             toggleEditViewPopUp={onEditView}
             duplicateView={onDuplicateView}
