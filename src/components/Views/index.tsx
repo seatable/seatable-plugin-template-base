@@ -150,6 +150,12 @@ const Views: React.FC<IViewsProps> = ({
     }
   };
 
+  const addOnEnterKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onNewViewSubmit()
+    }
+  }
+
   return (
     <div className={`${styles.views}`}>
       <div className="d-flex flex-column">
@@ -171,7 +177,7 @@ const Views: React.FC<IViewsProps> = ({
               deleteView={deleteView}
               viewName={viewName}
               onViewNameChange={onViewNameChange}
-              onEditViewSubmit={(e) => onNewViewSubmit(e, 'edit')}
+              onEditViewSubmit={(e?: React.MouseEvent<HTMLElement>) => onNewViewSubmit(e, 'edit')}
               showEditViewPopUp={showEditViewPopUp}
               duplicateView={duplicateView}
             />
@@ -181,7 +187,7 @@ const Views: React.FC<IViewsProps> = ({
       {/* add new view input  */}
       {showNewViewPopUp && (
         <div className={styles.views_input}>
-          <input autoFocus value={viewName} onChange={onViewNameChange} />
+          <input autoFocus value={viewName} onKeyDown={addOnEnterKeyPress} onChange={onViewNameChange} />
           <button onClick={onNewViewSubmit}>
             <span className="dtable-font dtable-icon-check-mark"></span>
           </button>

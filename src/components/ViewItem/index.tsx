@@ -67,11 +67,17 @@ const ViewItem: React.FC<IViewItemProps> = ({
     }
   };
 
+  const editOnEnterKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onEditViewSubmit()
+    }
+  }
+
   return (
     <div>
       <div className={styles2.views_input} style={{ display: !isEditing ? 'none' : 'flex' }}>
-        <input autoFocus value={viewName} onChange={onViewNameChange} />
-        <button onClick={(e) => onEditViewSubmit(e, 'edit')}>
+        <input autoFocus value={viewName} onKeyDown={editOnEnterKeyPress} onChange={onViewNameChange} />
+        <button onClick={onEditViewSubmit}>
           <span className="dtable-font dtable-icon-check-mark"></span>
         </button>
         <button onClick={onEditView}>
