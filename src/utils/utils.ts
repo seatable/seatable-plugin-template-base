@@ -11,12 +11,15 @@ export const generatorBase64Code = (keyLength = 4) => {
 };
 
 export const generatorViewId = (views) => {
-  let view_id, isUnique = false;
+  let view_id,
+    isUnique = false;
   while (!isUnique) {
     view_id = generatorBase64Code(4);
 
     // eslint-disable-next-line
-    isUnique = views?.every(item => {return item._id !== view_id;});
+    isUnique = views?.every((item) => {
+      return item._id !== view_id;
+    });
     if (isUnique) {
       break;
     }
@@ -43,8 +46,8 @@ export const isValidEmail = (email) => {
 
 export const calculateColumns = (galleryColumnsName, currentColumns) => {
   let newColumns = [];
-  galleryColumnsName.forEach(columnName => {
-    let column = currentColumns.find(column => columnName === column.name);
+  galleryColumnsName.forEach((columnName) => {
+    let column = currentColumns.find((column) => columnName === column.name);
     if (column) {
       newColumns.push(column);
     }
@@ -54,12 +57,14 @@ export const calculateColumns = (galleryColumnsName, currentColumns) => {
 
 export const calculateColumnsName = (currentColumns, galleryColumnsName) => {
   let newColumnsName = [];
-  currentColumns.forEach(column => {
+  currentColumns.forEach((column) => {
     newColumnsName.push(column.name);
   });
   if (galleryColumnsName) {
     let columnsName = Array.from(new Set([...galleryColumnsName, ...newColumnsName]));
-    newColumnsName = columnsName.filter(columnName => newColumnsName.some(c => c === columnName));
+    newColumnsName = columnsName.filter((columnName) =>
+      newColumnsName.some((c) => c === columnName)
+    );
   }
   return newColumnsName;
 };
@@ -68,8 +73,11 @@ export const checkDesktop = () => {
   return window.innerWidth >= 768;
 };
 
-export const isTableEditable = ({permission_type = 'default', permitted_users = []}, TABLE_PERMISSION_TYPE) => {
-  const { isAdmin, username } = window.dtable ? window.dtable :  window.dtablePluginConfig;
+export const isTableEditable = (
+  { permission_type = 'default', permitted_users = [] },
+  TABLE_PERMISSION_TYPE
+) => {
+  const { isAdmin, username } = window.dtable ? window.dtable : window.dtablePluginConfig;
 
   if (!permission_type) {
     return true;
@@ -80,7 +88,10 @@ export const isTableEditable = ({permission_type = 'default', permitted_users = 
   if (permission_type === TABLE_PERMISSION_TYPE.ADMINS && isAdmin) {
     return true;
   }
-  if (permission_type === TABLE_PERMISSION_TYPE.SPECIFIC_USERS && permitted_users.includes(username)) {
+  if (
+    permission_type === TABLE_PERMISSION_TYPE.SPECIFIC_USERS &&
+    permitted_users.includes(username)
+  ) {
     return true;
   }
   return false;
@@ -89,7 +100,10 @@ export const isTableEditable = ({permission_type = 'default', permitted_users = 
 export const canCreateRows = (table, TABLE_PERMISSION_TYPE) => {
   let canCreateRows = true;
   if (table && table.table_permissions && table.table_permissions.add_rows_permission) {
-    canCreateRows = isTableEditable(table.table_permissions.add_rows_permission, TABLE_PERMISSION_TYPE);
+    canCreateRows = isTableEditable(
+      table.table_permissions.add_rows_permission,
+      TABLE_PERMISSION_TYPE
+    );
   }
   return canCreateRows;
 };
