@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { ModalBody } from 'reactstrap';
 import { IAppProps } from './utils/Interfaces/App.interface';
 import styles from './styles/Modal.module.scss';
 import Header from './components/Header';
 import PluginSettings from './components/PluginSettings';
 import './assets/css/plugin-layout.css';
 import './locale';
+import Views from './components/Views';
+import { DEFAULT_PLUGIN_SETTINGS, PLUGIN_NAME } from './constants';
 
 const App: React.FC<IAppProps> = (props) => {
   const { isDevelopment, showDialog, row } = props;
@@ -14,7 +15,9 @@ const App: React.FC<IAppProps> = (props) => {
   const [_showDialog, setShowDialog] = useState<boolean>(showDialog || false);
   const [baseViews, setBaseViews] = useState<any[]>([]);
   const [currentTable, setCurrentTable] = useState<any>({});
-  const customPluginName: string = 'Plugin Name'; // this name will change accordingly to the Custom Plugin
+  const [allViews, setAllViews] = useState<any[]>([]);
+  const [plugin_settings, setPluginSettings] = useState<any>({});
+  const [currentViewIdx, setCurrentViewIdx] = useState<number>(0);
 
   useEffect(() => {
     initPluginDTableData();
@@ -59,9 +62,20 @@ const App: React.FC<IAppProps> = (props) => {
     resetData();
   };
 
+  const getPluginSettings = () => {
+    return window.dtableSDK.getPluginSettings(PLUGIN_NAME)?.views
+      ? window.dtableSDK.getPluginSettings(PLUGIN_NAME)
+      : DEFAULT_PLUGIN_SETTINGS;
+  };
+
   const resetData = () => {
     let table = window.dtableSDK.getActiveTable();
     let baseViews = window.dtableSDK.getViews(table);
+    let plugin_settings = getPluginSettings();
+    let allViews = plugin_settings.views;
+
+    setPluginSettings(plugin_settings);
+    setAllViews(allViews);
     setCurrentTable(table);
     setBaseViews(baseViews);
     setIsLoading(false);
@@ -70,6 +84,30 @@ const App: React.FC<IAppProps> = (props) => {
   const onPluginToggle = () => {
     setShowDialog(false);
     window.app.onClosePlugin();
+  };
+
+  // Change view
+  const onSelectView = (viewId: string) => {
+    let viewIdx = allViews.findIndex((view) => view._id === viewId);
+    setCurrentViewIdx(viewIdx);
+  };
+
+  // Update views data
+  const updateViews = (
+    currentViewIdx: number,
+    views: any[],
+    plugin_settings: any,
+    callBack: any = null
+  ) => {
+    setCurrentViewIdx(currentViewIdx);
+    setAllViews(views);
+    setPluginSettings(plugin_settings);
+    updatePluginSettings(plugin_settings);
+  };
+
+  // update plugin settings
+  const updatePluginSettings = (pluginSettings: any) => {
+    window.dtableSDK.updatePluginSettings(PLUGIN_NAME, pluginSettings);
   };
 
   const { collaborators } = window.app.state;
@@ -83,21 +121,32 @@ const App: React.FC<IAppProps> = (props) => {
         toggleSettings={toggleSettings}
         showSettings={showSettings}
         toggle={onPluginToggle}
-        customPluginName={customPluginName}
+        customPluginName={PLUGIN_NAME}
       />
-      {/* views placeholder  */}
-      {/* content  */}
-      <div className={styles.body}>
-        <div>{`'rows: '${JSON.stringify(row)}`}</div>
-        <div>{`'dtable-subtables: '${JSON.stringify(subtables)}`}</div>
-      </div>
-      {showSettings && (
-        <PluginSettings
-          subtables={subtables}
-          baseViews={baseViews}
-          currentTableID={currentTable._id}
+      {/* main body  */}
+      <div className="d-flex position-relative" style={{ height: '100%' }}>
+        {/* views  */}
+        <Views
+          allViews={allViews}
+          onSelectView={onSelectView}
+          currentViewIdx={currentViewIdx}
+          plugin_settings={plugin_settings}
+          updateViews={updateViews}
         />
-      )}
+
+        {/* content  */}
+        <div className={styles.body}>
+          <div>{`'rows: '${JSON.stringify(row)}`}</div>
+          <div>{`'dtable-subtables: '${JSON.stringify(subtables)}`}</div>
+        </div>
+        {showSettings && (
+          <PluginSettings
+            subtables={subtables}
+            baseViews={baseViews}
+            currentTableID={currentTable._id}
+          />
+        )}
+      </div>
     </div>
   );
 };
