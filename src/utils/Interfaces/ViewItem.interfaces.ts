@@ -7,7 +7,7 @@ export interface IViewItemProps {
   v: any;
   viewName: string;
   onViewNameChange: (e: React.FormEvent<HTMLInputElement>) => void;
-  onEditViewSubmit: (e: React.MouseEvent<HTMLElement>, type?: 'edit') => void;
+  onEditViewSubmit: (e?: React.MouseEvent<HTMLElement>) => void;
   duplicateView: (name: string) => void;
   showEditViewPopUp: boolean;
 }
