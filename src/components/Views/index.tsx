@@ -13,7 +13,7 @@ const Views: React.FC<IViewsProps> = ({
   currentViewIdx,
   plugin_settings,
   updateViews,
-  toggleViewComponent
+  toggleViewComponent,
 }) => {
   const [dragItemIndex, setDragItemIndex] = useState<number | null>(null);
   const [dragOverItemIndex, setDragOverItemIndex] = useState<number | null>(null);
@@ -158,12 +158,12 @@ const Views: React.FC<IViewsProps> = ({
   };
 
   return (
-    <div style={toggleViewComponent ? { display: "block"} : {}} className={`${styles.views}`}>
+    <div style={toggleViewComponent ? { display: 'block' } : {}} className={`${styles.views}`}>
       <div className="d-flex flex-column">
         {allViews?.map((v, i) => (
           <div
             style={
-              (dragOverItemIndex === i && i === 0)
+              dragOverItemIndex === i && i === 0
                 ? { borderTop: '2px solid #A9A9A9' }
                 : dragOverItemIndex === i
                   ? { borderBottom: '2px solid #A9A9A9' }

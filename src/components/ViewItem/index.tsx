@@ -63,9 +63,9 @@ const ViewItem: React.FC<IViewItemProps> = ({
 
   const editOnEnterKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      onEditViewSubmit()
+      onEditViewSubmit();
     }
-  }
+  };
 
   return (
     <div>
@@ -73,7 +73,12 @@ const ViewItem: React.FC<IViewItemProps> = ({
         className={styles2.views_input}
         ref={editDomNode}
         style={{ display: !isEditing ? 'none' : 'flex' }}>
-        <input autoFocus value={viewName} onKeyDown={editOnEnterKeyPress} onChange={onViewNameChange} />
+        <input
+          autoFocus
+          value={viewName}
+          onKeyDown={editOnEnterKeyPress}
+          onChange={onViewNameChange}
+        />
         <button onClick={onEditViewSubmit}>
           <span className="dtable-font dtable-icon-check-mark"></span>
         </button>
