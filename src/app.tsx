@@ -9,10 +9,9 @@ import Views from './components/Views';
 import { DEFAULT_PLUGIN_SETTINGS, PLUGIN_NAME } from './constants';
 
 const App: React.FC<IAppProps> = (props) => {
-  const { isDevelopment, showDialog, row } = props;
+  const { isDevelopment, row } = props;
   const [showSettings, setShowSettings] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [_showDialog, setShowDialog] = useState<boolean>(showDialog || false);
   const [toggleViewComponent, setToggleViewComponent] = useState<boolean>(false);
   const [baseViews, setBaseViews] = useState<any[]>([]);
   const [currentTable, setCurrentTable] = useState<any>({});
@@ -83,7 +82,6 @@ const App: React.FC<IAppProps> = (props) => {
   };
 
   const onPluginToggle = () => {
-    setShowDialog(false);
     window.app.onClosePlugin();
   };
 

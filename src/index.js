@@ -21,13 +21,19 @@ class TaskList {
     window.app.collaboratorsCache = {};
     window.app.state.collaborators = dtableSDK.dtableStore.collaborators;
     window.dtableWebAPI = dtableSDK.dtableWebAPI;
-    window.app.onClosePlugin = () => {};
+    window.app.onClosePlugin = TaskList.onClosePlugin;
     window.dtableSDK = dtableSDK;
   }
 
   static async execute() {
     await this.init();
-    ReactDOM.render(<App isDevelopment showDialog />, document.getElementById('root'));
+    const rootElement = document.getElementById('root');
+    ReactDOM.unmountComponentAtNode(rootElement);
+    ReactDOM.render(<App isDevelopment />, rootElement);
+  }
+
+  static onClosePlugin() {
+    ReactDOM.unmountComponentAtNode(document.getElementById('root'));
   }
 }
 
