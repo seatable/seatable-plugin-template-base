@@ -6,7 +6,7 @@ import PluginSettings from './components/PluginSettings';
 import './assets/css/plugin-layout.css';
 import './locale';
 import Views from './components/Views';
-import { DEFAULT_PLUGIN_SETTINGS, PLUGIN_NAME } from './constants';
+import { DEFAULT_PLUGIN_SETTINGS, PLUGIN_ID, PLUGIN_NAME } from './constants';
 
 const App: React.FC<IAppProps> = (props) => {
   const { isDevelopment, row } = props;
@@ -124,8 +124,7 @@ const App: React.FC<IAppProps> = (props) => {
         toggleView={toggleView}
         toggleSettings={toggleSettings}
         showSettings={showSettings}
-        toggle={onPluginToggle}
-        customPluginName={PLUGIN_NAME}
+        togglePlugin={onPluginToggle}
       />
       {/* main body  */}
       <div className="d-flex position-relative" style={{ height: '100%' }}>
@@ -140,7 +139,7 @@ const App: React.FC<IAppProps> = (props) => {
         />
 
         {/* content  */}
-        <div className={styles.body}>
+        <div id={PLUGIN_ID} className={styles.body}>
           <div>{`'rows: '${JSON.stringify(row)}`}</div>
           <div>{`'dtable-subtables: '${JSON.stringify(subtables)}`}</div>
         </div>

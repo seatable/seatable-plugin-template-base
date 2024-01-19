@@ -1,11 +1,11 @@
-import { SETTING_KEY } from '../../constants';
+import { VIEW_NAME } from '../../constants';
 
 export interface IViewsProps {
   allViews: any[];
   currentViewIdx: number;
   onSelectView: (viewId: string) => void;
   updateViews: (currentIdx: number, views: any[], plugin_settings: any) => void;
-  plugin_settings: { views: any; [SETTING_KEY.VIEW_NAME]: any };
+  plugin_settings: { views: any; [VIEW_NAME]: any };
   toggleViewComponent: boolean;
 }
 

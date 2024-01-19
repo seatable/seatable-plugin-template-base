@@ -3,11 +3,11 @@ import styles from '../../styles/Modal.module.scss';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import { IHeaderProps } from '../../utils/Interfaces/Header.interface';
-import { PLUGIN_ICON } from '../../constants';
+import { PLUGIN_ICON, PLUGIN_ID, PLUGIN_NAME } from '../../constants';
 import { compareLoose } from 'semver';
 
 const Header: React.FC<IHeaderProps> = (props) => {
-  const { showSettings, toggleSettings, toggle, customPluginName } = props;
+  const { showSettings, toggleSettings, togglePlugin } = props;
   const [orgChartContent, setOrgChartContent] = useState<string | null>(null);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
   };
 
   const downloadPdfDocument = () => {
-    const input = document.getElementById('org_chart');
+    const input = document.getElementById(PLUGIN_ID);
     if (input) {
       html2canvas(input, {
         logging: true,
@@ -35,7 +35,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF('l', 'mm', 'a4', true);
         pdf.addImage(imgData, 'JPEG', 0, 0, 230, 200);
-        pdf.save('org_chart.pdf');
+        pdf.save(`${PLUGIN_ID} .pdf`);
       });
     }
   };
@@ -50,7 +50,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
         <div className={`bg-info py-1 px-2 rounded mr-2 ${styles.modal_header_logo}`}>
           <PLUGIN_ICON size={16} color="#fff" />
         </div>
-        <p className={styles.modal_header_name}>{customPluginName}</p>
+        <p className={styles.modal_header_name}>{PLUGIN_NAME}</p>
       </div>
 
       {/* settings and close icons  */}
@@ -70,7 +70,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
           <span className="dtable-font dtable-icon-set-up"></span>
           {showSettings && <p>Settings</p>}
         </button>
-        <button className={styles.modal_header_icon_btn} onClick={toggle}>
+        <button className={styles.modal_header_icon_btn} onClick={togglePlugin}>
           <span className="dtable-font dtable-icon-x btn-close"></span>
         </button>
       </div>
