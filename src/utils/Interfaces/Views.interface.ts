@@ -6,6 +6,7 @@ export interface IViewsProps {
   onSelectView: (viewId: string) => void;
   updateViews: (currentIdx: number, views: any[], plugin_settings: any) => void;
   plugin_settings: { views: any; [SETTING_KEY.VIEW_NAME]: any };
+  toggleViewComponent: boolean;
 }
 
 export interface IViewsState {

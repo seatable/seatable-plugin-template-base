@@ -13,6 +13,7 @@ const App: React.FC<IAppProps> = (props) => {
   const [showSettings, setShowSettings] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [_showDialog, setShowDialog] = useState<boolean>(showDialog || false);
+  const [toggleViewComponent, setToggleViewComponent] = useState<boolean>(false);
   const [baseViews, setBaseViews] = useState<any[]>([]);
   const [currentTable, setCurrentTable] = useState<any>({});
   const [allViews, setAllViews] = useState<any[]>([]);
@@ -110,6 +111,10 @@ const App: React.FC<IAppProps> = (props) => {
     window.dtableSDK.updatePluginSettings(PLUGIN_NAME, pluginSettings);
   };
 
+  const toggleView = () => {
+    setToggleViewComponent((prev) => !prev);
+  };
+
   const { collaborators } = window.app.state;
   const subtables: any[] = window.dtableSDK.getTables();
 
@@ -118,6 +123,7 @@ const App: React.FC<IAppProps> = (props) => {
   ) : (
     <div className={styles.modal}>
       <Header
+        toggleView={toggleView}
         toggleSettings={toggleSettings}
         showSettings={showSettings}
         toggle={onPluginToggle}
@@ -127,6 +133,7 @@ const App: React.FC<IAppProps> = (props) => {
       <div className="d-flex position-relative" style={{ height: '100%' }}>
         {/* views  */}
         <Views
+          toggleViewComponent={toggleViewComponent}
           allViews={allViews}
           onSelectView={onSelectView}
           currentViewIdx={currentViewIdx}

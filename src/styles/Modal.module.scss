@@ -45,10 +45,25 @@
       }
     }
 
+    &_viewBtn_menu {
+      all: unset;
+      display: none;
+      margin-right: 20px;
+      cursor: pointer;
+      outline: none !important;
+
+      @include tablet {
+        display: block;
+      }
+
+      @include mobile {
+        margin-right: 10px;
+      }
+    }
+
     &_views {
       display: flex;
       max-width: 50%;
-      // overflow-x: scroll;
       align-items: center;
       flex-wrap: nowrap;
       padding-bottom: 15px;

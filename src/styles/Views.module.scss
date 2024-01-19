@@ -1,9 +1,16 @@
+@import './abstracts/_media.scss';
+
 .views {
   height: 100vh;
   min-width: 300px;
   background-color: #fff;
   padding: 10px 0;
   border-right: 1px solid rgba(113, 113, 113, 0.079);
+
+  @include tablet {
+    position: fixed;
+    display: none;
+  }
 
   &_add_button {
     all: unset;
