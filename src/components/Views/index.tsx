@@ -152,16 +152,22 @@ const Views: React.FC<IViewsProps> = ({
 
   const addOnEnterKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      onNewViewSubmit()
+      onNewViewSubmit();
     }
-  }
+  };
 
   return (
     <div className={`${styles.views}`}>
       <div className="d-flex flex-column">
         {allViews?.map((v, i) => (
           <div
-            style={dragOverItemIndex === i ? { borderTop: '2px solid #A9A9A9' } : {}}
+            style={
+              (dragOverItemIndex === i && i === 0)
+                ? { borderTop: '2px solid #A9A9A9' }
+                : dragOverItemIndex === i
+                  ? { borderBottom: '2px solid #A9A9A9' }
+                  : {}
+            }
             key={v._id}
             draggable
             onDragStart={(e) => handleDragStart(e, i)}
@@ -187,7 +193,12 @@ const Views: React.FC<IViewsProps> = ({
       {/* add new view input  */}
       {showNewViewPopUp && (
         <div className={styles.views_input}>
-          <input autoFocus value={viewName} onKeyDown={addOnEnterKeyPress} onChange={onViewNameChange} />
+          <input
+            autoFocus
+            value={viewName}
+            onKeyDown={addOnEnterKeyPress}
+            onChange={onViewNameChange}
+          />
           <button onClick={onNewViewSubmit}>
             <span className="dtable-font dtable-icon-check-mark"></span>
           </button>
