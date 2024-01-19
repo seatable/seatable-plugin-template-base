@@ -5,7 +5,7 @@ import deepCopy from 'deep-copy';
 import View from '../../model/view';
 import { IViewsProps } from '../../utils/Interfaces/Views.interface';
 import { generatorViewId } from '../../utils/utils';
-import { TABLE_NAME } from '../../constants/setting-key';
+import { TABLE_NAME } from '../../constants';
 
 const Views: React.FC<IViewsProps> = ({
   allViews,

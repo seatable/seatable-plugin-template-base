@@ -1,7 +1,6 @@
 export interface IHeaderProps {
   showSettings: boolean;
   toggleSettings: () => void;
-  toggle: () => void;
+  togglePlugin: () => void;
   toggleView: () => void;
-  customPluginName: string;
 }
