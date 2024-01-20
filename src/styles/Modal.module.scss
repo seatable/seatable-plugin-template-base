@@ -105,9 +105,10 @@
         padding-inline: 3px;
       }
 
-      &:focus {
-        display: none;
-      }
+      // display: none causes interface reshooting and redrawing
+      // &:focus {
+      //   display: none;
+      // }
     }
 
     &_viewBtn,
