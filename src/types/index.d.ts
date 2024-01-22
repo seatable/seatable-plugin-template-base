@@ -5,5 +5,7 @@ declare global {
     dtableSDK: any;
     app: any;
     dtable: any;
+    dtablePluginConfig: any;
+    dtableWebAPI: any;
   }
 }

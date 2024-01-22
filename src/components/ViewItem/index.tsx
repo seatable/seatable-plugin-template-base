@@ -4,7 +4,7 @@ import styles2 from '../../styles/Views.module.scss';
 import '../../assets/css/plugin-layout.css';
 import { BsThreeDots } from 'react-icons/bs';
 import ViewDropdown from '../ViewDropdown/index';
-import { IViewItemProps } from '../../utils/Interfaces/ViewItem.interfaces';
+import { IViewItemProps } from '../../utils/Interfaces/ViewItem.interface';
 import useClickOut from '../../hooks/useClickOut';
 
 const ViewItem: React.FC<IViewItemProps> = ({
