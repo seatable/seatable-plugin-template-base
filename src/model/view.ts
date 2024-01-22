@@ -1,4 +1,4 @@
-import { IViewModel } from '../utils/Interfaces/Model.interfaces';
+import { IViewModel } from '../utils/Interfaces/Model.interface';
 
 export default class View {
   _id: string;
