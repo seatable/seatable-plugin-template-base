@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../../styles/Modal.module.scss';
-import { IViewDropdownProps } from '../../utils/Interfaces/ViewDropdown.interfaces';
+import { IViewDropdownProps } from '../../utils/Interfaces/ViewDropdown.interface';
 
 const ViewDropdown: React.FC<IViewDropdownProps> = ({
   deleteView,

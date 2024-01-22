@@ -1,8 +1,7 @@
-//@ts-nocheck
-import pluginContext from '../plugin-context.ts';
+import pluginContext from '../plugin-context';
 
 export const generatorBase64Code = (keyLength = 4) => {
-  let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789';
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789';
   let key = '';
   for (let i = 0; i < keyLength; i++) {
     key += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -10,8 +9,8 @@ export const generatorBase64Code = (keyLength = 4) => {
   return key;
 };
 
-export const generatorViewId = (views) => {
-  let view_id,
+export const generatorViewId = (views: Array<{ _id: string }>): string => {
+  let view_id: string = '',
     isUnique = false;
   while (!isUnique) {
     view_id = generatorBase64Code(4);
@@ -27,7 +26,7 @@ export const generatorViewId = (views) => {
   return view_id;
 };
 
-export const getImageThumbnailUrl = (url, size) => {
+export const getImageThumbnailUrl = (url: string, size?: number): string => {
   const server = pluginContext.getSetting('server');
   let isInternalLink = url.indexOf(server) > -1;
   if (isInternalLink) {
@@ -38,14 +37,17 @@ export const getImageThumbnailUrl = (url, size) => {
   return url;
 };
 
-export const isValidEmail = (email) => {
+export const isValidEmail = (email: string): boolean => {
   const reg = /^[A-Za-zd]+([-_.][A-Za-zd]+)*@([A-Za-zd]+[-.])+[A-Za-zd]{2,6}$/;
 
   return reg.test(email);
 };
 
-export const calculateColumns = (galleryColumnsName, currentColumns) => {
-  let newColumns = [];
+export const calculateColumns = (
+  galleryColumnsName: string[],
+  currentColumns: { name: string }[]
+): { name: string }[] => {
+  let newColumns: { name: string }[] = [];
   galleryColumnsName.forEach((columnName) => {
     let column = currentColumns.find((column) => columnName === column.name);
     if (column) {
@@ -55,13 +57,16 @@ export const calculateColumns = (galleryColumnsName, currentColumns) => {
   return newColumns;
 };
 
-export const calculateColumnsName = (currentColumns, galleryColumnsName) => {
-  let newColumnsName = [];
+export const calculateColumnsName = (
+  currentColumns: { name: string }[],
+  galleryColumnsName: string[] | undefined
+): string[] => {
+  let newColumnsName: string[] = [];
   currentColumns.forEach((column) => {
     newColumnsName.push(column.name);
   });
   if (galleryColumnsName) {
-    let columnsName = Array.from(new Set([...galleryColumnsName, ...newColumnsName]));
+    let columnsName: string[] = Array.from(new Set([...galleryColumnsName, ...newColumnsName]));
     newColumnsName = columnsName.filter((columnName) =>
       newColumnsName.some((c) => c === columnName)
     );
@@ -74,9 +79,16 @@ export const checkDesktop = () => {
 };
 
 export const isTableEditable = (
-  { permission_type = 'default', permitted_users = [] },
-  TABLE_PERMISSION_TYPE
-) => {
+  {
+    permission_type = 'default',
+    permitted_users = [],
+  }: { permission_type?: string; permitted_users?: string[] },
+  TABLE_PERMISSION_TYPE: {
+    DEFAULT: string;
+    ADMINS: string;
+    SPECIFIC_USERS: string;
+  }
+): boolean => {
   const { isAdmin, username } = window.dtable ? window.dtable : window.dtablePluginConfig;
 
   if (!permission_type) {
@@ -97,7 +109,14 @@ export const isTableEditable = (
   return false;
 };
 
-export const canCreateRows = (table, TABLE_PERMISSION_TYPE) => {
+export const canCreateRows = (
+  table: { table_permissions?: { add_rows_permission?: any } },
+  TABLE_PERMISSION_TYPE: {
+    DEFAULT: string;
+    ADMINS: string;
+    SPECIFIC_USERS: string;
+  }
+): boolean => {
   let canCreateRows = true;
   if (table && table.table_permissions && table.table_permissions.add_rows_permission) {
     canCreateRows = isTableEditable(
@@ -108,7 +127,7 @@ export const canCreateRows = (table, TABLE_PERMISSION_TYPE) => {
   return canCreateRows;
 };
 
-export const needUseThumbnailImage = (url) => {
+export const needUseThumbnailImage = (url: string): string | boolean => {
   if (!url || url.lastIndexOf('.') === -1) {
     return false;
   }
@@ -117,12 +136,12 @@ export const needUseThumbnailImage = (url) => {
   return suffix.includes(image_suffix);
 };
 
-export const isInternalImg = (url) => {
+export const isInternalImg = (url: string): boolean | undefined => {
   if (!url) return;
   return url.indexOf(window.dtable.server) > -1;
 };
 
-export const checkSVGImage = (url) => {
+export const checkSVGImage = (url: string): boolean | undefined => {
   if (!url) return false;
   return url.substr(-4).toLowerCase() === '.svg';
 };

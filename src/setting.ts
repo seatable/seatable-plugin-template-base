@@ -1,8 +1,8 @@
-// @ts-nocheck
-import intl from 'react-intl-universal';
+import { Config, CustomIntl } from './utils/Interfaces/Setting.interface';
+const intl: CustomIntl = {} as CustomIntl;
 
 /** (1/5) initialize config object */
-let config = {
+let config: Config = {
   APIToken: '65be605361e3fed0bd364a2596b134ed9a337e7f',
   server: 'http://127.0.0.1:80',
   workspaceID: '1',
