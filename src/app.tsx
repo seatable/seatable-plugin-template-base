@@ -7,6 +7,7 @@ import './assets/css/plugin-layout.css';
 import './locale';
 import Views from './components/Views';
 import { DEFAULT_PLUGIN_SETTINGS, PLUGIN_ID, PLUGIN_NAME } from './constants';
+import { IDtableSelect } from './utils/Interfaces/PluginSettings.interface';
 
 const App: React.FC<IAppProps> = (props) => {
   const { isDevelopment, row } = props;
@@ -14,6 +15,7 @@ const App: React.FC<IAppProps> = (props) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [toggleViewComponent, setToggleViewComponent] = useState<boolean>(false);
   const [baseViews, setBaseViews] = useState<any[]>([]);
+  const [baseView, setBaseView] = useState<any>({});
   const [currentTable, setCurrentTable] = useState<any>({});
   const [allViews, setAllViews] = useState<any[]>([]);
   const [plugin_settings, setPluginSettings] = useState<any>({});
@@ -79,6 +81,7 @@ const App: React.FC<IAppProps> = (props) => {
     setCurrentTable(table);
     setBaseViews(baseViews);
     setIsLoading(false);
+    setBaseView(baseViews[0]);
   };
 
   const onPluginToggle = () => {
@@ -111,6 +114,18 @@ const App: React.FC<IAppProps> = (props) => {
 
   const toggleView = () => {
     setToggleViewComponent((prev) => !prev);
+  };
+
+  // switch tables
+  const onTablechange = (table: IDtableSelect) => {
+    let currentTable = subtables.find((s) => s._id === table.value);
+    setCurrentTable(currentTable);
+  };
+
+  // switch base views
+  const onBaseViewChange = (view: IDtableSelect) => {
+    let _baseView = baseViews.find((s) => s._id === view.value);
+    setBaseView(_baseView);
   };
 
   const { collaborators } = window.app.state;
@@ -148,6 +163,9 @@ const App: React.FC<IAppProps> = (props) => {
             subtables={subtables}
             baseViews={baseViews}
             currentTableID={currentTable._id}
+            baseViewID={baseView._id}
+            onTablechange={onTablechange}
+            onBaseViewChange={onBaseViewChange}
           />
         )}
       </div>
