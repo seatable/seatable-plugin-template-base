@@ -6,6 +6,7 @@ import Preset from '../../model/preset';
 import { IPresetsProps, PresetsArray } from '../../utils/Interfaces/PluginPresets.interface';
 import { generatorPresetId } from '../../utils/utils';
 import { DEFAULT_PRESET_SETTINGS, TABLE_NAME } from '../../utils/constants';
+import { TableArray, TableColumn } from '../../utils/Interfaces/Table.interface';
 
 const PluginPresets: React.FC<IPresetsProps> = ({
   pluginPresets,
@@ -18,7 +19,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   const [dragItemIndex, setDragItemIndex] = useState<number | null>(null);
   const [dragOverItemIndex, setDragOverItemIndex] = useState<number | null>(null);
   const [presetName, setPresetName] = useState('');
-  const [_pluginPresets, setPluginPresets] = useState<PresetsArray>([]); // All the Presets of the Plugin (PluginPresets component)
+  const [_pluginPresets, setPluginPresets] = useState<PresetsArray>([]);
   const [showNewPresetPopUp, setShowNewPresetPopUp] = useState<boolean>(false);
   const [showEditPresetPopUp, setShowEditPresetPopUp] = useState<boolean>(false);
 
@@ -26,7 +27,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     setPluginPresets(pluginPresets);
   }, [pluginPresets]);
 
-  const getSelectedTable = (tables: any, settings: any = {}) => {
+  const getSelectedTable = (tables: TableArray, settings: any = {}) => {
     let selectedTable = window.dtableSDK.getTableByName(settings[TABLE_NAME]);
     if (!selectedTable) {
       return tables[0];
@@ -38,8 +39,8 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     let initUpdated = {};
     let tables = window.dtableSDK.getTables();
     let selectedTable = getSelectedTable(tables, settings);
-    let titleColumn = selectedTable.columns.find((column: any) => column.key === '0000');
-    let imageColumn = selectedTable.columns.find((column: any) => column.type === 'image');
+    let titleColumn = selectedTable.columns.find((column: TableColumn) => column.key === '0000');
+    let imageColumn = selectedTable.columns.find((column: TableColumn) => column.type === 'image');
     let imageName = imageColumn ? imageColumn.name : null;
     let titleName = titleColumn ? titleColumn.name : null;
     initUpdated = Object.assign(

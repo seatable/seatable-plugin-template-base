@@ -12,7 +12,7 @@ export interface Table {
   id_row_map: Record<string, TableRow>;
 }
 
-interface TableColumn {
+export interface TableColumn {
   key: string;
   name: string;
   type: string;
