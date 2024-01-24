@@ -583,6 +583,10 @@ module.exports = function (webpackEnv) {
     },
     externals: {
       fs,
+      // only define the dependencies you are NOT using as externals!
+      // https://github.com/parallax/jsPDF?tab=readme-ov-file#optional-dependencies
+      canvg: 'canvg',
+      dompurify: 'dompurify',
     },
     plugins: [
       new CircularDependencyPlugin({

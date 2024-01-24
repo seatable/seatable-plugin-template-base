@@ -1,11 +1,12 @@
 {
-  "name": "test",
+  "name": "plugin-template",
   "version": "0.0.2",
+  "display_type": "overlay",
   "display_name": {
     "de": "",
-    "en": "test",
+    "en": "Plugin template",
     "fr": "",
-    "zh-cn": "测试"
+    "zh-cn": "插件模版"
   },
   "description": {
     "de": "德语描述",

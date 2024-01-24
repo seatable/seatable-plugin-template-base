@@ -8,8 +8,11 @@ import {
 
 const PluginSettings: React.FC<IPluginSettingsProps> = ({
   subtables,
-  baseViews,
+  tableViews,
   currentTableID,
+  baseViewID,
+  onBaseViewChange,
+  onTableChange,
 }) => {
   const [tableSelectedOption, setTableSelectedOption] = useState<IDtableSelect>();
   const [tableOptions, setTableOptions] = useState<IDtableSelect[]>();
@@ -23,19 +26,20 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
       return { value, label };
     });
 
-    let tableSelectedOption = tableOptions.find((item) => item.value === currentTableID);
-
-    let viewOptions = baseViews.map((item) => {
+    let viewOptions = tableViews.map((item) => {
       let value = item._id;
       let label = item.name;
       return { value, label };
     });
 
+    let tableSelectedOption = tableOptions.find((item) => item.value === currentTableID);
+    let viewSelectedOption = viewOptions.find((item) => item.value === baseViewID);
+
     setTableOptions(tableOptions);
     setTableSelectedOption(tableSelectedOption);
     setViewOptions(viewOptions);
-    setViewSelectedOption(viewOptions[0]);
-  }, [currentTableID]);
+    setViewSelectedOption(viewSelectedOption);
+  }, [currentTableID, baseViewID]);
 
   return (
     <div className={`p-5 bg-white ${styles.settings}`}>
@@ -44,13 +48,21 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
           <div>
             <p className="d-inline-block mb-2">Table</p>
             {/* toggle table view  */}
-            <DtableSelect value={tableSelectedOption} options={tableOptions} />
+            <DtableSelect
+              value={tableSelectedOption}
+              options={tableOptions}
+              onChange={onTableChange}
+            />
           </div>
 
           <div>
             <p className="d-inline-block mb-2 mt-3">View</p>
             {/* toggle table view  */}
-            <DtableSelect value={viewSelectedOption} options={viewOptions} />
+            <DtableSelect
+              value={viewSelectedOption}
+              options={viewOptions}
+              onChange={onBaseViewChange}
+            />
           </div>
         </div>
 
