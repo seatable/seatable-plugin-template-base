@@ -1,13 +1,17 @@
-export interface IPluginSettingsProps {
+import { TableViewArray } from './Table.interface';
+
+interface IPluginSettingsProps {
   subtables: any[];
   currentTableID: string;
-  baseViews: any[];
-  onTablechange: (table: IDtableSelect) => void;
+  tableViews: TableViewArray;
+  onTableChange: (table: IDtableSelect) => void;
   onBaseViewChange: (view: IDtableSelect) => void;
   baseViewID: string;
 }
 
-export interface IDtableSelect {
+interface IDtableSelect {
   value: string;
   label: string;
 }
+
+export type { IPluginSettingsProps, IDtableSelect };

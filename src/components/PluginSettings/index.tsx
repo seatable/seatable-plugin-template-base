@@ -8,11 +8,11 @@ import {
 
 const PluginSettings: React.FC<IPluginSettingsProps> = ({
   subtables,
-  baseViews,
+  tableViews,
   currentTableID,
   baseViewID,
   onBaseViewChange,
-  onTablechange,
+  onTableChange,
 }) => {
   const [tableSelectedOption, setTableSelectedOption] = useState<IDtableSelect>();
   const [tableOptions, setTableOptions] = useState<IDtableSelect[]>();
@@ -26,7 +26,7 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
       return { value, label };
     });
 
-    let viewOptions = baseViews.map((item) => {
+    let viewOptions = tableViews.map((item) => {
       let value = item._id;
       let label = item.name;
       return { value, label };
@@ -51,7 +51,7 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
             <DtableSelect
               value={tableSelectedOption}
               options={tableOptions}
-              onChange={onTablechange}
+              onChange={onTableChange}
             />
           </div>
 
