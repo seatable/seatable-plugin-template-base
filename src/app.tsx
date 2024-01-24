@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles/Modal.module.scss';
 import { IAppProps } from './utils/Interfaces/App.interface';
 import { Table, TableArray, TableView, TableViewArray } from './utils/Interfaces/Table.interface';
-import { IDtableSelect } from './utils/Interfaces/PluginSettings.interface';
 import Header from './components/Header';
 import PluginSettings from './components/PluginSettings';
 import PluginPresets from './components/PluginPresets';
-import { DEFAULT_PLUGIN_SETTINGS, PLUGIN_ID, PLUGIN_NAME, PRESET_NAME } from './utils/constants';
 import './assets/css/plugin-layout.css';
 import './locale';
 import { PresetsArray, IPluginSettings } from './utils/Interfaces/PluginPresets.interface';
+import { IDtableSelect } from './utils/Interfaces/PluginSettings.interface';
+import { DEFAULT_PLUGIN_SETTINGS, PLUGIN_ID, PLUGIN_NAME, PRESET_NAME } from './utils/constants';
 
 const App: React.FC<IAppProps> = (props) => {
   const { isDevelopment, row } = props;
