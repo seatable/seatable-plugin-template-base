@@ -1,17 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './app';
 
 const TaskList = {
-  execute: (props = {}) => {
-    const [showDialog, setShowDialog] = useState(true);
-
-    const onClosePlugin = () => {
-      setShowDialog(false);
-    };
-
+  execute: () => {
     ReactDOM.render(
-      <App showDialog={showDialog} onClosePlugin={onClosePlugin} {...props} />,
+      <App showDialog={true}  />,
       document.querySelector('#plugin-wrapper')
     );
   },
@@ -19,4 +13,4 @@ const TaskList = {
 
 export default TaskList;
 
-window.app.registerPluginItemCallback('test', TaskList.execute);
+window.app.registerPluginItemCallback('plugin-template', TaskList.execute);
