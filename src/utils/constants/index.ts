@@ -17,7 +17,7 @@ const DEFAULT_PRESET_SETTINGS: PresetSettings = {
 };
 
 const DEFAULT_PLUGIN_SETTINGS = {
-  views: [
+  presets: [
     {
       _id: '0000',
       name: 'Default View',
