@@ -28,6 +28,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   }, [pluginPresets]);
 
   const getSelectedTable = (tables: TableArray, settings: any = {}) => {
+    console.log('tables', tables);
     let selectedTable = window.dtableSDK.getTableByName(settings[TABLE_NAME]);
     if (!selectedTable) {
       return tables[0];
@@ -58,43 +59,62 @@ const PluginPresets: React.FC<IPresetsProps> = ({
 
   // handle add/edit preset functionality
   const onNewPresetSubmit = (e?: React.MouseEvent<HTMLElement>, type?: 'edit') => {
+    console.log('new preset submit');
     if (type === 'edit') {
+      console.log('presetName edit', presetName);
       editPreset(presetName);
       setPresetName('');
       setShowEditPresetPopUp(false);
     } else {
+      console.log('presetName else', presetName);
       addPreset(presetName);
+      console.log(1);
       setPresetName('');
+      console.log(2);
       setShowNewPresetPopUp(false);
+      console.log(3);
     }
   };
 
   // toggle new/edit preset popup display
   const toggleNewPresetPopUp = (e?: React.MouseEvent<HTMLElement>, type?: 'edit') => {
+    console.log('New preset button clicked');
     if (type === 'edit') {
       // const presetName = pluginPresets.find((v, i) => i === currentPresetIdx).name;
       const presetName = pluginPresets[currentPresetIdx]?.name;
       setPresetName(presetName);
       setShowEditPresetPopUp((prev) => !prev);
     } else {
+      console.log('else statement');
       setShowNewPresetPopUp((prev) => !prev);
     }
   };
 
   // add new preset
   const addPreset = (presetName: string) => {
-    let currentPresetIdx = pluginPresets.length;
-    let _id: string = generatorPresetId(pluginPresets) || '';
+    console.log('_pluginPresets', _pluginPresets);
+    setPluginPresets(_pluginPresets || []);
+
+    let currentPresetIdx = _pluginPresets?.length;
+    console.log('currentPresetIdx', currentPresetIdx);
+    let _id: string = 'randomString';
+    // let _id: string = generatorPresetId(pluginPresets) || '';
+    console.log('_id', _id);
     let newPreset = new Preset({ _id, name: presetName });
-    let newPresetsArray = deepCopy(pluginPresets);
+    console.log('newPreset', newPreset);
+    let newPresetsArray = deepCopy(_pluginPresets);
+    console.log('newPresetsArray', newPresetsArray);
     newPresetsArray.push(newPreset);
 
     let initUpdated = initOrgChartSetting();
+    console.log('initUpdated', initUpdated);
     newPresetsArray[currentPresetIdx].settings = Object.assign(
       DEFAULT_PRESET_SETTINGS,
       initUpdated
-    );
+    );  
     pluginSettings.presets = newPresetsArray;
+    console.log('newPresetsArray', newPresetsArray);
+    console.log('first', currentPresetIdx, newPresetsArray, pluginSettings);
 
     updatePresets(currentPresetIdx, newPresetsArray, pluginSettings);
   };

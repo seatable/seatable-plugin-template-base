@@ -60,7 +60,7 @@ export interface TableView {
   summaries: Record<string, any>; // AnyToFix
   colors: Record<string, any>; // AnyToFix
   column_colors: Record<string, any>; // AnyToFix
-  groups: any[]; // AnyToFix
+  groups: any[]; // AnyToFixgetTableby
 }
 
 interface Filter {

@@ -9,7 +9,13 @@ import './assets/css/plugin-layout.css';
 import './locale';
 import { PresetsArray, IPluginSettings } from './utils/Interfaces/PluginPresets.interface';
 import { IDtableSelect } from './utils/Interfaces/PluginSettings.interface';
-import { DEFAULT_PLUGIN_SETTINGS, PLUGIN_ID, PLUGIN_NAME, PRESET_NAME } from './utils/constants';
+import {
+  DEFAULT_PLUGIN_SETTINGS,
+  PLUGIN_ID,
+  PLUGIN_NAME,
+  PRESET_NAME,
+  TABLE_NAME,
+} from './utils/constants';
 
 const App: React.FC<IAppProps> = (props) => {
   const { isDevelopment, row } = props;
@@ -28,12 +34,21 @@ const App: React.FC<IAppProps> = (props) => {
   const subtables: TableArray = window.dtableSDK.getTables();
 
   useEffect(() => {
+    console.log('app useEffect');
     initPluginDTableData();
     return () => {
       unsubscribeLocalDtableChanged();
       unsubscribeRemoteDtableChanged();
+      getHook();
     };
   }, []);
+
+  const getHook = () => {
+    console.log('currentTable', currentTable);
+    console.log('pluginPresets', pluginPresets);
+    console.log('pluginSettings', pluginSettings);
+    console.log('tableViews', tableViews);
+  };
 
   const initPluginDTableData = async () => {
     if (isDevelopment) {
@@ -83,6 +98,12 @@ const App: React.FC<IAppProps> = (props) => {
     let tableViews = window.dtableSDK.getViews(table); // All the Views of a specific Table (PluginSettings component)
     let pluginSettings = getPluginSettings(); // An obj with an array of all the Presets of the Plugin (PluginPresets component)
     let pluginPresets: PresetsArray = pluginSettings.presets;
+
+    console.log('window.dtableSDK obj', window.dtableSDK);
+    console.log('getActiveTable()', table);
+    console.log('pluginPresets', pluginPresets);
+    console.log('pluginSettings', pluginSettings);
+    console.log('tableViews', tableViews);
 
     setPluginSettings(pluginSettings);
     setPluginPresets(pluginPresets);
