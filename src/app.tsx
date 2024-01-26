@@ -19,6 +19,7 @@ import {
 
 const App: React.FC<IAppProps> = (props) => {
   const { isDevelopment, row } = props;
+  const [isShowPlugin, setIsShowPlugin] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [togglePresetsComponent, setTogglePresetsComponent] = useState<boolean>(false);
@@ -99,6 +100,9 @@ const App: React.FC<IAppProps> = (props) => {
   };
 
   const onPluginToggle = () => {
+    setTimeout(() => {
+      setIsShowPlugin(false);
+    }, 300);
     window.app.onClosePlugin();
   };
 
@@ -146,6 +150,10 @@ const App: React.FC<IAppProps> = (props) => {
   };
 
   const { collaborators } = window.app.state;
+
+  if (!isShowPlugin) {
+    return null;
+  }
 
   return isLoading ? (
     <div></div>
