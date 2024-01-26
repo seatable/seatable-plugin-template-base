@@ -60,7 +60,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
           <span className="dtable-font dtable-icon-download"></span>
         </button>
         <button className={styles.modal_header_icon_btn} onClick={printPdfDocument}>
-          <span className="dtable-font dtableprint-icon"></span>
+          <span className="dtable-font dtable-icon-print"></span>
         </button>
         <button
           className={`${styles.modal_header_icon_btn} ${
