@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { getTableByName } from 'dtable-utils';
 import PresetItem from '../PresetItem/index';
 import styles from '../../styles/Presets.module.scss';
 import deepCopy from 'deep-copy';
@@ -28,12 +29,11 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   }, [pluginPresets]);
 
   const getSelectedTable = (tables: TableArray, settings: any = {}) => {
-    return tables[0];
-    // let selectedTable = window.dtableSDK.getTableByName(settings[TABLE_NAME]);
-    // if (!selectedTable) {
-    //   return tables[0];
-    // }
-    // return selectedTable;
+    let selectedTable = getTableByName(settings[TABLE_NAME]);
+    if (!selectedTable) {
+      return tables[0];
+    }
+    return selectedTable;
   };
 
   const initOrgChartSetting = (settings = {}) => {
