@@ -21,3 +21,7 @@ h6,
 p {
   margin-bottom: 0;
 }
+
+button, button:focus {
+  outline: none;
+}

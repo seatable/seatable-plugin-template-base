@@ -4,10 +4,7 @@ import App from './app';
 
 const TaskList = {
   execute: () => {
-    ReactDOM.render(
-      <App showDialog={true}  />,
-      document.querySelector('#plugin-wrapper')
-    );
+    ReactDOM.render(<App showDialog={true} />, document.querySelector('#plugin-wrapper'));
   },
 };
 

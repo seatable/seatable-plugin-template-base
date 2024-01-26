@@ -31,7 +31,8 @@
     "push-translate": "tx push -s",
     "pull-translate": "tx pull -a -f && npm run translate",
     "build-plugin": "export GENERATE_SOURCEMAP=false && npm run clean && npm run build && node scripts/build-plugin.js",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "type-check": "tsc"
   },
   "browserslist": {
     "production": [
@@ -75,7 +76,7 @@
     "dayjs": "1.10.7",
     "dotenv": "^10.0.0",
     "dotenv-expand": "^5.1.0",
-    "dtable-sdk": "4.3.2",
+    "dtable-sdk": "5.0.2",
     "eslint": "^8.3.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-react-app": "^7.0.1",

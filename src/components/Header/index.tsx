@@ -3,11 +3,11 @@ import styles from '../../styles/Modal.module.scss';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import { IHeaderProps } from '../../utils/Interfaces/Header.interface';
-import { PLUGIN_ICON, PLUGIN_ID, PLUGIN_NAME } from '../../constants';
+import { PLUGIN_ICON, PLUGIN_ID, PLUGIN_NAME } from '../../utils/constants';
 import { compareLoose } from 'semver';
 
 const Header: React.FC<IHeaderProps> = (props) => {
-  const { showSettings, toggleSettings, togglePlugin } = props;
+  const { showSettings, togglePresets, toggleSettings, togglePlugin } = props;
   const [orgChartContent, setOrgChartContent] = useState<string | null>(null);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
         logging: true,
         allowTaint: false,
         useCORS: true,
-      }).then((canvas: any) => {
+      }).then((canvas: HTMLCanvasElement) => {
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF('l', 'mm', 'a4', true);
         pdf.addImage(imgData, 'JPEG', 0, 0, 230, 200);
@@ -44,7 +44,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
     <div className={styles.modal_header}>
       {/* logo and plugin name  */}
       <div className="d-flex align-items-center">
-        <button className={styles.modal_header_viewBtn_menu} onClick={props.toggleView}>
+        <button className={styles.modal_header_viewBtn_menu} onClick={togglePresets}>
           <span className="dtable-font dtable-icon-menu"></span>
         </button>
         <div className={`bg-info py-1 px-2 rounded mr-2 ${styles.modal_header_logo}`}>
@@ -60,7 +60,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
           <span className="dtable-font dtable-icon-download"></span>
         </button>
         <button className={styles.modal_header_icon_btn} onClick={printPdfDocument}>
-          <span className="dtable-font dtableprint-icon"></span>
+          <span className="dtable-font dtable-icon-print"></span>
         </button>
         <button
           className={`${styles.modal_header_icon_btn} ${

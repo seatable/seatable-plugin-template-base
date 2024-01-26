@@ -9,21 +9,21 @@ export const generatorBase64Code = (keyLength = 4) => {
   return key;
 };
 
-export const generatorViewId = (views: Array<{ _id: string }>): string => {
-  let view_id: string = '',
+export const generatorPresetId = (presets: Array<{ _id: string }>): string => {
+  let preset_id: string = '',
     isUnique = false;
   while (!isUnique) {
-    view_id = generatorBase64Code(4);
+    preset_id = generatorBase64Code(4);
 
     // eslint-disable-next-line
-    isUnique = views?.every((item) => {
-      return item._id !== view_id;
+    isUnique = presets?.every((item) => {
+      return item._id !== preset_id;
     });
     if (isUnique) {
       break;
     }
   }
-  return view_id;
+  return preset_id;
 };
 
 export const getImageThumbnailUrl = (url: string, size?: number): string => {
