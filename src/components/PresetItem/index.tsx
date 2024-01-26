@@ -58,7 +58,7 @@ const PresetItem: React.FC<IPresetItemProps> = ({
 
   const onClickPreset = (e: React.MouseEvent<HTMLElement>) => {
     if (e.detail === 2) {
-      onDuplicatePreset();
+      onEditPreset(e);
     } else {
       onSelectPreset(v?._id);
     }

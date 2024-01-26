@@ -16,6 +16,7 @@ import {
   PRESET_NAME,
   TABLE_NAME,
 } from './utils/constants';
+import useClickOut from './hooks/useClickOut';
 
 const App: React.FC<IAppProps> = (props) => {
   const { isDevelopment, row } = props;
@@ -33,6 +34,10 @@ const App: React.FC<IAppProps> = (props) => {
   });
   const [currentPresetIdx, setCurrentPresetIdx] = useState<number>(0); // Preset at idx 0 it's alway loaded
   const subtables: TableArray = window.dtableSDK.getTables();
+
+  let settingsDomNode = useClickOut(() => {
+    setShowSettings(false);
+  });
 
   useEffect(() => {
     initPluginDTableData();
@@ -182,14 +187,16 @@ const App: React.FC<IAppProps> = (props) => {
           <div>{`'dtable-subtables: '${JSON.stringify(subtables)}`}</div>
         </div>
         {showSettings && (
-          <PluginSettings
-            subtables={subtables}
-            tableViews={tableViews}
-            currentTableID={currentTable ? currentTable._id : ''}
-            baseViewID={currentTableView ? currentTableView._id : ''}
-            onTableChange={onTableChange}
-            onBaseViewChange={onBaseViewChange}
-          />
+          <div ref={settingsDomNode}>
+            <PluginSettings
+              subtables={subtables}
+              tableViews={tableViews}
+              currentTableID={currentTable ? currentTable._id : ''}
+              baseViewID={currentTableView ? currentTableView._id : ''}
+              onTableChange={onTableChange}
+              onBaseViewChange={onBaseViewChange}
+            />
+          </div>
         )}
       </div>
     </div>
