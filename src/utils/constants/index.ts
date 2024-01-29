@@ -20,7 +20,7 @@ const DEFAULT_PLUGIN_SETTINGS = {
   presets: [
     {
       _id: '0000',
-      name: 'Default View',
+      name: 'Default Preset',
       settings: {},
     },
   ],
