@@ -68,7 +68,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
           }`}
           onClick={toggleSettings}>
           <span className="dtable-font dtable-icon-set-up"></span>
-          {showSettings && <span>Settings</span>}
+          {showSettings && <span className={styles.modal_header_icon_btn_settings}>Settings</span>}
         </button>
         <button className={styles.modal_header_icon_btn} onClick={togglePlugin}>
           <span className="dtable-font dtable-icon-x btn-close"></span>
