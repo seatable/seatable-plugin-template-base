@@ -6,7 +6,11 @@ import deepCopy from 'deep-copy';
 import Preset from '../../model/preset';
 import { IPresetsProps, PresetsArray } from '../../utils/Interfaces/PluginPresets.interface';
 import { generatorPresetId } from '../../utils/utils';
-import { DEFAULT_PRESET_SETTINGS, TABLE_NAME } from '../../utils/constants';
+import {
+  DEFAULT_PLUGIN_SETTINGS,
+  DEFAULT_PRESET_SETTINGS,
+  TABLE_NAME,
+} from '../../utils/constants';
 import { TableArray, TableColumn } from '../../utils/Interfaces/Table.interface';
 
 const PluginPresets: React.FC<IPresetsProps> = ({
@@ -84,6 +88,8 @@ const PluginPresets: React.FC<IPresetsProps> = ({
 
   // add new preset
   const addPreset = (presetName: string) => {
+    presetName =
+      presetName || DEFAULT_PLUGIN_SETTINGS.presets[0].name + ' ' + (_pluginPresets.length + 1);
     setPluginPresets(_pluginPresets || []);
     let currentPresetIdx = _pluginPresets?.length;
     let _id: string = generatorPresetId(pluginPresets) || '';
