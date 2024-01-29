@@ -85,10 +85,8 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   // add new preset
   const addPreset = (presetName: string) => {
     setPluginPresets(_pluginPresets || []);
-
     let currentPresetIdx = _pluginPresets?.length;
-    let _id: string = 'randomString';
-    // let _id: string = generatorPresetId(pluginPresets) || '';
+    let _id: string = generatorPresetId(pluginPresets) || '';
     let newPreset = new Preset({ _id, name: presetName });
     let newPresetsArray = deepCopy(_pluginPresets);
     newPresetsArray.push(newPreset);

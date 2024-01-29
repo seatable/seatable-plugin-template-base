@@ -96,8 +96,12 @@
         color: #132043;
       }
 
-      &:hover,
-      &_active {
+      // &:hover,
+      // &_active {
+      //   background: #ff800146;
+      // } // With the :active pseudo-class, the background persists even when the user is interacting with other elements.
+
+      &:hover {
         background: #ff800146;
       }
 

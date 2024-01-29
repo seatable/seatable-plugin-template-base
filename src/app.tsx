@@ -172,7 +172,7 @@ const App: React.FC<IAppProps> = (props) => {
       />
       {/* main body  */}
       <div className="d-flex position-relative" style={{ height: '100%' }}>
-        {/* views  */}
+        {/* presets  */}
         <PluginPresets
           setTogglePresetsComponent={togglePresetsComponent}
           pluginPresets={pluginPresets}
