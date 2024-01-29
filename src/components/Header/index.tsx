@@ -50,7 +50,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
         <div className={`bg-info py-1 px-2 rounded mr-2 ${styles.modal_header_logo}`}>
           <PLUGIN_ICON size={16} color="#fff" />
         </div>
-        <p className={styles.modal_header_name}>{PLUGIN_NAME}</p>
+        <div className={styles.modal_header_name}>{PLUGIN_NAME}</div>
       </div>
 
       {/* settings and close icons  */}
