@@ -38,6 +38,7 @@
       font-weight: 600;
       font-size: 15px;
       white-space: nowrap;
+      margin-bottom: 0;
 
       @include mobile {
         font-size: 11px;
@@ -108,6 +109,11 @@
       &_active {
         width: auto;
         padding-inline: 3px;
+      }
+
+      &:focus,
+      &:not(:hover) {
+        outline: none;
       }
 
       // display: none causes interface reshooting and redrawing
