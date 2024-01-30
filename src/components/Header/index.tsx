@@ -50,29 +50,29 @@ const Header: React.FC<IHeaderProps> = (props) => {
         <div className={`bg-info py-1 px-2 rounded mr-2 ${styles.modal_header_logo}`}>
           <PLUGIN_ICON size={16} color="#fff" />
         </div>
-        <p className={styles.modal_header_name}>{PLUGIN_NAME}</p>
+        <div className={styles.modal_header_name}>{PLUGIN_NAME}</div>
       </div>
 
       {/* settings and close icons  */}
       <div
         className={`d-flex align-items-center justify-content-end ${styles.modal_header_settings}`}>
-        <button className={styles.modal_header_icon_btn} onClick={downloadPdfDocument}>
+        <span className={styles.modal_header_icon_btn} onClick={downloadPdfDocument}>
           <span className="dtable-font dtable-icon-download"></span>
-        </button>
-        <button className={styles.modal_header_icon_btn} onClick={printPdfDocument}>
+        </span>
+        <span className={styles.modal_header_icon_btn} onClick={printPdfDocument}>
           <span className="dtable-font dtable-icon-print"></span>
-        </button>
-        <button
+        </span>
+        <span
           className={`${styles.modal_header_icon_btn} ${
             showSettings ? styles.modal_header_icon_btn_active : ''
           }`}
           onClick={toggleSettings}>
           <span className="dtable-font dtable-icon-set-up"></span>
-          {showSettings && <span>Settings</span>}
-        </button>
-        <button className={styles.modal_header_icon_btn} onClick={togglePlugin}>
+          {showSettings && <span className={styles.modal_header_icon_btn_settings}>Settings</span>}
+        </span>
+        <span className={styles.modal_header_icon_btn} onClick={togglePlugin}>
           <span className="dtable-font dtable-icon-x btn-close"></span>
-        </button>
+        </span>
       </div>
     </div>
   );
