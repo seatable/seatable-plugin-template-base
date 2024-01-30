@@ -38,6 +38,7 @@
       font-weight: 600;
       font-size: 15px;
       white-space: nowrap;
+      margin-bottom: 0;
 
       @include mobile {
         font-size: 11px;
@@ -96,8 +97,12 @@
         color: #132043;
       }
 
-      &:hover,
-      &_active {
+      // &:hover,
+      // &_active {
+      //   background: #ff800146;
+      // } // With the :active pseudo-class, the background persists even when the user is interacting with other elements.
+
+      &:hover {
         background: #ff800146;
       }
 
@@ -109,6 +114,10 @@
       &_settings {
         height: 24px;
         line-height: 24px;
+}
+      &:focus,
+      &:not(:hover) {
+        outline: none;
       }
 
       // display: none causes interface reshooting and redrawing
