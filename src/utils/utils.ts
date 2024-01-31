@@ -1,4 +1,5 @@
 import pluginContext from '../plugin-context';
+import { PresetsArray } from './Interfaces/PluginPresets/Presets.interface';
 
 export const generatorBase64Code = (keyLength = 4) => {
   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789';
@@ -144,4 +145,12 @@ export const isInternalImg = (url: string): boolean | undefined => {
 export const checkSVGImage = (url: string): boolean | undefined => {
   if (!url) return false;
   return url.substr(-4).toLowerCase() === '.svg';
+};
+
+export const isPresetNameAlreadyExists = (
+  presetName: string,
+  presets: PresetsArray,
+  currentIndex: number
+): boolean => {
+  return presets.some((preset, index) => index !== currentIndex && preset.name === presetName);
 };

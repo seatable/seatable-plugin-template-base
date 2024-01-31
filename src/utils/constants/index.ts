@@ -1,5 +1,5 @@
 import * as Icons from 'react-icons/ri';
-import { PresetSettings } from '../Interfaces/PluginPresets.interface';
+import { PresetSettings } from '../Interfaces/PluginPresets/Presets.interface';
 
 const TABLE_NAME = 'table_name';
 const PRESET_NAME = 'view_name';
@@ -26,6 +26,12 @@ const DEFAULT_PLUGIN_SETTINGS = {
   ],
 };
 
+const PresetDropDownAction = {
+  // would be better to have them as enum but it gives me an error in run time
+  delete: 'delete',
+  rename: 'rename',
+  duplicate: 'duplicate',
+};
 export {
   PLUGIN_ICON,
   PLUGIN_NAME,
@@ -34,4 +40,5 @@ export {
   PRESET_NAME,
   DEFAULT_PLUGIN_SETTINGS,
   DEFAULT_PRESET_SETTINGS,
+  PresetDropDownAction,
 };

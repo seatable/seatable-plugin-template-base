@@ -1,4 +1,4 @@
-import { PRESET_NAME } from '../constants';
+import { PRESET_NAME } from '../../constants';
 
 export interface IPresetsProps {
   pluginPresets: PresetsArray;
@@ -32,4 +32,5 @@ export interface PresetSettings {
   selectedTableId?: string;
   selectedViewId?: string;
 }
+
 export type PresetsArray = IPresetInfo[];

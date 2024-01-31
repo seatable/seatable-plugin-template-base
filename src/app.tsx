@@ -7,7 +7,7 @@ import PluginSettings from './components/PluginSettings';
 import PluginPresets from './components/PluginPresets';
 import './assets/css/plugin-layout.css';
 import './locale';
-import { PresetsArray, IPluginSettings } from './utils/Interfaces/PluginPresets.interface';
+import { PresetsArray, IPluginSettings } from './utils/Interfaces/PluginPresets/Presets.interface';
 import { IDtableSelect } from './utils/Interfaces/PluginSettings.interface';
 import {
   DEFAULT_PLUGIN_SETTINGS,

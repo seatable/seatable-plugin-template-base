@@ -1,7 +1,5 @@
 export interface IPresetDropdownProps {
-  deletePreset: () => void;
-  toggleEditPresetPopUp: (e: React.MouseEvent<HTMLElement>) => void;
-  duplicatePreset: () => void;
+  togglePresetsUpdatePopUp: (e: React.MouseEvent<HTMLElement>) => void;
   dropdownRef: React.RefObject<HTMLUListElement> | undefined;
 }
 
