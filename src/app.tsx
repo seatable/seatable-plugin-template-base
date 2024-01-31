@@ -172,6 +172,11 @@ const App: React.FC<IAppProps> = (props) => {
       />
       {/* main body  */}
       <div className="d-flex position-relative" style={{ height: '100%' }}>
+        {/* content  */}
+        <div id={PLUGIN_ID} className={styles.body}>
+          <div>{`'rows: '${JSON.stringify(row)}`}</div>
+          <div>{`'dtable-subtables: '${JSON.stringify(subtables)}`}</div>
+        </div>
         {/* presets  */}
         <PluginPresets
           setTogglePresetsComponent={togglePresetsComponent}
@@ -181,11 +186,6 @@ const App: React.FC<IAppProps> = (props) => {
           pluginSettings={pluginSettings}
           updatePresets={updatePresets}
         />
-        {/* content  */}
-        <div id={PLUGIN_ID} className={styles.body}>
-          <div>{`'rows: '${JSON.stringify(row)}`}</div>
-          <div>{`'dtable-subtables: '${JSON.stringify(subtables)}`}</div>
-        </div>
         {showSettings && (
           <div ref={settingsDomNode}>
             <PluginSettings

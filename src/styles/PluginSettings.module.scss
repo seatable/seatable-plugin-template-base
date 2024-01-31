@@ -2,13 +2,14 @@
 // STYLE FOR PLUGIN SETTINGS COMPONENT
 
 .settings {
-  position: fixed;
+  position: relative;
   right: 0;
   bottom: 0;
   z-index: 800;
   height: calc(95% - 55px);
-  width: 25%;
-  box-shadow: 0 2px 10px 3px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  /*box-shadow: 0 2px 10px 3px rgba(0, 0, 0, 0.2);*/
+  border-left: 1px solid #ddd;
 
   @include mobile {
     border-radius: 0px 10px 0 0;
