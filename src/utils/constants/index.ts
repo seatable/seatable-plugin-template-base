@@ -1,5 +1,7 @@
 import * as Icons from 'react-icons/ri';
-import { PresetSettings } from '../Interfaces/PluginPresets.interface';
+import { PresetSettings } from '../Interfaces/PluginPresets/Presets.interface';
+import { AppActiveState, AppIsShowState } from '../Interfaces/App.interface';
+import { IActivePresetSettings } from '../Interfaces/PluginSettings.interface';
 
 const TABLE_NAME = 'table_name';
 const PRESET_NAME = 'view_name';
@@ -9,11 +11,15 @@ const PLUGIN_NAME = 'Plugin template'; // INSERT PLUGIN NAME
 const PLUGIN_ICON = Icons['RiOrganizationChart']; // Change PLUGIN Icon Name
 const PLUGIN_ID = 'main-custom-content'; // Insert Plugin ID
 
+const DEFAULT_SELECT_OPTION = {
+  value: '',
+  label: '',
+};
 const DEFAULT_PRESET_SETTINGS: PresetSettings = {
-  shown_image_name: null,
+  shown_image_name: '',
   shown_title_name: '',
-  selectedTableId: '',
-  selectedViewId: '',
+  selectedTable: DEFAULT_SELECT_OPTION,
+  selectedView: DEFAULT_SELECT_OPTION,
 };
 
 const DEFAULT_PLUGIN_SETTINGS = {
@@ -26,6 +32,33 @@ const DEFAULT_PLUGIN_SETTINGS = {
   ],
 };
 
+const PresetDropDownAction = {
+  // would be better to have them as enum but it gives me an error in run time
+  delete: 'delete',
+  rename: 'rename',
+  duplicate: 'duplicate',
+};
+
+const INITIAL_IS_SHOW_STATE: AppIsShowState = {
+  isShowPlugin: true,
+  isShowSettings: false,
+  isLoading: true,
+};
+
+const INITIAL_CURRENT_STATE: AppActiveState = {
+  activeTable: null,
+  activeTableName: 'Table1',
+  activeTableView: null,
+  activePresetId: '0000',
+  activePresetIdx: 0,
+};
+
+const DEFAULT_SELECTED_PRESET: IActivePresetSettings = {
+  activePresetId: '',
+  selectedTable: DEFAULT_SELECT_OPTION,
+  selectedView: DEFAULT_SELECT_OPTION,
+};
+
 export {
   PLUGIN_ICON,
   PLUGIN_NAME,
@@ -34,4 +67,8 @@ export {
   PRESET_NAME,
   DEFAULT_PLUGIN_SETTINGS,
   DEFAULT_PRESET_SETTINGS,
+  PresetDropDownAction,
+  INITIAL_IS_SHOW_STATE,
+  INITIAL_CURRENT_STATE,
+  DEFAULT_SELECTED_PRESET,
 };
