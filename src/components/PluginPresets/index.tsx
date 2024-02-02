@@ -154,18 +154,25 @@ const PluginPresets: React.FC<IPresetsProps> = ({
 
   // drag and drop logic
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>, index: number) => {
+    e.stopPropagation();
     setDragItemIndex(index);
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.stopPropagation();
     e.preventDefault();
   };
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>, index: number) => {
+    e.stopPropagation()
+    console.log("hi")
     setDragOverItemIndex(index);
   };
 
   const handleDragEnd = (e: React.DragEvent<HTMLDivElement>, v_id: string) => {
+    e.stopPropagation();
+    e.preventDefault();
+
     const __pluginPresets = [...pluginPresets];
     if (dragItemIndex !== null && dragOverItemIndex !== null) {
       const dragItem = __pluginPresets.splice(dragItemIndex, 1)[0];
@@ -194,7 +201,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
                   : {}
             }
             key={v._id}
-            draggable
+            draggable="true"
             onDragStart={(e) => handleDragStart(e, i)}
             onDragEnter={(e) => handleDragEnter(e, i)}
             onDragEnd={(e) => handleDragEnd(e, v._id)}
