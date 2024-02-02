@@ -3,5 +3,5 @@ export interface IPresetInput {
   onEditPresetSubmit: (e?: React.MouseEvent<HTMLElement>) => void;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   isEditing: boolean;
-  presetName: string
+  presetName: string;
 }
