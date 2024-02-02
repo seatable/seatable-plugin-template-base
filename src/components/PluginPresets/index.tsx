@@ -77,7 +77,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       presetName || DEFAULT_PLUGIN_SETTINGS.presets[0].name + ' ' + _pluginPresets.length;
     const nameExists = isPresetNameAlreadyExists(_presetName, _pluginPresets, activePresetIdx);
     if (nameExists && type === 'new') {
-      _presetName += ' copy';
+      _presetName += ' New';
       setPresetNameAlreadyExists(false);
     } else if (nameExists) {
       setPresetNameAlreadyExists(true);
