@@ -1,52 +1,42 @@
 import React, { useEffect, useState } from 'react';
-// Import of Component
+import styles from './styles/Modal.module.scss';
+import { IAppProps } from './utils/Interfaces/App.interface';
+import { Table, TableArray, TableView, TableViewArray } from './utils/Interfaces/Table.interface';
 import Header from './components/Header';
 import PluginSettings from './components/PluginSettings';
 import PluginPresets from './components/PluginPresets';
-// Import of Interfaces
-import { AppActiveState, AppIsShowState, IAppProps } from './utils/Interfaces/App.interface';
-import { TableArray, TableViewArray, Table, TableView } from './utils/Interfaces/Table.interface';
-import {
-  PresetsArray,
-  IPluginSettings,
-  IPresetInfo,
-} from './utils/Interfaces/PluginPresets/Presets.interface';
-import { SelectOption } from './utils/Interfaces/PluginSettings.interface';
-// Import of CSS
-import styles from './styles/Modal.module.scss';
 import './assets/css/plugin-layout.css';
-// Import of Constants
+import './locale';
+import { PresetsArray, IPluginSettings } from './utils/Interfaces/PluginPresets.interface';
+import { IDtableSelect } from './utils/Interfaces/PluginSettings.interface';
 import {
   DEFAULT_PLUGIN_SETTINGS,
-  INITIAL_IS_SHOW_STATE,
-  INITIAL_CURRENT_STATE,
   PLUGIN_ID,
   PLUGIN_NAME,
   PRESET_NAME,
+  TABLE_NAME,
 } from './utils/constants';
 import useClickOut from './hooks/useClickOut';
-import './locale';
 
 const App: React.FC<IAppProps> = (props) => {
-  const { isDevelopment } = props;
-  const [isShowState, setIsShowState] = useState<AppIsShowState>(INITIAL_IS_SHOW_STATE);
-  const { isShowPlugin, isShowSettings, isLoading } = isShowState;
-  const [appActiveState, setAppActiveState] = useState<AppActiveState>(INITIAL_CURRENT_STATE);
-  const { activeTable, activeTableName, activeTableView, activePresetId, activePresetIdx } =
-    appActiveState;
+  const { isDevelopment, row } = props;
+  const [isShowPlugin, setIsShowPlugin] = useState(true);
+  const [showSettings, setShowSettings] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [togglePresetsComponent, setTogglePresetsComponent] = useState<boolean>(false);
-  // *** // Tables, Presets, Views, Settings dataStates
-  const [allTables, setAllTables] = useState<TableArray>([]);
-  const [activeTableViews, setActiveTableViews] = useState<TableViewArray>([]);
+  const [tableViews, setTableViews] = useState<TableViewArray>([]);
+  const [currentTable, setCurrentTable] = useState<Table | null>(null);
+  const [currentTableView, setCurrentTableView] = useState<TableView | null>(null);
   const [pluginPresets, setPluginPresets] = useState<PresetsArray>([]);
   const [pluginSettings, setPluginSettings] = useState<IPluginSettings>({
     presets: [],
     [PRESET_NAME]: PRESET_NAME,
   });
-  // *** //
+  const [currentPresetIdx, setCurrentPresetIdx] = useState<number>(0); // Preset at idx 0 it's alway loaded
+  const subtables: TableArray = window.dtableSDK.getTables();
 
   let settingsDomNode = useClickOut(() => {
-    setIsShowState((prevState) => ({ ...prevState, isShowSettings: false }));
+    setShowSettings(false);
   });
 
   useEffect(() => {
@@ -74,7 +64,7 @@ const App: React.FC<IAppProps> = (props) => {
   };
 
   const toggleSettings = () => {
-    setIsShowState((prevState) => ({ ...prevState, isShowSettings: !prevState.isShowSettings }));
+    setShowSettings((prev) => !prev);
   };
 
   let unsubscribeLocalDtableChanged = () => {
@@ -91,53 +81,32 @@ const App: React.FC<IAppProps> = (props) => {
   const onDTableChanged = () => {
     resetData();
   };
-  const getPluginSettings = (activeTable: Table) => {
-    const pluginSettings =
-      window.dtableSDK.getPluginSettings(PLUGIN_NAME) || DEFAULT_PLUGIN_SETTINGS;
+
+  const getPluginSettings = () => {
+    const pluginSettings = window.dtableSDK.getPluginSettings(PLUGIN_NAME)
+      ? window.dtableSDK.getPluginSettings(PLUGIN_NAME)
+      : DEFAULT_PLUGIN_SETTINGS;
     delete pluginSettings.views;
-
-    pluginSettings.presets = pluginSettings.presets.map((preset: IPresetInfo) => {
-      if (preset.settings) {
-        preset.settings.selectedTable = preset.settings.selectedTable || {
-          value: activeTable._id,
-          label: activeTable.name,
-        };
-        preset.settings.selectedView = preset.settings.selectedView || {
-          value: activeTable.views[0]._id,
-          label: activeTable.views[0].name,
-        };
-      }
-
-      return preset;
-    });
-
     return pluginSettings;
   };
 
   const resetData = () => {
-    let allTables: TableArray = window.dtableSDK.getTables(); // All the Tables of the Base
-    let activeTable: Table = window.dtableSDK.getActiveTable(); // How is the ActiveTable Set?
-    let activeTableViews: TableViewArray = activeTable.views; // All the Views of the specific Active Table (PluginSettings component)
-    let pluginSettings = getPluginSettings(activeTable); // An obj with an array of all the Presets of the Plugin (PluginPresets component)
+    let table = window.dtableSDK.getActiveTable();
+    let tableViews = window.dtableSDK.getViews(table); // All the Views of a specific Table (PluginSettings component)
+    let pluginSettings = getPluginSettings(); // An obj with an array of all the Presets of the Plugin (PluginPresets component)
     let pluginPresets: PresetsArray = pluginSettings.presets;
 
-    setAllTables(allTables);
-    setActiveTableViews(activeTableViews);
     setPluginSettings(pluginSettings);
     setPluginPresets(pluginPresets);
-    setAppActiveState((prevState) => ({
-      ...prevState,
-      activeTable: activeTable,
-      activeTableName: activeTable.name,
-      activeTableView: activeTableViews[0],
-      activePresetId: pluginPresets[0]._id,
-    }));
-    setIsShowState((prevState) => ({ ...prevState, isLoading: false }));
+    setCurrentTable(table);
+    setTableViews(tableViews);
+    setIsLoading(false);
+    setCurrentTableView(tableViews[0]);
   };
 
   const onPluginToggle = () => {
     setTimeout(() => {
-      setIsShowState((prevState) => ({ ...prevState, isShowPlugin: false }));
+      setIsShowPlugin(false);
     }, 300);
     window.app.onClosePlugin();
   };
@@ -145,26 +114,18 @@ const App: React.FC<IAppProps> = (props) => {
   // Change view
   const onSelectPreset = (presetId: string) => {
     let presetIdx = pluginPresets.findIndex((preset) => preset._id === presetId);
-    const activeTableName = pluginPresets[presetIdx]?.settings?.selectedTable?.label as string;
-    setAppActiveState((prevState) => ({
-      ...prevState,
-      activeTableName,
-      activePresetIdx: presetIdx,
-      activePresetId: presetId,
-    }));
+
+    setCurrentPresetIdx(presetIdx);
   };
 
   // Update presets data
   const updatePresets = (
-    activePresetIdx: number,
+    currentPresetIdx: number,
     updatedPresets: PresetsArray,
     pluginSettings: IPluginSettings,
     callBack: any = null
   ) => {
-    setAppActiveState((prevState) => ({
-      ...prevState,
-      activePresetIdx: activePresetIdx,
-    }));
+    setCurrentPresetIdx(currentPresetIdx);
     setPluginPresets(updatedPresets);
     setPluginSettings(pluginSettings);
     updatePluginSettings(pluginSettings);
@@ -179,56 +140,20 @@ const App: React.FC<IAppProps> = (props) => {
     setTogglePresetsComponent((prev) => !prev);
   };
 
-  // // switch table or view
-  const onTableOrViewChange = (type: 'table' | 'view', option: SelectOption) => {
-    const action = type;
-    switch (action) {
-      case 'view':
-        let activeTableView =
-          activeTableViews.find((s) => s._id === option.value) || activeTableViews[0];
-        setAppActiveState((prevState) => ({ ...prevState, activeTableView }));
-        break;
-      case 'table':
-        let activeTable = allTables.find((s) => s._id === option.value) || allTables[0];
-        setActiveTableViews(activeTable.views);
-        setAppActiveState((prevState) => ({
-          ...prevState,
-          activeTable,
-        }));
-        break;
-    }
-    updatePresetSettings(pluginPresets, activePresetId, type, { [type]: option });
+  // switch table
+  const onTableChange = (table: IDtableSelect) => {
+    let currentTable = subtables.find((s) => s._id === table.value) || subtables[0];
+    setCurrentTable(currentTable);
+    setTableViews(window.dtableSDK.getViews(currentTable));
+    setCurrentTableView(currentTable.views[0]);
   };
 
-  const updatePresetSettings = (
-    pluginPresets: PresetsArray,
-    activePresetId: string,
-    type: 'table' | 'view',
-    option: {
-      view?: SelectOption;
-      table?: SelectOption;
-    }
-  ) => {
-    const dynamicField = option.view ? 'selectedView' : 'selectedTable';
-    const value = option[type]?.value;
-    const label = option[type]?.label;
-    const updatedPluginPresets = pluginPresets.map((preset) => {
-      if (preset._id === activePresetId) {
-        return {
-          ...preset,
-          settings: {
-            ...preset.settings,
-            [dynamicField]: {
-              value,
-              label,
-            },
-          },
-        };
-      } else return preset;
-    });
-
-    setPluginPresets(updatedPluginPresets);
+  // switch table view
+  const onBaseViewChange = (view: IDtableSelect) => {
+    let _currentTableView = tableViews.find((s) => s._id === view.value) || tableViews[0];
+    setCurrentTableView(_currentTableView);
   };
+
   const { collaborators } = window.app.state;
 
   if (!isShowPlugin) {
@@ -242,7 +167,7 @@ const App: React.FC<IAppProps> = (props) => {
       <Header
         togglePresets={togglePresets}
         toggleSettings={toggleSettings}
-        isShowSettings={isShowSettings}
+        showSettings={showSettings}
         togglePlugin={onPluginToggle}
       />
       {/* main body  */}
@@ -252,69 +177,24 @@ const App: React.FC<IAppProps> = (props) => {
           setTogglePresetsComponent={togglePresetsComponent}
           pluginPresets={pluginPresets}
           onSelectPreset={onSelectPreset}
-          activePresetIdx={activePresetIdx}
+          currentPresetIdx={currentPresetIdx}
           pluginSettings={pluginSettings}
           updatePresets={updatePresets}
         />
         {/* content  */}
         <div id={PLUGIN_ID} className={styles.body}>
-          {pluginPresets.map((obj) => (
-            <div
-              key={obj._id}
-              style={{
-                border: '1px solid #ddd',
-                padding: '10px',
-                marginBottom: '10px',
-                borderRadius: '5px',
-                backgroundColor: '#f5f5f5',
-              }}>
-              <div style={{ fontWeight: 'bold' }}>{`Preset ID: ${obj._id}`}</div>
-              <div style={{ color: '#007bff' }}>{`Preset Name: ${obj.name}`}</div>
-              <div style={{ marginTop: '8px', fontWeight: 'bold' }}>Settings:</div>
-              <div style={{ marginLeft: '15px', color: '#28a745' }}>{`selectedTableId: ${
-                obj.settings?.selectedTable?.value ?? 'N/A'
-              }`}</div>
-              <div style={{ marginLeft: '15px', color: '#28a745' }}>{`selectedViewId: ${
-                obj.settings?.selectedView?.value ?? 'N/A'
-              }`}</div>
-            </div>
-          ))}
-          <div id="additional-info" className={styles.body}>
-            <h2 style={{ color: '#007bff', borderBottom: '1px solid #ddd', paddingBottom: '10px' }}>
-              {activeTableName} Information
-            </h2>
-            <ul>
-              {activeTable?.rows.map((info) => (
-                <li
-                  key={info._id}
-                  style={{
-                    border: '1px solid #ddd',
-                    padding: '10px',
-                    marginBottom: '10px',
-                    borderRadius: '5px',
-                    backgroundColor: '#f5f5f5',
-                  }}>
-                  <div>{`ID: ${info._id}`}</div>
-                  <div>{`Creator: ${info._creator}`}</div>
-                  <div>{`Created Time: ${info._ctime}`}</div>
-                  <div>{`Last Modified Time: ${info._mtime}`}</div>
-                  {/* Add other fields as needed */}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <div>{`'rows: '${JSON.stringify(row)}`}</div>
+          <div>{`'dtable-subtables: '${JSON.stringify(subtables)}`}</div>
         </div>
-
-        {isShowSettings && (
+        {showSettings && (
           <div ref={settingsDomNode}>
             <PluginSettings
-              allTables={allTables}
-              activeTableViews={activeTableViews}
-              activeTableId={activeTable ? activeTable._id : ''}
-              activePresetId={activePresetId}
-              activeTableViewId={activeTableView ? activeTableView._id : ''}
-              pluginPresets={pluginPresets}
-              onTableOrViewChange={onTableOrViewChange}
+              subtables={subtables}
+              tableViews={tableViews}
+              currentTableID={currentTable ? currentTable._id : ''}
+              baseViewID={currentTableView ? currentTableView._id : ''}
+              onTableChange={onTableChange}
+              onBaseViewChange={onBaseViewChange}
             />
           </div>
         )}

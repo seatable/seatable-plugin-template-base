@@ -9,8 +9,3 @@ declare global {
     dtableWebAPI: any;
   }
 }
-
-export type PresetsUpdateOptions = {
-  _presetName?: string;
-  type?: 'edit';
-};

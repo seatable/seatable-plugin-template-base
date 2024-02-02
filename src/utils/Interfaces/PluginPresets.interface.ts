@@ -1,9 +1,8 @@
-import { PRESET_NAME } from '../../constants';
-import { SelectOption } from '../PluginSettings.interface';
+import { PRESET_NAME } from '../constants';
 
 export interface IPresetsProps {
   pluginPresets: PresetsArray;
-  activePresetIdx: number;
+  currentPresetIdx: number;
   onSelectPreset: (presetId: string) => void;
   updatePresets: (currentIdx: number, presets: any[], pluginSettings: any) => void;
   pluginSettings: IPluginSettings;
@@ -21,17 +20,16 @@ export interface IPluginSettings {
   [PRESET_NAME]: string;
 }
 
-export interface IPresetInfo {
+interface IPresetInfo {
   _id: string;
   name: string;
   settings?: PresetSettings;
 }
 
 export interface PresetSettings {
-  shown_image_name?: string | undefined;
-  shown_title_name?: string | undefined;
-  selectedTable?: SelectOption;
-  selectedView?: SelectOption;
+  shown_image_name: string | null;
+  shown_title_name: string;
+  selectedTableId?: string;
+  selectedViewId?: string;
 }
-
 export type PresetsArray = IPresetInfo[];

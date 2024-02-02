@@ -1,11 +1,11 @@
-import { PresetsArray } from './Presets.interface';
+import { PresetsArray } from './PluginPresets.interface';
 
 export interface IPresetItemProps {
   pluginPresets: PresetsArray;
-  activePresetIdx: number;
+  currentPresetIdx: number;
   presetName: string;
   onSelectPreset: (presetId: string) => void;
-  togglePresetsUpdate: (e: React.MouseEvent<HTMLElement>, type?: 'edit') => void;
+  toggleNewPresetPopUp: (e: React.MouseEvent<HTMLElement>, type?: 'edit') => void;
   deletePreset: () => void;
   v: any;
   onChangePresetName: (e: React.FormEvent<HTMLInputElement>) => void;
