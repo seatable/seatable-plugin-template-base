@@ -31,7 +31,7 @@ src ------------------------------------- project source folder
   index.js ------------------------------ Entry file in the development environment
   setting.ts ---------------------------- Configuration file in development environment
   setting.local.dist.ts ----------------- Local sample configuration file in development environment
-  setting.local.ts ---------------------- Local configuration file (You should create it by copying from setting.local.dist.ts)
+  setting.local.js ---------------------- Local configuration file (You should create it by copying from setting.local.dist.ts)
 ```
 
 ## Plugin Package
@@ -104,7 +104,7 @@ There is no need to add other configuration parameters here, other parameters ar
 
 ### 4. Modify plugin development configuration file
 
-You should put your local settings in `setting.local.ts` by copying from the sample file `setting.local.dist.ts`
+You should put your local settings in `setting.local.js` by copying from the sample file `setting.local.dist.ts`
 
 The configuration file is used for local development to get dtable data:
 
