@@ -1,17 +1,23 @@
-import { TableViewArray } from './Table.interface';
+import { PresetSettings, PresetsArray } from './PluginPresets/Presets.interface';
+import { TableArray, TableViewArray } from './Table.interface';
 
 interface IPluginSettingsProps {
-  subtables: any[];
-  currentTableID: string;
-  tableViews: TableViewArray;
-  onTableChange: (table: IDtableSelect) => void;
-  onBaseViewChange: (view: IDtableSelect) => void;
-  baseViewID: string;
+  allTables: TableArray;
+  activeTableViews: TableViewArray;
+  activeTableId: string;
+  activeTableViewId: string;
+  onTableOrViewChange: (type: 'table' | 'view', option: SelectOption) => void;
+  pluginPresets: PresetsArray;
+  activePresetId: string;
 }
 
-interface IDtableSelect {
-  value: string;
-  label: string;
+interface SelectOption {
+  value: string; // item._id
+  label: string; // item.name
 }
 
-export type { IPluginSettingsProps, IDtableSelect };
+interface IActivePresetSettings extends PresetSettings {
+  activePresetId: string;
+}
+
+export type { IPluginSettingsProps, SelectOption, IActivePresetSettings };
