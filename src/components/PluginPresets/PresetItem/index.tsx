@@ -13,7 +13,7 @@ import { PresetDropDownAction } from '../../../utils/constants';
 
 const PresetItem: React.FC<IPresetItemProps> = ({
   v,
-  currentPresetIdx,
+  activePresetIdx,
   presetName,
   pluginPresets,
   onChangePresetName,
@@ -84,7 +84,7 @@ const PresetItem: React.FC<IPresetItemProps> = ({
         onClick={onClickPreset}
         style={{ display: isEditing ? 'none' : 'flex' }}
         className={
-          pluginPresets[currentPresetIdx]?._id === v?._id
+          pluginPresets[activePresetIdx]?._id === v?._id
             ? styles.modal_header_viewBtn_active
             : styles.modal_header_viewBtn
         }>

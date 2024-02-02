@@ -2,44 +2,51 @@ import React, { useEffect, useState } from 'react';
 import DtableSelect from '../Elements/dtable-select';
 import styles from '../../styles/PluginSettings.module.scss';
 import {
-  IDtableSelect,
+  IActivePresetSettings,
+  SelectOption,
   IPluginSettingsProps,
 } from '../../utils/Interfaces/PluginSettings.interface';
+import { DEFAULT_SELECTED_PRESET } from '../../utils/constants';
+import { PresetsArray } from '../../utils/Interfaces/PluginPresets/Presets.interface';
 
 const PluginSettings: React.FC<IPluginSettingsProps> = ({
-  subtables,
-  tableViews,
-  currentTableID,
-  baseViewID,
-  onBaseViewChange,
-  onTableChange,
+  allTables,
+  activeTableViews,
+  activeTableId,
+  activePresetId,
+  activeTableViewId,
+  pluginPresets,
+  onTableOrViewChange,
 }) => {
-  const [tableSelectedOption, setTableSelectedOption] = useState<IDtableSelect>();
-  const [tableOptions, setTableOptions] = useState<IDtableSelect[]>();
-  const [viewSelectedOption, setViewSelectedOption] = useState<IDtableSelect>();
-  const [viewOptions, setViewOptions] = useState<IDtableSelect[]>();
+  const [tableOptions, setTableOptions] = useState<SelectOption[]>();
+  const [viewOptions, setViewOptions] = useState<SelectOption[]>();
+  const [activePresetSettings, setActivePresetSettings] =
+    useState<IActivePresetSettings>(DEFAULT_SELECTED_PRESET);
 
   useEffect(() => {
-    let tableOptions = subtables.map((item) => {
+    let tableOptions = allTables.map((item) => {
       let value = item._id;
       let label = item.name;
       return { value, label };
     });
 
-    let viewOptions = tableViews.map((item) => {
+    let viewOptions = activeTableViews.map((item) => {
       let value = item._id;
       let label = item.name;
       return { value, label };
     });
 
-    let tableSelectedOption = tableOptions.find((item) => item.value === currentTableID);
-    let viewSelectedOption = viewOptions.find((item) => item.value === baseViewID);
+    let activeTableAndView = pluginPresets.find((obj) => obj._id === activePresetId);
+    const _activePresetSettings = {
+      activePresetId,
+      selectedTable: activeTableAndView?.settings?.selectedTable,
+      selectedView: activeTableAndView?.settings?.selectedView,
+    };
 
+    setActivePresetSettings(_activePresetSettings);
     setTableOptions(tableOptions);
-    setTableSelectedOption(tableSelectedOption);
     setViewOptions(viewOptions);
-    setViewSelectedOption(viewSelectedOption);
-  }, [currentTableID, baseViewID]);
+  }, [activeTableId, activeTableViewId, pluginPresets]);
 
   return (
     <div className={`p-5 bg-white ${styles.settings}`}>
@@ -49,9 +56,12 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
             <p className="d-inline-block mb-2">Table</p>
             {/* toggle table view  */}
             <DtableSelect
-              value={tableSelectedOption}
+              value={activePresetSettings.selectedTable}
               options={tableOptions}
-              onChange={onTableChange}
+              onChange={(selectedOption: SelectOption) => {
+                let type = 'table' as 'table' | 'view';
+                onTableOrViewChange(type, selectedOption);
+              }}
             />
           </div>
 
@@ -59,9 +69,12 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
             <p className="d-inline-block mb-2 mt-3">View</p>
             {/* toggle table view  */}
             <DtableSelect
-              value={viewSelectedOption}
+              value={activePresetSettings.selectedView}
               options={viewOptions}
-              onChange={onBaseViewChange}
+              onChange={(selectedOption: SelectOption) => {
+                let type = 'view' as 'table' | 'view';
+                onTableOrViewChange(type, selectedOption);
+              }}
             />
           </div>
         </div>

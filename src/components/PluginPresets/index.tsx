@@ -21,7 +21,7 @@ import useClickOut from '../../hooks/useClickOut';
 const PluginPresets: React.FC<IPresetsProps> = ({
   pluginPresets,
   onSelectPreset,
-  currentPresetIdx,
+  activePresetIdx,
   pluginSettings,
   updatePresets,
   setTogglePresetsComponent,
@@ -75,7 +75,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   const onNewPresetSubmit = (e?: React.MouseEvent<HTMLElement>, type?: string) => {
     let _presetName =
       presetName || DEFAULT_PLUGIN_SETTINGS.presets[0].name + ' ' + _pluginPresets.length;
-    const nameExists = isPresetNameAlreadyExists(_presetName, _pluginPresets, currentPresetIdx);
+    const nameExists = isPresetNameAlreadyExists(_presetName, _pluginPresets, activePresetIdx);
     if (nameExists && type === 'new') {
       _presetName += ' New';
       setPresetNameAlreadyExists(false);
@@ -96,7 +96,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   // Toggle input field for add/edit preset
   const togglePresetsUpdate = (e?: React.MouseEvent<HTMLElement>, type?: string) => {
     if (type === 'edit') {
-      const presetName = pluginPresets[currentPresetIdx]?.name;
+      const presetName = pluginPresets[activePresetIdx]?.name;
       setPresetName(presetName);
       setShowEditPresetPopUp((prev) => !prev);
     } else {
@@ -108,19 +108,16 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   // add new preset
   const addPreset = (presetName: string) => {
     setPluginPresets(_pluginPresets || []);
-    let currentPresetIdx = _pluginPresets?.length;
+    let activePresetIdx = _pluginPresets?.length;
     let _id: string = generatorPresetId(pluginPresets) || '';
     let newPreset = new Preset({ _id, name: presetName });
     let newPresetsArray = deepCopy(_pluginPresets);
     newPresetsArray.push(newPreset);
     let initUpdated = initOrgChartSetting();
-    newPresetsArray[currentPresetIdx].settings = Object.assign(
-      DEFAULT_PRESET_SETTINGS,
-      initUpdated
-    );
+    newPresetsArray[activePresetIdx].settings = Object.assign(DEFAULT_PRESET_SETTINGS, initUpdated);
     pluginSettings.presets = newPresetsArray;
 
-    updatePresets(currentPresetIdx, newPresetsArray, pluginSettings);
+    updatePresets(activePresetIdx, newPresetsArray, pluginSettings);
   };
 
   // duplicate a preset
@@ -131,22 +128,22 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   // edit preset name
   const editPreset = (presetName: string) => {
     let newPresets = deepCopy(pluginPresets);
-    let oldPreset = pluginPresets[currentPresetIdx];
+    let oldPreset = pluginPresets[activePresetIdx];
     let _id: string = generatorPresetId(pluginPresets) || '';
     let updatedPreset = new Preset({ ...oldPreset, _id, name: presetName });
 
-    newPresets.splice(currentPresetIdx, 1, updatedPreset);
+    newPresets.splice(activePresetIdx, 1, updatedPreset);
     pluginSettings.presets = newPresets;
 
-    updatePresets(currentPresetIdx, newPresets, pluginSettings);
+    updatePresets(activePresetIdx, newPresets, pluginSettings);
   };
 
   // delete preset
   const deletePreset = () => {
     let newPresets = deepCopy(pluginPresets);
-    newPresets.splice(currentPresetIdx, 1);
-    if (currentPresetIdx >= newPresets.length) {
-      currentPresetIdx = newPresets.length - 1;
+    newPresets.splice(activePresetIdx, 1);
+    if (activePresetIdx >= newPresets.length) {
+      activePresetIdx = newPresets.length - 1;
     }
     pluginSettings.presets = newPresets;
     updatePresets(0, newPresets, pluginSettings);
@@ -182,7 +179,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       setDragOverItemIndex(null);
       let _pluginSettings = { ...pluginSettings, presets: __pluginPresets };
 
-      updatePresets(currentPresetIdx, __pluginPresets, _pluginSettings);
+      updatePresets(activePresetIdx, __pluginPresets, _pluginSettings);
     }
   };
 
@@ -208,7 +205,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
             onDragOver={handleDragOver}>
             <PresetItem
               v={v}
-              currentPresetIdx={currentPresetIdx}
+              activePresetIdx={activePresetIdx}
               presetName={presetName}
               pluginPresets={pluginPresets}
               onChangePresetName={onChangePresetName}

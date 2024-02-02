@@ -2,7 +2,7 @@ import { PresetsArray } from './Presets.interface';
 
 export interface IPresetItemProps {
   pluginPresets: PresetsArray;
-  currentPresetIdx: number;
+  activePresetIdx: number;
   presetName: string;
   onSelectPreset: (presetId: string) => void;
   togglePresetsUpdate: (e: React.MouseEvent<HTMLElement>, type?: 'edit') => void;

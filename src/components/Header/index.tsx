@@ -7,7 +7,7 @@ import { PLUGIN_ICON, PLUGIN_ID, PLUGIN_NAME } from '../../utils/constants';
 import { compareLoose } from 'semver';
 
 const Header: React.FC<IHeaderProps> = (props) => {
-  const { showSettings, togglePresets, toggleSettings, togglePlugin } = props;
+  const { isShowSettings, togglePresets, toggleSettings, togglePlugin } = props;
   const [orgChartContent, setOrgChartContent] = useState<string | null>(null);
 
   useEffect(() => {
@@ -64,11 +64,13 @@ const Header: React.FC<IHeaderProps> = (props) => {
         </span>
         <span
           className={`${styles.modal_header_icon_btn} ${
-            showSettings ? styles.modal_header_icon_btn_active : ''
+            isShowSettings ? styles.modal_header_icon_btn_active : ''
           }`}
           onClick={toggleSettings}>
           <span className="dtable-font dtable-icon-set-up"></span>
-          {showSettings && <span className={styles.modal_header_icon_btn_settings}>Settings</span>}
+          {isShowSettings && (
+            <span className={styles.modal_header_icon_btn_settings}>Settings</span>
+          )}
         </span>
         <span className={styles.modal_header_icon_btn} onClick={togglePlugin}>
           <span className="dtable-font dtable-icon-x btn-close"></span>
