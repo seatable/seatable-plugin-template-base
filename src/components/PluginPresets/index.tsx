@@ -106,23 +106,38 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   };
 
   // add new preset
-  const addPreset = (presetName: string) => {
-    setPluginPresets(_pluginPresets || []);
+  const addPreset = (presetName: string, duplicate?: boolean) => {
     let activePresetIdx = _pluginPresets?.length;
-    let _id: string = generatorPresetId(pluginPresets) || '';
-    let newPreset = new Preset({ _id, name: presetName });
-    let newPresetsArray = deepCopy(_pluginPresets);
-    newPresetsArray.push(newPreset);
-    let initUpdated = initOrgChartSetting();
-    newPresetsArray[activePresetIdx].settings = Object.assign(DEFAULT_PRESET_SETTINGS, initUpdated);
-    pluginSettings.presets = newPresetsArray;
+    setPluginPresets(_pluginPresets || []);
 
-    updatePresets(activePresetIdx, newPresetsArray, pluginSettings);
+    if (duplicate) {
+      let copiedPreset = _pluginPresets.find((p) => (p.name = presetName));
+      let _id: string = generatorPresetId(pluginPresets) || '';
+      let newPreset = { ...copiedPreset, _id, name: `${presetName} copy` };
+      let newPresetsArray = deepCopy(_pluginPresets);
+      newPresetsArray.push(newPreset);
+      pluginSettings.presets = newPresetsArray;
+
+      updatePresets(activePresetIdx, newPresetsArray, pluginSettings);
+    } else {
+      let _id: string = generatorPresetId(pluginPresets) || '';
+      let newPreset = new Preset({ _id, name: presetName });
+      let newPresetsArray = deepCopy(_pluginPresets);
+      newPresetsArray.push(newPreset);
+      let initUpdated = initOrgChartSetting();
+      newPresetsArray[activePresetIdx].settings = Object.assign(
+        DEFAULT_PRESET_SETTINGS,
+        initUpdated
+      );
+      pluginSettings.presets = newPresetsArray;
+
+      updatePresets(activePresetIdx, newPresetsArray, pluginSettings);
+    }
   };
 
   // duplicate a preset
   const duplicatePreset = (name: string) => {
-    addPreset(name);
+    addPreset(name, true);
   };
 
   // edit preset name
@@ -162,7 +177,6 @@ const PluginPresets: React.FC<IPresetsProps> = ({
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>, index: number) => {
     e.stopPropagation();
-    console.log('hi');
     setDragOverItemIndex(index);
   };
 
