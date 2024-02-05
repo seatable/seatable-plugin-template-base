@@ -13,18 +13,6 @@ export const truncateTableName = (tableName: string) => {
 };
 
 export const createDefaultPresetSettings = (allTables: TableArray) => {
-  console.log('allTables', allTables);
-  const tableInfo = { value: allTables[0]._id, label: allTables[0].name };
-  const viewInfo = { value: allTables[0].views[0]._id, label: allTables[0].views[0].name };
-  return {
-    shown_image_name: 'Image',
-    shown_title_name: 'Title',
-    selectedTable: tableInfo,
-    selectedView: viewInfo,
-  };
-};
-export const createDuplicatedPresetSettings = (allTables: TableArray) => {
-  console.log('allTables', allTables);
   const tableInfo = { value: allTables[0]._id, label: allTables[0].name };
   const viewInfo = { value: allTables[0].views[0]._id, label: allTables[0].views[0].name };
   return {
