@@ -5,7 +5,7 @@ export interface IPresetItemProps {
   activePresetIdx: number;
   presetName: string;
   onSelectPreset: (presetId: string) => void;
-  togglePresetsUpdate: (e: React.MouseEvent<HTMLElement>, type?: 'edit') => void;
+  togglePresetsUpdate: (e: React.MouseEvent<HTMLElement>, type?: string) => void;
   deletePreset: () => void;
   v: any;
   onChangePresetName: (e: React.FormEvent<HTMLInputElement>) => void;
