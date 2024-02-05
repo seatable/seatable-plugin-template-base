@@ -1,14 +1,13 @@
+import { AppActiveState } from './App.interface';
 import { PresetSettings, PresetsArray } from './PluginPresets/Presets.interface';
 import { TableArray, TableViewArray } from './Table.interface';
 
 interface IPluginSettingsProps {
   allTables: TableArray;
   activeTableViews: TableViewArray;
-  activeTableId: string;
-  activeTableViewId: string;
-  onTableOrViewChange: (type: 'table' | 'view', option: SelectOption) => void;
+  appActiveState: AppActiveState;
   pluginPresets: PresetsArray;
-  activePresetId: string;
+  onTableOrViewChange: (type: 'table' | 'view', option: SelectOption) => void;
 }
 
 interface SelectOption {
