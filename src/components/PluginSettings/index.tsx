@@ -5,6 +5,7 @@ import {
   IDtableSelect,
   IPluginSettingsProps,
 } from '../../utils/Interfaces/PluginSettings.interface';
+import { truncateTableName } from '../../utils/helpers';
 
 const PluginSettings: React.FC<IPluginSettingsProps> = ({
   subtables,
@@ -22,13 +23,13 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
   useEffect(() => {
     let tableOptions = subtables.map((item) => {
       let value = item._id;
-      let label = item.name;
+      let label = truncateTableName(item.name);
       return { value, label };
     });
 
     let viewOptions = tableViews.map((item) => {
       let value = item._id;
-      let label = item.name;
+      let label = truncateTableName(item.name);
       return { value, label };
     });
 
