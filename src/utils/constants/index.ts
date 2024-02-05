@@ -41,6 +41,14 @@ const PresetHandleAction = {
   new: 'new',
 };
 
+// enum PresetHandleAction {
+//   Delete = 'delete',
+//   Rename = 'rename',
+//   Duplicate = 'duplicate',
+//   Edit = 'edit',
+//   New = 'new',
+// }
+
 const INITIAL_IS_SHOW_STATE: AppIsShowState = {
   isShowPlugin: true,
   isShowSettings: false,

@@ -55,7 +55,7 @@ const PresetItem: React.FC<IPresetItemProps> = ({
         setShowPresetDropdown(false);
         break;
       case PresetHandleAction.duplicate:
-        duplicatePreset(`${v.name} copy`);
+        duplicatePreset(v);
         setShowPresetDropdown(false);
         break;
       default:

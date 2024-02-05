@@ -14,7 +14,7 @@ import { DEFAULT_PLUGIN_SETTINGS, PresetHandleAction, TABLE_NAME } from '../../u
 import { TableArray, TableColumn } from '../../utils/Interfaces/Table.interface';
 import PresetInput from './PresetInput';
 import useClickOut from '../../hooks/useClickOut';
-import { createDefaultPresetSettings, createDuplicatedPresetSettings } from '../../utils/helpers';
+import { createDefaultPresetSettings } from '../../utils/helpers';
 
 const PluginPresets: React.FC<IPresetsProps> = ({
   pluginPresets,
@@ -82,19 +82,21 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       setPresetNameAlreadyExists(true);
       return;
     }
-    if (type === 'edit') {
+    
+    if (type === PresetHandleAction.edit) {
       editPreset(_presetName);
     } else {
-      addPreset(_presetName, type || PresetHandleAction.new);
+      addPreset(type || PresetHandleAction.new, _presetName);
       setShowNewPresetPopUp(false);
     }
+
     setPresetName('');
     setShowEditPresetPopUp(type === PresetHandleAction.edit ? false : true);
   };
 
   // Toggle input field for add/edit preset
   const togglePresetsUpdate = (e?: React.MouseEvent<HTMLElement>, type?: string) => {
-    if (type === 'edit') {
+    if (type === PresetHandleAction.edit) {
       const presetName = pluginPresets[activePresetIdx]?.name;
       setPresetName(presetName);
       setShowEditPresetPopUp((prev) => !prev);
@@ -105,11 +107,17 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   };
 
   // add new/duplicate preset
-  const addPreset = (presetName: string, type: string) => {
-    const _presetSettings: PresetSettings =
+  const addPreset = (
+    type: string,
+    presetName: string,
+    option?: { pId: string; pSettings: PresetSettings }
+  ) => {
+    let _presetSettings: PresetSettings =
       type === PresetHandleAction.new
         ? createDefaultPresetSettings(allTables)
-        : createDuplicatedPresetSettings(allTables); // to manage the duplicate case
+        : type === PresetHandleAction.duplicate && option?.pSettings
+          ? option.pSettings
+          : {};
 
     setPluginPresets(_pluginPresets || []);
     let activePresetIdx = _pluginPresets?.length;
@@ -121,13 +129,13 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     newPresetsArray[activePresetIdx].settings = Object.assign(_presetSettings, initUpdated);
 
     pluginSettings.presets = newPresetsArray;
-
     updatePresets(activePresetIdx, newPresetsArray, pluginSettings, type);
   };
 
   // duplicate a preset
-  const duplicatePreset = (name: string) => {
-    addPreset(name, PresetHandleAction.duplicate);
+  const duplicatePreset = (p: any) => {
+    const { name, _id, settings } = p;
+    addPreset(PresetHandleAction.duplicate, `${name} copy`, { pId: _id, pSettings: settings });
   };
 
   // edit preset name
