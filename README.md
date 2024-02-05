@@ -95,9 +95,9 @@ There is no need to add other configuration parameters here, other parameters ar
 ### 3. Modify plugin registration function in entry.tx file
 
 ```
-  Update window.app.registerPluginItemCallback ('test', TaskList.execute);
+  Update window.app.registerPluginItemCallback ('test', Plugin.execute);
   ⬇️
-  To： window.app.registerPluginItemCallback (name, TaskList.execute); where the value of name is the value of "name" in plugin-config/info.json
+  To： window.app.registerPluginItemCallback (name, Plugin.execute); where the value of name is the value of "name" in plugin-config/info.json
 ```
 
 > Note, the "name" must be the save as in the info.json. Otherwise your plugin can't work.

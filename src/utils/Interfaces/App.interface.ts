@@ -2,7 +2,7 @@ import { Table, TableView } from './Table.interface';
 
 export interface IAppProps {
   isDevelopment?: boolean;
-  showDialog: boolean;
+  showDialog?: boolean;
   row?: any;
 }
 export interface AppIsShowState {
