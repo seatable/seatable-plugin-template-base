@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './app';
 
-const TaskList = {
+const Plugin = {
   execute: () => {
     ReactDOM.render(<App showDialog={true} />, document.querySelector('#plugin-wrapper'));
   },
 };
 
-export default TaskList;
+export default Plugin;
 
-window.app.registerPluginItemCallback('plugin-template', TaskList.execute);
+window.app.registerPluginItemCallback('plugin-template', Plugin.execute);

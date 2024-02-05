@@ -95,9 +95,9 @@ info.json 说明
 ### 3. 修改entry.js文件中的插件注册函数
 
 ```
-  更新 window.app.registerPluginItemCallback('test', TaskList.execute);
+  更新 window.app.registerPluginItemCallback('test', Plugin.execute);
   ⬇️
-  为： window.app.registerPluginItemCallback(name, TaskList.execute);  此处的name 值为plugin-config/info.json中的“name”值
+  为： window.app.registerPluginItemCallback(name, Plugin.execute);  此处的name 值为plugin-config/info.json中的“name”值
 ```
 
 ### 4. 修改插件开发配置文件
