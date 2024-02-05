@@ -7,7 +7,7 @@ import {
   IPluginSettingsProps,
 } from '../../utils/Interfaces/PluginSettings.interface';
 import { DEFAULT_SELECTED_PRESET } from '../../utils/constants';
-import { PresetsArray } from '../../utils/Interfaces/PluginPresets/Presets.interface';
+import { truncateTableName } from '../../utils/helpers';
 
 const PluginSettings: React.FC<IPluginSettingsProps> = ({
   allTables,
@@ -26,13 +26,13 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
   useEffect(() => {
     let tableOptions = allTables.map((item) => {
       let value = item._id;
-      let label = item.name;
+      let label = truncateTableName(item.name);
       return { value, label };
     });
 
     let viewOptions = activeTableViews.map((item) => {
       let value = item._id;
-      let label = item.name;
+      let label = truncateTableName(item.name);
       return { value, label };
     });
 
