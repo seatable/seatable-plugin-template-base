@@ -6,17 +6,15 @@ import deepCopy from 'deep-copy';
 import Preset from '../../model/preset';
 import {
   IPresetsProps,
+  PresetSettings,
   PresetsArray,
 } from '../../utils/Interfaces/PluginPresets/Presets.interface';
 import { generatorPresetId, isPresetNameAlreadyExists } from '../../utils/utils';
-import {
-  DEFAULT_PLUGIN_SETTINGS,
-  DEFAULT_PRESET_SETTINGS,
-  TABLE_NAME,
-} from '../../utils/constants';
+import { DEFAULT_PLUGIN_SETTINGS, PresetHandleAction, TABLE_NAME } from '../../utils/constants';
 import { TableArray, TableColumn } from '../../utils/Interfaces/Table.interface';
 import PresetInput from './PresetInput';
 import useClickOut from '../../hooks/useClickOut';
+import { createDefaultPresetSettings, createDuplicatedPresetSettings } from '../../utils/helpers';
 
 const PluginPresets: React.FC<IPresetsProps> = ({
   pluginPresets,
@@ -25,6 +23,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   pluginSettings,
   updatePresets,
   setTogglePresetsComponent,
+  allTables,
 }) => {
   const [dragItemIndex, setDragItemIndex] = useState<number | null>(null);
   const [dragOverItemIndex, setDragOverItemIndex] = useState<number | null>(null);
@@ -76,7 +75,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     let _presetName =
       presetName || DEFAULT_PLUGIN_SETTINGS.presets[0].name + ' ' + _pluginPresets.length;
     const nameExists = isPresetNameAlreadyExists(_presetName, _pluginPresets, activePresetIdx);
-    if (nameExists && type === 'new') {
+    if (nameExists && type === PresetHandleAction.new) {
       _presetName += ' New';
       setPresetNameAlreadyExists(false);
     } else if (nameExists) {
@@ -86,11 +85,11 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     if (type === 'edit') {
       editPreset(_presetName);
     } else {
-      addPreset(_presetName);
+      addPreset(_presetName, type || PresetHandleAction.new);
       setShowNewPresetPopUp(false);
     }
     setPresetName('');
-    setShowEditPresetPopUp(type === 'edit' ? false : true);
+    setShowEditPresetPopUp(type === PresetHandleAction.edit ? false : true);
   };
 
   // Toggle input field for add/edit preset
@@ -105,8 +104,13 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     }
   };
 
-  // add new preset
-  const addPreset = (presetName: string) => {
+  // add new/duplicate preset
+  const addPreset = (presetName: string, type: string) => {
+    const _presetSettings: PresetSettings =
+      type === PresetHandleAction.new
+        ? createDefaultPresetSettings(allTables)
+        : createDuplicatedPresetSettings(allTables); // to manage the duplicate case
+
     setPluginPresets(_pluginPresets || []);
     let activePresetIdx = _pluginPresets?.length;
     let _id: string = generatorPresetId(pluginPresets) || '';
@@ -114,15 +118,16 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     let newPresetsArray = deepCopy(_pluginPresets);
     newPresetsArray.push(newPreset);
     let initUpdated = initOrgChartSetting();
-    newPresetsArray[activePresetIdx].settings = Object.assign(DEFAULT_PRESET_SETTINGS, initUpdated);
+    newPresetsArray[activePresetIdx].settings = Object.assign(_presetSettings, initUpdated);
+
     pluginSettings.presets = newPresetsArray;
 
-    updatePresets(activePresetIdx, newPresetsArray, pluginSettings);
+    updatePresets(activePresetIdx, newPresetsArray, pluginSettings, type);
   };
 
   // duplicate a preset
   const duplicatePreset = (name: string) => {
-    addPreset(name);
+    addPreset(name, PresetHandleAction.duplicate);
   };
 
   // edit preset name
@@ -135,7 +140,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     newPresets.splice(activePresetIdx, 1, updatedPreset);
     pluginSettings.presets = newPresets;
 
-    updatePresets(activePresetIdx, newPresets, pluginSettings);
+    updatePresets(activePresetIdx, newPresets, pluginSettings, PresetHandleAction.edit);
   };
 
   // delete preset
@@ -146,7 +151,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       activePresetIdx = newPresets.length - 1;
     }
     pluginSettings.presets = newPresets;
-    updatePresets(0, newPresets, pluginSettings);
+    updatePresets(0, newPresets, pluginSettings, PresetHandleAction.delete);
   };
 
   // drag and drop logic
@@ -162,7 +167,6 @@ const PluginPresets: React.FC<IPresetsProps> = ({
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>, index: number) => {
     e.stopPropagation();
-    console.log('hi');
     setDragOverItemIndex(index);
   };
 
@@ -179,7 +183,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       setDragOverItemIndex(null);
       let _pluginSettings = { ...pluginSettings, presets: __pluginPresets };
 
-      updatePresets(activePresetIdx, __pluginPresets, _pluginSettings);
+      updatePresets(activePresetIdx, __pluginPresets, _pluginSettings, 'drag');
     }
   };
 
@@ -214,7 +218,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
               duplicatePreset={duplicatePreset}
               togglePresetsUpdate={togglePresetsUpdate}
               onEditPresetSubmit={(e?: React.MouseEvent<HTMLElement>) =>
-                onNewPresetSubmit(e, 'edit')
+                onNewPresetSubmit(e, PresetHandleAction.edit)
               }
               showEditPresetPopUp={showEditPresetPopUp}
             />
@@ -225,7 +229,9 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       {showNewPresetPopUp && (
         <PresetInput
           onChangePresetName={onChangePresetName}
-          onEditPresetSubmit={(e?: React.MouseEvent<HTMLElement>) => onNewPresetSubmit(e, 'new')}
+          onEditPresetSubmit={(e?: React.MouseEvent<HTMLElement>) =>
+            onNewPresetSubmit(e, PresetHandleAction.new)
+          }
           isEditing={showNewPresetPopUp}
           setIsEditing={setShowNewPresetPopUp}
           presetName={presetName}
@@ -234,7 +240,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       {/* add new preset button  */}
       {!showNewPresetPopUp && (
         <button
-          onClick={(e) => togglePresetsUpdate(e, 'new')}
+          onClick={(e) => togglePresetsUpdate(e, PresetHandleAction.new)}
           className={styles.presets_add_button}>
           <i className="dtable-font dtable-icon-add-table"></i>
         </button>

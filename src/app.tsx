@@ -23,6 +23,7 @@ import {
   PLUGIN_ID,
   PLUGIN_NAME,
   PRESET_NAME,
+  DEFAULT_SELECT_OPTION,
 } from './utils/constants';
 import useClickOut from './hooks/useClickOut';
 import './locale';
@@ -128,7 +129,8 @@ const App: React.FC<IAppProps> = (props) => {
     setAppActiveState((prevState) => ({
       ...prevState,
       activeTable: activeTable,
-      activeTableName: activeTable.name,
+      activeTableName:
+        pluginPresets[0]?.settings?.selectedTable?.label ?? DEFAULT_SELECT_OPTION.label,
       activeTableView: activeTableViews[0],
       activePresetId: pluginPresets[0]._id,
     }));
@@ -255,6 +257,7 @@ const App: React.FC<IAppProps> = (props) => {
           activePresetIdx={activePresetIdx}
           pluginSettings={pluginSettings}
           updatePresets={updatePresets}
+          allTables={allTables}
         />
         {/* content  */}
         <div id={PLUGIN_ID} className={styles.body}>

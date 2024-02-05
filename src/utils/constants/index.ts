@@ -32,11 +32,13 @@ const DEFAULT_PLUGIN_SETTINGS = {
   ],
 };
 
-const PresetDropDownAction = {
+const PresetHandleAction = {
   // would be better to have them as enum but it gives me an error in run time
   delete: 'delete',
   rename: 'rename',
   duplicate: 'duplicate',
+  edit: 'edit',
+  new: 'new',
 };
 
 const INITIAL_IS_SHOW_STATE: AppIsShowState = {
@@ -67,8 +69,9 @@ export {
   PRESET_NAME,
   DEFAULT_PLUGIN_SETTINGS,
   DEFAULT_PRESET_SETTINGS,
-  PresetDropDownAction,
+  PresetHandleAction,
   INITIAL_IS_SHOW_STATE,
   INITIAL_CURRENT_STATE,
   DEFAULT_SELECTED_PRESET,
+  DEFAULT_SELECT_OPTION,
 };

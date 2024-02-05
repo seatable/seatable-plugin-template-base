@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 
 import styles from '../../../styles/Modal.module.scss';
-import styles2 from '../../../styles/Presets.module.scss';
 import '../../../assets/css/plugin-layout.css';
 
 import PresetDropdown from '../PresetDropdown';
 import useClickOut from '../../../hooks/useClickOut';
 import { IPresetItemProps } from '../../../utils/Interfaces/PluginPresets/Item.interface';
 import PresetInput from '../PresetInput';
-import { PresetDropDownAction } from '../../../utils/constants';
+import { PresetHandleAction } from '../../../utils/constants';
 
 const PresetItem: React.FC<IPresetItemProps> = ({
   v,
@@ -45,17 +44,17 @@ const PresetItem: React.FC<IPresetItemProps> = ({
   const handlePresetsUpdate = (e: React.MouseEvent<HTMLElement>) => {
     const action = e.currentTarget.id;
     switch (action) {
-      case PresetDropDownAction.delete:
+      case PresetHandleAction.delete:
         deletePreset();
         togglePresetDropdown();
         break;
-      case PresetDropDownAction.rename:
+      case PresetHandleAction.rename:
         setIsEditing((prev) => !prev);
-        togglePresetsUpdate(e, 'edit');
+        togglePresetsUpdate(e, PresetHandleAction.edit);
         togglePresetDropdown();
         setShowPresetDropdown(false);
         break;
-      case PresetDropDownAction.duplicate:
+      case PresetHandleAction.duplicate:
         duplicatePreset(`${v.name} copy`);
         setShowPresetDropdown(false);
         break;
