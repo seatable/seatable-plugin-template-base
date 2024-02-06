@@ -73,8 +73,12 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   // Submit new/edited preset name
   const onNewPresetSubmit = (e?: React.MouseEvent<HTMLElement>, type?: string) => {
     let _presetName =
-      presetName || DEFAULT_PLUGIN_SETTINGS.presets[0].name + ' ' + _pluginPresets.length;
+      presetName ||
+      DEFAULT_PLUGIN_SETTINGS.presets[0].name +
+        ' ' +
+        (type === 'edit' ? _pluginPresets.length : _pluginPresets.length + 1);
     const nameExists = isPresetNameAlreadyExists(_presetName, _pluginPresets, activePresetIdx);
+
     if (nameExists && type === PresetHandleAction.new) {
       _presetName += ' New';
       setPresetNameAlreadyExists(false);
