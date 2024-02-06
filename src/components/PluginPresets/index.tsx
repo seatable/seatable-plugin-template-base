@@ -8,7 +8,7 @@ import {
   IPresetsProps,
   PresetsArray,
 } from '../../utils/Interfaces/PluginPresets/Presets.interface';
-import { generatorPresetId, isPresetNameAlreadyExists } from '../../utils/utils';
+import { appendPresetSuffix, generatorPresetId, isPresetNameAlreadyExists } from '../../utils/utils';
 import {
   DEFAULT_PLUGIN_SETTINGS,
   DEFAULT_PRESET_SETTINGS,
@@ -75,9 +75,11 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   const onNewPresetSubmit = (e?: React.MouseEvent<HTMLElement>, type?: string) => {
     let _presetName =
       presetName || DEFAULT_PLUGIN_SETTINGS.presets[0].name + ' ' + _pluginPresets.length;
+    let _presetNames = _pluginPresets.map(p => p.name);
     const nameExists = isPresetNameAlreadyExists(_presetName, _pluginPresets, activePresetIdx);
+
     if (nameExists && type === 'new') {
-      _presetName += ' New';
+      _presetName = appendPresetSuffix(_presetName, _presetNames);
       setPresetNameAlreadyExists(false);
     } else if (nameExists) {
       setPresetNameAlreadyExists(true);
