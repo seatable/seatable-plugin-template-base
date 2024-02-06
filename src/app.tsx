@@ -146,14 +146,16 @@ const App: React.FC<IAppProps> = (props) => {
 
   // Change Preset
   const onSelectPreset = (presetId: string, newPresetActiveState?: AppActiveState) => {
+    console.log('onSelectPreset Called');
     let updatedActiveState: AppActiveState;
     let updatedActiveTableViews: TableView[];
-
+    console.log('BEFORE IF', activePresetIdx);
     if (newPresetActiveState !== undefined) {
       updatedActiveState = {
         ...newPresetActiveState,
       };
       updatedActiveTableViews = newPresetActiveState?.activeTable?.views!;
+      console.log('INSIDE IF', updatedActiveState.activePresetIdx);
     } else {
       const activePresetIdx = pluginPresets.findIndex((preset) => preset._id === presetId);
       const selectedTable = pluginPresets[activePresetIdx]?.settings?.selectedTable;
@@ -171,9 +173,12 @@ const App: React.FC<IAppProps> = (props) => {
         activeTableView:
           updatedActiveTableViews.find((view) => view._id === activeViewId) || activeTableViews[0],
         activePresetId: presetId,
-        activePresetIdx,
+        activePresetIdx: activePresetIdx,
       };
+      console.log('INSIDE ELSE', updatedActiveState.activePresetIdx);
     }
+    console.log('OUTSIDE ELSE', updatedActiveState.activePresetIdx);
+    console.log('**********');
     setActiveTableViews(updatedActiveTableViews);
     setAppActiveState(updatedActiveState);
   };

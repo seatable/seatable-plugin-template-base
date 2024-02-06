@@ -113,6 +113,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     presetName: string,
     option?: { pId: string; pSettings: PresetSettings }
   ) => {
+    console.log('addPreset called', type);
     let _presetSettings: PresetSettings =
       type === PresetHandleAction.new
         ? createDefaultPresetSettings(allTables)
