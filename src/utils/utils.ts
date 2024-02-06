@@ -1,5 +1,6 @@
 import pluginContext from '../plugin-context';
-import { PresetsArray } from './Interfaces/PluginPresets/Presets.interface';
+import { IPresetInfo, PresetsArray } from './Interfaces/PluginPresets/Presets.interface';
+import { Table } from './Interfaces/Table.interface';
 
 export const generatorBase64Code = (keyLength = 4) => {
   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789';
@@ -147,10 +148,53 @@ export const checkSVGImage = (url: string): boolean | undefined => {
   return url.substr(-4).toLowerCase() === '.svg';
 };
 
-export const isPresetNameAlreadyExists = (
+/**
+ * Checks whether a preset name already exists in the presets array, excluding the current index.
+ *
+ * @param {string} presetName - The name of the preset to check for existence.
+ * @param {PresetsArray} presets - An array of presets to search for duplicates.
+ * @param {number} currentIndex - The index of the preset to exclude from the check.
+ * @returns {boolean} - Returns true if the preset name already exists, excluding the current index.
+ */
+export const isUniquePresetName = (
   presetName: string,
   presets: PresetsArray,
   currentIndex: number
 ): boolean => {
+  // Using the `some` method to check if any preset (excluding the current index) has the same name
   return presets.some((preset, index) => index !== currentIndex && preset.name === presetName);
+};
+
+/**
+ * The function has the purpose of getting the plugin's presets.
+ * If the plugin presets are not found, it maps inside the activeTable and returns set it as value.
+ * @param {string} PLUGIN_NAME The name of the plugin.
+ * @param {Table} activeTable A Table object needed in the .
+ * @returns An array with the plugin's presets
+ */
+// export const getPluginSettings = (activeTable: Table) => {
+// Function implementation...
+// };
+export const getPluginSettings = (activeTable: Table, PLUGIN_NAME: string) => {
+  const pluginSettings = window.dtableSDK.getPluginSettings(PLUGIN_NAME);
+
+  pluginSettings.presets = pluginSettings.presets.map((preset: IPresetInfo) => {
+    if (
+      preset?.settings?.selectedTable?.value === '' &&
+      preset.settings.selectedTable.label === ''
+    ) {
+      preset.settings.selectedTable = {
+        value: activeTable._id,
+        label: activeTable.name,
+      };
+      preset.settings.selectedView = {
+        value: activeTable.views[0]._id,
+        label: activeTable.views[0].name,
+      };
+    }
+
+    return preset;
+  });
+
+  return pluginSettings.presets;
 };

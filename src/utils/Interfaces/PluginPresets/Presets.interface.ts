@@ -9,7 +9,7 @@ export interface IPresetsProps {
   onSelectPreset: (presetId: string, newPresetActiveState?: AppActiveState) => void;
   updatePresets: (currentIdx: number, presets: any[], pluginSettings: any, type: string) => void;
   pluginSettings: IPluginSettings;
-  setTogglePresetsComponent: boolean;
+  isShowPresets: boolean;
   allTables: TableArray;
 }
 

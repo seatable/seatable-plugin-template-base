@@ -9,7 +9,6 @@ import { TableArray, TableViewArray, Table, TableView } from './utils/Interfaces
 import {
   PresetsArray,
   IPluginSettings,
-  IPresetInfo,
 } from './utils/Interfaces/PluginPresets/Presets.interface';
 import { SelectOption } from './utils/Interfaces/PluginSettings.interface';
 // Import of CSS
@@ -17,7 +16,6 @@ import styles from './styles/Modal.module.scss';
 import './assets/css/plugin-layout.css';
 // Import of Constants
 import {
-  DEFAULT_PLUGIN_SETTINGS,
   INITIAL_IS_SHOW_STATE,
   INITIAL_CURRENT_STATE,
   PLUGIN_ID,
@@ -27,23 +25,29 @@ import {
 } from './utils/constants';
 import useClickOut from './hooks/useClickOut';
 import './locale';
+import { getPluginSettings } from './utils/utils';
 
 const App: React.FC<IAppProps> = (props) => {
   const { isDevelopment } = props;
+  // Boolean state to show/hide the plugin's components
   const [isShowState, setIsShowState] = useState<AppIsShowState>(INITIAL_IS_SHOW_STATE);
-  const { isShowPlugin, isShowSettings, isLoading } = isShowState;
-  const [appActiveState, setAppActiveState] = useState<AppActiveState>(INITIAL_CURRENT_STATE);
-  const { activeTable, activeTableName, activePresetId, activePresetIdx } = appActiveState;
-  const [togglePresetsComponent, setTogglePresetsComponent] = useState<boolean>(false);
-  // *** // Tables, Presets, Views, Settings dataStates
+  const { isShowPlugin, isShowSettings, isLoading, isShowPresets } = isShowState;
+  // *** // Tables, Presets, Views as dataStates. The main data of the plugin
   const [allTables, setAllTables] = useState<TableArray>([]);
   const [activeTableViews, setActiveTableViews] = useState<TableViewArray>([]);
   const [pluginPresets, setPluginPresets] = useState<PresetsArray>([]);
+  // appActiveState: Define the app's active Preset + (Table + View) state using the useState hook
+  // For better understanding read the comments in the AppActiveState interface
+  const [appActiveState, setAppActiveState] = useState<AppActiveState>(INITIAL_CURRENT_STATE);
+  // Destructure properties from the app's active state for easier access
+  const { activeTable, activeTableName, activePresetId, activePresetIdx } = appActiveState;
+  const [togglePresetsComponent, setTogglePresetsComponent] = useState<boolean>(false);
+
+  // We should get rid of the pluginSettings state and use the pluginPresets state instead
   const [pluginSettings, setPluginSettings] = useState<IPluginSettings>({
     presets: [],
     [PRESET_NAME]: PRESET_NAME,
   });
-  // *** //
 
   let settingsDomNode = useClickOut(() => {
     setIsShowState((prevState) => ({ ...prevState, isShowSettings: false }));
@@ -91,49 +95,25 @@ const App: React.FC<IAppProps> = (props) => {
   const onDTableChanged = () => {
     resetData();
   };
-  const getPluginSettings = (activeTable: Table) => {
-    const pluginSettings =
-      window.dtableSDK.getPluginSettings(PLUGIN_NAME) || DEFAULT_PLUGIN_SETTINGS;
-    delete pluginSettings.views;
-
-    pluginSettings.presets = pluginSettings.presets.map((preset: IPresetInfo) => {
-      if (preset.settings) {
-        preset.settings.selectedTable = preset.settings.selectedTable || {
-          value: activeTable._id,
-          label: activeTable.name,
-        };
-        preset.settings.selectedView = preset.settings.selectedView || {
-          value: activeTable.views[0]._id,
-          label: activeTable.views[0].name,
-        };
-      }
-
-      return preset;
-    });
-
-    return pluginSettings;
-  };
 
   const resetData = () => {
     let allTables: TableArray = window.dtableSDK.getTables(); // All the Tables of the Base
-    let activeTable: Table = window.dtableSDK.getActiveTable(); // How is the ActiveTable Set?
-    let tableViews = window.dtableSDK.getViews(activeTable);
-    let activeTableViews: TableViewArray = activeTable.views; // All the Views of the specific Active Table (PluginSettings component)
-    let pluginSettings = getPluginSettings(activeTable); // An obj with an array of all the Presets of the Plugin (PluginPresets component)
-    let pluginPresets: PresetsArray = pluginSettings.presets;
+    let activeTable: Table = window.dtableSDK.getActiveTable(); // How is the ActiveTable Set? allTables[0]?
+    // let tableViews = window.dtableSDK.getViews(activeTable); // Same as above, waiting for Daniel's response
+    let activeTableViews: TableViewArray = activeTable.views; // All the Views of the specific Active Table
+    let pluginPresets: PresetsArray = getPluginSettings(activeTable, PLUGIN_NAME); // An array with all the Presets
 
     setAllTables(allTables);
     setActiveTableViews(activeTableViews);
-    setPluginSettings(pluginSettings);
     setPluginPresets(pluginPresets);
-    setAppActiveState((prevState) => ({
-      ...prevState,
+    // At first we set the first Preset as the active one
+    setAppActiveState({
+      activePresetId: (pluginPresets[0] && pluginPresets[0]._id) || '0000', // '0000' as Safe guard if there are no presets
+      activePresetIdx: 0,
       activeTable: activeTable,
-      activeTableName:
-        pluginPresets[0]?.settings?.selectedTable?.label ?? DEFAULT_SELECT_OPTION.label,
-      activeTableView: activeTableViews[0],
-      activePresetId: pluginPresets[0]._id,
-    }));
+      activeTableName: activeTable.name,
+      activeTableView: activeTable.views[0],
+    });
     setIsShowState((prevState) => ({ ...prevState, isLoading: false }));
   };
 
@@ -282,13 +262,13 @@ const App: React.FC<IAppProps> = (props) => {
       <div className="d-flex position-relative" style={{ height: '100%' }}>
         {/* presets  */}
         <PluginPresets
-          setTogglePresetsComponent={togglePresetsComponent}
+          allTables={allTables}
           pluginPresets={pluginPresets}
-          onSelectPreset={onSelectPreset}
           activePresetIdx={activePresetIdx}
           pluginSettings={pluginSettings}
+          isShowPresets={isShowPresets}
+          onSelectPreset={onSelectPreset}
           updatePresets={updatePresets}
-          allTables={allTables}
         />
         {/* content  */}
         <div id={PLUGIN_ID} className={styles.body}>

@@ -6,14 +6,12 @@ import {
   SelectOption,
   IPluginSettingsProps,
 } from '../../utils/Interfaces/PluginSettings.interface';
-import { DEFAULT_SELECTED_PRESET } from '../../utils/constants';
 import { truncateTableName } from '../../utils/helpers';
 
 const PluginSettings: React.FC<IPluginSettingsProps> = ({
   allTables,
   activeTableViews,
   appActiveState,
-  pluginPresets,
   onTableOrViewChange,
 }) => {
   const [tableOptions, setTableOptions] = useState<SelectOption[]>();
@@ -23,7 +21,7 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
 
   // Change options when active table or view changes
   useEffect(() => {
-    const { activeTable, activeTableName, activePresetId, activeTableView } = appActiveState;
+    const { activeTable, activeTableView } = appActiveState;
 
     let tableOptions = allTables.map((item) => {
       let value = item._id;

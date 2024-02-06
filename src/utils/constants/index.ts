@@ -53,6 +53,7 @@ const INITIAL_IS_SHOW_STATE: AppIsShowState = {
   isShowPlugin: true,
   isShowSettings: false,
   isLoading: true,
+  isShowPresets: false,
 };
 
 const INITIAL_CURRENT_STATE: AppActiveState = {
