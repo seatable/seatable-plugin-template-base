@@ -15,6 +15,7 @@ import { TableArray, TableColumn } from '../../utils/Interfaces/Table.interface'
 import PresetInput from './PresetInput';
 import useClickOut from '../../hooks/useClickOut';
 import { createDefaultPresetSettings } from '../../utils/helpers';
+import { AppActiveState } from '../../utils/Interfaces/App.interface';
 
 const PluginPresets: React.FC<IPresetsProps> = ({
   pluginPresets,
@@ -82,7 +83,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       setPresetNameAlreadyExists(true);
       return;
     }
-    
+
     if (type === PresetHandleAction.edit) {
       editPreset(_presetName);
     } else {
@@ -127,9 +128,18 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     newPresetsArray.push(newPreset);
     let initUpdated = initOrgChartSetting();
     newPresetsArray[activePresetIdx].settings = Object.assign(_presetSettings, initUpdated);
-
     pluginSettings.presets = newPresetsArray;
-    updatePresets(activePresetIdx, newPresetsArray, pluginSettings, type);
+    updatePresets(activePresetIdx, newPresetsArray, pluginSettings, _id);
+
+    // Update active state info
+    const newPresetActiveState: AppActiveState = {
+      activeTable: allTables[0],
+      activeTableName: newPresetsArray[activePresetIdx]?.settings?.selectedTable?.label!,
+      activeTableView: allTables[0].views[0],
+      activePresetId: _id,
+      activePresetIdx: activePresetIdx,
+    };
+    onSelectPreset(_id, newPresetActiveState);
   };
 
   // duplicate a preset

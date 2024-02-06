@@ -1,11 +1,12 @@
 import { PRESET_NAME } from '../../constants';
+import { AppActiveState } from '../App.interface';
 import { SelectOption } from '../PluginSettings.interface';
 import { TableArray } from '../Table.interface';
 
 export interface IPresetsProps {
   pluginPresets: PresetsArray;
   activePresetIdx: number;
-  onSelectPreset: (presetId: string) => void;
+  onSelectPreset: (presetId: string, newPresetActiveState?: AppActiveState) => void;
   updatePresets: (currentIdx: number, presets: any[], pluginSettings: any, type: string) => void;
   pluginSettings: IPluginSettings;
   setTogglePresetsComponent: boolean;
