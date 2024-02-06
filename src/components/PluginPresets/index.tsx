@@ -6,6 +6,7 @@ import deepCopy from 'deep-copy';
 import Preset from '../../model/preset';
 import {
   IPresetsProps,
+  PresetSettings,
   PresetsArray,
 } from '../../utils/Interfaces/PluginPresets/Presets.interface';
 import { appendPresetSuffix, generatorPresetId, isPresetNameAlreadyExists } from '../../utils/utils';
@@ -17,6 +18,7 @@ import {
 import { TableArray, TableColumn } from '../../utils/Interfaces/Table.interface';
 import PresetInput from './PresetInput';
 import useClickOut from '../../hooks/useClickOut';
+import { createDefaultPresetSettings } from '../../utils/helpers';
 
 const PluginPresets: React.FC<IPresetsProps> = ({
   pluginPresets,
@@ -25,6 +27,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   pluginSettings,
   updatePresets,
   setTogglePresetsComponent,
+  allTables,
 }) => {
   const [dragItemIndex, setDragItemIndex] = useState<number | null>(null);
   const [dragOverItemIndex, setDragOverItemIndex] = useState<number | null>(null);
@@ -78,26 +81,28 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     let _presetNames = _pluginPresets.map(p => p.name);
     const nameExists = isPresetNameAlreadyExists(_presetName, _pluginPresets, activePresetIdx);
 
-    if (nameExists && type === 'new') {
+    if (nameExists && type === PresetHandleAction.new) {
       _presetName = appendPresetSuffix(_presetName, _presetNames);
       setPresetNameAlreadyExists(false);
     } else if (nameExists) {
       setPresetNameAlreadyExists(true);
       return;
     }
-    if (type === 'edit') {
+    
+    if (type === PresetHandleAction.edit) {
       editPreset(_presetName);
     } else {
-      addPreset(_presetName);
+      addPreset(type || PresetHandleAction.new, _presetName);
       setShowNewPresetPopUp(false);
     }
+
     setPresetName('');
-    setShowEditPresetPopUp(type === 'edit' ? false : true);
+    setShowEditPresetPopUp(type === PresetHandleAction.edit ? false : true);
   };
 
   // Toggle input field for add/edit preset
   const togglePresetsUpdate = (e?: React.MouseEvent<HTMLElement>, type?: string) => {
-    if (type === 'edit') {
+    if (type === PresetHandleAction.edit) {
       const presetName = pluginPresets[activePresetIdx]?.name;
       setPresetName(presetName);
       setShowEditPresetPopUp((prev) => !prev);
@@ -107,8 +112,19 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     }
   };
 
-  // add new preset
-  const addPreset = (presetName: string) => {
+  // add new/duplicate preset
+  const addPreset = (
+    type: string,
+    presetName: string,
+    option?: { pId: string; pSettings: PresetSettings }
+  ) => {
+    let _presetSettings: PresetSettings =
+      type === PresetHandleAction.new
+        ? createDefaultPresetSettings(allTables)
+        : type === PresetHandleAction.duplicate && option?.pSettings
+          ? option.pSettings
+          : {};
+
     setPluginPresets(_pluginPresets || []);
     let activePresetIdx = _pluginPresets?.length;
     let _id: string = generatorPresetId(pluginPresets) || '';
@@ -116,15 +132,16 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     let newPresetsArray = deepCopy(_pluginPresets);
     newPresetsArray.push(newPreset);
     let initUpdated = initOrgChartSetting();
-    newPresetsArray[activePresetIdx].settings = Object.assign(DEFAULT_PRESET_SETTINGS, initUpdated);
-    pluginSettings.presets = newPresetsArray;
+    newPresetsArray[activePresetIdx].settings = Object.assign(_presetSettings, initUpdated);
 
-    updatePresets(activePresetIdx, newPresetsArray, pluginSettings);
+    pluginSettings.presets = newPresetsArray;
+    updatePresets(activePresetIdx, newPresetsArray, pluginSettings, type);
   };
 
   // duplicate a preset
-  const duplicatePreset = (name: string) => {
-    addPreset(name);
+  const duplicatePreset = (p: any) => {
+    const { name, _id, settings } = p;
+    addPreset(PresetHandleAction.duplicate, `${name} copy`, { pId: _id, pSettings: settings });
   };
 
   // edit preset name
@@ -137,7 +154,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     newPresets.splice(activePresetIdx, 1, updatedPreset);
     pluginSettings.presets = newPresets;
 
-    updatePresets(activePresetIdx, newPresets, pluginSettings);
+    updatePresets(activePresetIdx, newPresets, pluginSettings, PresetHandleAction.edit);
   };
 
   // delete preset
@@ -148,7 +165,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       activePresetIdx = newPresets.length - 1;
     }
     pluginSettings.presets = newPresets;
-    updatePresets(0, newPresets, pluginSettings);
+    updatePresets(0, newPresets, pluginSettings, PresetHandleAction.delete);
   };
 
   // drag and drop logic
@@ -164,7 +181,6 @@ const PluginPresets: React.FC<IPresetsProps> = ({
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>, index: number) => {
     e.stopPropagation();
-    console.log('hi');
     setDragOverItemIndex(index);
   };
 
@@ -181,7 +197,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       setDragOverItemIndex(null);
       let _pluginSettings = { ...pluginSettings, presets: __pluginPresets };
 
-      updatePresets(activePresetIdx, __pluginPresets, _pluginSettings);
+      updatePresets(activePresetIdx, __pluginPresets, _pluginSettings, 'drag');
     }
   };
 
@@ -216,7 +232,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
               duplicatePreset={duplicatePreset}
               togglePresetsUpdate={togglePresetsUpdate}
               onEditPresetSubmit={(e?: React.MouseEvent<HTMLElement>) =>
-                onNewPresetSubmit(e, 'edit')
+                onNewPresetSubmit(e, PresetHandleAction.edit)
               }
               showEditPresetPopUp={showEditPresetPopUp}
             />
@@ -227,7 +243,9 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       {showNewPresetPopUp && (
         <PresetInput
           onChangePresetName={onChangePresetName}
-          onEditPresetSubmit={(e?: React.MouseEvent<HTMLElement>) => onNewPresetSubmit(e, 'new')}
+          onEditPresetSubmit={(e?: React.MouseEvent<HTMLElement>) =>
+            onNewPresetSubmit(e, PresetHandleAction.new)
+          }
           isEditing={showNewPresetPopUp}
           setIsEditing={setShowNewPresetPopUp}
           presetName={presetName}
@@ -236,7 +254,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       {/* add new preset button  */}
       {!showNewPresetPopUp && (
         <button
-          onClick={(e) => togglePresetsUpdate(e, 'new')}
+          onClick={(e) => togglePresetsUpdate(e, PresetHandleAction.new)}
           className={styles.presets_add_button}>
           <i className="dtable-font dtable-icon-add-table"></i>
         </button>

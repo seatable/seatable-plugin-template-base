@@ -1,3 +1,5 @@
+import { TableArray } from './Interfaces/Table.interface';
+
 export const truncateTableName = (tableName: string) => {
   let _tableName;
 
@@ -8,4 +10,15 @@ export const truncateTableName = (tableName: string) => {
   }
 
   return tableName;
+};
+
+export const createDefaultPresetSettings = (allTables: TableArray) => {
+  const tableInfo = { value: allTables[0]._id, label: allTables[0].name };
+  const viewInfo = { value: allTables[0].views[0]._id, label: allTables[0].views[0].name };
+  return {
+    shown_image_name: 'Image',
+    shown_title_name: 'Title',
+    selectedTable: tableInfo,
+    selectedView: viewInfo,
+  };
 };
