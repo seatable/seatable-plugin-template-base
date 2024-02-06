@@ -66,6 +66,7 @@ const PresetItem: React.FC<IPresetItemProps> = ({
     if (e.detail === 2) {
       handlePresetsUpdate(e);
     } else {
+      console.log('onClickPreset');
       onSelectPreset(v?._id);
     }
   };

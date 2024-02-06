@@ -191,6 +191,7 @@ const App: React.FC<IAppProps> = (props) => {
     activePresetId?: string,
     callBack: any = null
   ) => {
+    console.log('activePresetIdx', activePresetIdx);
     setAppActiveState((prevState) => ({
       ...prevState,
       activePresetIdx: activePresetIdx,
