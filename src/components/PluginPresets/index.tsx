@@ -27,13 +27,13 @@ import { createDefaultPresetSettings } from '../../utils/helpers';
 import { AppActiveState } from '../../utils/Interfaces/App.interface';
 
 const PluginPresets: React.FC<IPresetsProps> = ({
+  allTables,
   pluginPresets,
-  onSelectPreset,
   activePresetIdx,
   pluginSettings,
+  isShowPresets,
+  onSelectPreset,
   updatePresets,
-  setTogglePresetsComponent,
-  allTables,
 }) => {
   const [dragItemIndex, setDragItemIndex] = useState<number | null>(null);
   const [dragOverItemIndex, setDragOverItemIndex] = useState<number | null>(null);
@@ -85,12 +85,12 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     let _presetName =
       presetName || DEFAULT_PLUGIN_SETTINGS.presets[0].name + ' ' + _pluginPresets.length;
     let _presetNames = _pluginPresets.map((p) => p.name);
-    const nameExists = isPresetNameAlreadyExists(_presetName, _pluginPresets, activePresetIdx);
+    const isUnique = isUniquePresetName(_presetName, _pluginPresets, activePresetIdx);
 
-    if (nameExists && type === PresetHandleAction.new) {
+    if (isUnique && type === PresetHandleAction.new) {
       _presetName = appendPresetSuffix(_presetName, _presetNames);
       setPresetNameAlreadyExists(false);
-    } else if (nameExists) {
+    } else if (isUnique) {
       setPresetNameAlreadyExists(true);
       return;
     }
@@ -124,7 +124,6 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     presetName: string,
     option?: { pId: string; pSettings: PresetSettings }
   ) => {
-    console.log('addPreset called', type);
     let _presetSettings: PresetSettings =
       type === PresetHandleAction.new
         ? createDefaultPresetSettings(allTables)
@@ -133,23 +132,23 @@ const PluginPresets: React.FC<IPresetsProps> = ({
           : {};
 
     setPluginPresets(_pluginPresets || []);
-    let activePresetIdx = _pluginPresets?.length;
+    let _activePresetIdx = _pluginPresets?.length;
     let _id: string = generatorPresetId(pluginPresets) || '';
     let newPreset = new Preset({ _id, name: presetName });
     let newPresetsArray = deepCopy(_pluginPresets);
     newPresetsArray.push(newPreset);
     let initUpdated = initOrgChartSetting();
-    newPresetsArray[activePresetIdx].settings = Object.assign(_presetSettings, initUpdated);
+    newPresetsArray[_activePresetIdx].settings = Object.assign(_presetSettings, initUpdated);
     pluginSettings.presets = newPresetsArray;
-    updatePresets(activePresetIdx, newPresetsArray, pluginSettings, _id);
+    updatePresets(_activePresetIdx, newPresetsArray, pluginSettings, _id);
 
     // Update active state info
     const newPresetActiveState: AppActiveState = {
-      activeTable: allTables[0],
-      activeTableName: newPresetsArray[activePresetIdx]?.settings?.selectedTable?.label!,
-      activeTableView: allTables[0].views[0],
       activePresetId: _id,
-      activePresetIdx: activePresetIdx,
+      activePresetIdx: _activePresetIdx,
+      activeTable: allTables[0],
+      activeTableName: newPresetsArray[_activePresetIdx]?.settings?.selectedTable?.label!,
+      activeTableView: allTables[0].views[0],
     };
 
     if (type !== PresetHandleAction.duplicate) {
@@ -157,34 +156,35 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     }
   };
 
-  // duplicate a preset
+  // Duplicate a preset
   const duplicatePreset = (p: any) => {
+    // anytofix
     const { name, _id, settings } = p;
     addPreset(PresetHandleAction.duplicate, `${name} copy`, { pId: _id, pSettings: settings });
   };
 
   // edit preset name
   const editPreset = (presetName: string) => {
-    let newPresets = deepCopy(pluginPresets);
+    let newPluginPresets = deepCopy(pluginPresets);
     let oldPreset = pluginPresets[activePresetIdx];
     let _id: string = generatorPresetId(pluginPresets) || '';
     let updatedPreset = new Preset({ ...oldPreset, _id, name: presetName });
 
-    newPresets.splice(activePresetIdx, 1, updatedPreset);
-    pluginSettings.presets = newPresets;
+    newPluginPresets.splice(activePresetIdx, 1, updatedPreset);
+    pluginSettings.presets = newPluginPresets;
 
-    updatePresets(activePresetIdx, newPresets, pluginSettings, PresetHandleAction.edit);
+    updatePresets(activePresetIdx, newPluginPresets, pluginSettings, PresetHandleAction.edit);
   };
 
-  // delete preset
+  // Delete the selected Preset
   const deletePreset = () => {
-    let newPresets = deepCopy(pluginPresets);
-    newPresets.splice(activePresetIdx, 1);
-    if (activePresetIdx >= newPresets.length) {
-      activePresetIdx = newPresets.length - 1;
+    let newPluginPresets = deepCopy(pluginPresets);
+    newPluginPresets.splice(activePresetIdx, 1);
+    if (activePresetIdx >= newPluginPresets.length) {
+      activePresetIdx = newPluginPresets.length - 1;
     }
-    pluginSettings.presets = newPresets;
-    updatePresets(0, newPresets, pluginSettings, PresetHandleAction.delete);
+    pluginSettings.presets = newPluginPresets;
+    updatePresets(0, newPluginPresets, pluginSettings, PresetHandleAction.delete);
   };
 
   // drag and drop logic
@@ -221,9 +221,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   };
 
   return (
-    <div
-      style={setTogglePresetsComponent ? { display: 'block' } : {}}
-      className={`${styles.presets}`}>
+    <div style={isShowPresets ? { display: 'block' } : {}} className={`${styles.presets}`}>
       <div className="d-flex flex-column">
         {pluginPresets?.map((v, i) => (
           <div

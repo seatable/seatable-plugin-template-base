@@ -1,5 +1,13 @@
 import pluginContext from '../plugin-context';
-import { PresetsArray } from './Interfaces/PluginPresets/Presets.interface';
+import { AppActiveState } from './Interfaces/App.interface';
+import {
+  IPresetInfo,
+  PresetSettings,
+  PresetsArray,
+} from './Interfaces/PluginPresets/Presets.interface';
+import { SelectOption } from './Interfaces/PluginSettings.interface';
+import { Table, TableArray } from './Interfaces/Table.interface';
+import { DEFAULT_PLUGIN_SETTINGS, PLUGIN_NAME } from './constants';
 
 export const generatorBase64Code = (keyLength = 4) => {
   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789';
@@ -147,19 +155,122 @@ export const checkSVGImage = (url: string): boolean | undefined => {
   return url.substr(-4).toLowerCase() === '.svg';
 };
 
-export const isPresetNameAlreadyExists = (
+/**
+ * Checks whether a preset name already exists in the presets array, excluding the current index.
+ *
+ * @param {string} presetName - The name of the preset to check for existence.
+ * @param {PresetsArray} presets - An array of presets to search for duplicates.
+ * @param {number} currentIndex - The index of the preset to exclude from the check.
+ * @returns {boolean} - Returns true if the preset name already exists, excluding the current index.
+ */
+export const isUniquePresetName = (
   presetName: string,
   presets: PresetsArray,
   currentIndex: number
 ): boolean => {
+  // Using the `some` method to check if any preset (excluding the current index) has the same name
   return presets.some((preset, index) => index !== currentIndex && preset.name === presetName);
+};
+
+/**
+ * The function has the purpose of getting the plugin's presets.
+ * If the plugin presets are not found, it maps inside the activeTable and returns set it as value.
+ * @param {string} PLUGIN_NAME The name of the plugin.
+ * @param {Table} activeTable A Table object needed in the .
+ * @returns An array with the plugin's presets
+ */
+// export const getPluginSettings = (activeTable: Table) => {
+// Function implementation...
+// };
+export const getPluginSettings = (
+  activeTable: Table,
+  PLUGIN_NAME: string,
+  isDevelopment: boolean
+) => {
+  const getPluginPresets = window.dtableSDK.getPluginSettings(PLUGIN_NAME); // Plugin Presets not Settings function name should be changed
+  console.log('getPluginPresets', getPluginPresets);
+
+  const _presetSettings: PresetSettings = {
+    selectedTable: { value: activeTable._id, label: activeTable.name },
+    selectedView: { value: activeTable.views[0]._id, label: activeTable.views[0].name },
+  };
+
+  const updatedSettings = {
+    ...DEFAULT_PLUGIN_SETTINGS,
+    presets: [
+      {
+        ...DEFAULT_PLUGIN_SETTINGS.presets[0],
+        settings: _presetSettings,
+      },
+    ],
+  };
+  const pluginSettings = window.dtableSDK.getPluginSettings(PLUGIN_NAME)
+    ? window.dtableSDK.getPluginSettings(PLUGIN_NAME)
+    : updatedSettings;
+  console.log('pluginSettings', pluginSettings);
+  // const maptoMap = isDevelopment ? pluginSettings.presets : pluginSettings.views;
+  // console.log('maptoMap', maptoMap);
+
+  // pluginSettings.presets = pluginSettings.presets.map((preset: IPresetInfo) => {
+  //   if (
+  //     preset?.settings?.selectedTable?.value === '' &&
+  //     preset.settings.selectedTable.label === ''
+  //   ) {
+  //     preset.settings.selectedTable = {
+  //       value: activeTable._id,
+  //       label: activeTable.name,
+  //     };
+  //     preset.settings.selectedView = {
+  //       value: activeTable.views[0]._id,
+  //       label: activeTable.views[0].name,
+  //     };
+  //   }
+
+  //   return preset;
+  // });
+  return pluginSettings.presets;
 };
 
 export const appendPresetSuffix = (name: string, nameList: string[]): string => {
   if (!nameList.includes(name)) {
-    return name
+    return name;
   } else {
     let _name = `${name} new`;
-    return appendPresetSuffix(_name, nameList)
+    return appendPresetSuffix(_name, nameList);
   }
-}
+};
+
+// Checking if there are any presets, if not, we set the first Table and View as the active ones
+export const getActiveStateSafeGuard = (pluginPresets: PresetsArray, allTables: TableArray) => {
+  // const checkForPresets: AppActiveState = {
+  //   activeTable: (pluginPresets[0] && (activeTableAndView?.table as Table)) || activeTable,
+  //   activeTableName:
+  //     (pluginPresets[0] && pluginPresets[0].settings?.selectedTable?.label) || activeTable.name,
+  //   activeTableView:
+  //     (pluginPresets[0] && (activeTableAndView?.view as TableView)) || activeTable.views[0],
+  //   activePresetId: (pluginPresets[0] && pluginPresets[0]._id) || '0000', // '0000' as Safe guard if there are no presets
+  //   activePresetIdx: 0,
+  //   viewRows: viewRows,
+  // };
+};
+
+export const getActiveTableAndActiveView = (pluginPresets: PresetsArray, allTables: TableArray) => {
+  let tableViewObj;
+  console.log('utils', pluginPresets);
+  console.log('utils', allTables);
+  if (pluginPresets.length > 0) {
+    let table = allTables.find((i) => i.name === pluginPresets[0].settings?.selectedTable?.label);
+
+    let views = table?.views; // Use 'table' to get views
+
+    let view = views?.find((v) => {
+      return v.name === pluginPresets[0].settings?.selectedView?.label;
+    });
+
+    tableViewObj = {
+      table: table,
+      view: view,
+    };
+  }
+  return tableViewObj;
+};

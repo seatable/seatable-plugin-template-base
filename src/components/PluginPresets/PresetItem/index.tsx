@@ -66,7 +66,6 @@ const PresetItem: React.FC<IPresetItemProps> = ({
     if (e.detail === 2) {
       handlePresetsUpdate(e);
     } else {
-      console.log('onClickPreset');
       onSelectPreset(v?._id);
     }
   };
@@ -80,7 +79,7 @@ const PresetItem: React.FC<IPresetItemProps> = ({
         setIsEditing={setIsEditing}
         presetName={presetName}
       />
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <div
           onClick={onClickPreset}
           style={{ display: isEditing ? 'none' : 'flex' }}
