@@ -9,11 +9,7 @@ import {
   PresetSettings,
   PresetsArray,
 } from '../../utils/Interfaces/PluginPresets/Presets.interface';
-import {
-  appendPresetSuffix,
-  generatorPresetId,
-  isPresetNameAlreadyExists,
-} from '../../utils/utils';
+import { appendPresetSuffix, generatorPresetId, isUniquePresetName } from '../../utils/utils';
 import {
   DEFAULT_PLUGIN_SETTINGS,
   DEFAULT_PRESET_SETTINGS,
