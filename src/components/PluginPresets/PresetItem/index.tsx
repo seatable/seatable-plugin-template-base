@@ -80,21 +80,23 @@ const PresetItem: React.FC<IPresetItemProps> = ({
         setIsEditing={setIsEditing}
         presetName={presetName}
       />
-      <div
-        onClick={onClickPreset}
-        style={{ display: isEditing ? 'none' : 'flex' }}
-        className={
-          pluginPresets[activePresetIdx]?._id === v?._id
-            ? styles.modal_header_viewBtn_active
-            : styles.modal_header_viewBtn
-        }>
-        <div className="d-flex align-items-center">
-          <i className={`dtable-font dtable-icon-drag ${styles.modal_header_viewBtn_icons}`}></i>
-          <p className="ml-2 mb-0">{v.name}</p>
+      <div style={{position: 'relative'}}>
+        <div
+          onClick={onClickPreset}
+          style={{ display: isEditing ? 'none' : 'flex' }}
+          className={
+            pluginPresets[activePresetIdx]?._id === v?._id
+              ? styles.modal_header_viewBtn_active
+              : styles.modal_header_viewBtn
+          }>
+          <div className="d-flex align-items-center">
+            <i className={`dtable-font dtable-icon-drag ${styles.modal_header_viewBtn_icons}`}></i>
+            <p className="ml-2 mb-0">{v.name}</p>
+          </div>
+          <span onClick={togglePresetDropdown}>
+            <BsThreeDots color="#191717" className={styles.modal_header_viewBtn_icons} />
+          </span>
         </div>
-        <span onClick={togglePresetDropdown}>
-          <BsThreeDots color="#191717" className={styles.modal_header_viewBtn_icons} />
-        </span>
         {showPresetDropdown && (
           <PresetDropdown
             dropdownRef={popupDomNode}

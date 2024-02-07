@@ -144,7 +144,10 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       activePresetId: _id,
       activePresetIdx: activePresetIdx,
     };
-    onSelectPreset(_id, newPresetActiveState);
+
+    if (type !== PresetHandleAction.duplicate) {
+      onSelectPreset(_id, newPresetActiveState);
+    }
   };
 
   // duplicate a preset
