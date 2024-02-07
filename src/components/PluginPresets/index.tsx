@@ -9,8 +9,17 @@ import {
   PresetSettings,
   PresetsArray,
 } from '../../utils/Interfaces/PluginPresets/Presets.interface';
+<<<<<<< HEAD
 import { generatorPresetId, isUniquePresetName } from '../../utils/utils';
 import { DEFAULT_PLUGIN_SETTINGS, PresetHandleAction, TABLE_NAME } from '../../utils/constants';
+=======
+import { appendPresetSuffix, generatorPresetId, isPresetNameAlreadyExists } from '../../utils/utils';
+import {
+  DEFAULT_PLUGIN_SETTINGS,
+  DEFAULT_PRESET_SETTINGS,
+  TABLE_NAME,
+} from '../../utils/constants';
+>>>>>>> 01_TB-dev
 import { TableArray, TableColumn } from '../../utils/Interfaces/Table.interface';
 import PresetInput from './PresetInput';
 import useClickOut from '../../hooks/useClickOut';
@@ -144,7 +153,10 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       activeTableName: newPresetsArray[_activePresetIdx]?.settings?.selectedTable?.label!,
       activeTableView: allTables[0].views[0],
     };
-    onSelectPreset(_id, newPresetActiveState);
+
+    if (type !== PresetHandleAction.duplicate) {
+      onSelectPreset(_id, newPresetActiveState);
+    }
   };
 
   // Duplicate a preset

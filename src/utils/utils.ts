@@ -198,3 +198,11 @@ export const getPluginSettings = (activeTable: Table, PLUGIN_NAME: string) => {
 
   return pluginSettings.presets;
 };
+export const appendPresetSuffix = (name: string, nameList: string[]): string => {
+  if (!nameList.includes(name)) {
+    return name
+  } else {
+    let _name = `${name} new`;
+    return appendPresetSuffix(_name, nameList)
+  }
+}
