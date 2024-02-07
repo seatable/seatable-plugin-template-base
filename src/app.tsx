@@ -19,7 +19,6 @@ import {
   PLUGIN_NAME,
   PRESET_NAME,
 } from './utils/constants';
-import useClickOut from './hooks/useClickOut';
 import './locale';
 import { getPluginSettings } from './utils/utils';
 
@@ -44,11 +43,7 @@ const App: React.FC<IAppProps> = (props) => {
     presets: [],
     [PRESET_NAME]: PRESET_NAME,
   });
-
-  let settingsDomNode = useClickOut(() => {
-    setIsShowState((prevState) => ({ ...prevState, isShowSettings: false }));
-  });
-
+ 
   useEffect(() => {
     initPluginDTableData();
     return () => {
@@ -301,7 +296,7 @@ const App: React.FC<IAppProps> = (props) => {
         </div>
 
         {isShowSettings && (
-          <div ref={settingsDomNode}>
+          <div>
             <PluginSettings
               allTables={allTables}
               activeTableViews={activeTableViews}

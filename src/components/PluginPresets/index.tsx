@@ -74,8 +74,12 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   // Submit new/edited preset name
   const onNewPresetSubmit = (e?: React.MouseEvent<HTMLElement>, type?: string) => {
     let _presetName =
-      presetName || DEFAULT_PLUGIN_SETTINGS.presets[0].name + ' ' + _pluginPresets.length;
+      presetName ||
+      DEFAULT_PLUGIN_SETTINGS.presets[0].name +
+        ' ' +
+        (type === 'edit' ? _pluginPresets.length : _pluginPresets.length + 1);
     const isUnique = isUniquePresetName(_presetName, _pluginPresets, activePresetIdx);
+
     if (isUnique && type === PresetHandleAction.new) {
       _presetName += ' New';
       setPresetNameAlreadyExists(false);
@@ -144,7 +148,8 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   };
 
   // Duplicate a preset
-  const duplicatePreset = (p: any) => { // anytofix
+  const duplicatePreset = (p: any) => {
+    // anytofix
     const { name, _id, settings } = p;
     addPreset(PresetHandleAction.duplicate, `${name} copy`, { pId: _id, pSettings: settings });
   };
