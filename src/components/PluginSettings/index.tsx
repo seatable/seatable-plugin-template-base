@@ -11,8 +11,9 @@ import { truncateTableName } from '../../utils/helpers';
 // PluginSettings component for managing table and view options
 const PluginSettings: React.FC<IPluginSettingsProps> = ({
   allTables,
-  activeTableViews,
   appActiveState,
+  activeTableViews,
+  pluginPresets,
   onTableOrViewChange,
 }) => {
   // State variables for table and view options
@@ -21,8 +22,16 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
   const [tableSelectedOption, setTableSelectedOption] = useState<SelectOption>();
   const [viewSelectedOption, setViewSelectedOption] = useState<SelectOption>();
 
+  // useEffect(() => {
+  //   console.log('activePresetIdx in Settings', appActiveState.activePresetIdx);
+  // }, [appActiveState.activePresetIdx]);
+
   // Change options when active table or view changes
   useEffect(() => {
+    console.log('Settings has been called');
+    console.log('pluginPresets', pluginPresets);
+    console.log('Active Table Name: ', appActiveState.activeTableName);
+    console.log('Active View Name: ', appActiveState.activeTableView?.name);
     const { activeTable, activeTableView } = appActiveState;
 
     // Create options for tables
@@ -39,10 +48,13 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
       return { value, label };
     });
 
+    console.log('tableOptions', tableOptions);
+    console.log('viewOptions', viewOptions);
     // Set selected options based on activeTable and activeTableView
     let tableSelectedOption = tableOptions.find((item) => item.value === activeTable?._id);
     let viewSelectedOption = viewOptions.find((item) => item.value === activeTableView?._id);
-
+    console.log('tableSelectedOption', tableSelectedOption?.label);
+    console.log('viewSelectedOption', viewSelectedOption?.label);
     // Update state with new options and selected values
     setTableOptions(tableOptions);
     setTableSelectedOption(tableSelectedOption);

@@ -1,6 +1,6 @@
 import pluginContext from '../plugin-context';
 import { IPresetInfo, PresetsArray } from './Interfaces/PluginPresets/Presets.interface';
-import { Table } from './Interfaces/Table.interface';
+import { Table, TableArray } from './Interfaces/Table.interface';
 
 export const generatorBase64Code = (keyLength = 4) => {
   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789';
@@ -200,9 +200,28 @@ export const getPluginSettings = (activeTable: Table, PLUGIN_NAME: string) => {
 };
 export const appendPresetSuffix = (name: string, nameList: string[]): string => {
   if (!nameList.includes(name)) {
-    return name
+    return name;
   } else {
     let _name = `${name} new`;
-    return appendPresetSuffix(_name, nameList)
+    return appendPresetSuffix(_name, nameList);
   }
-}
+};
+
+export const getActiveTableAndActiveView = (pluginPresets: PresetsArray, allTables: TableArray) => {
+  let tableViewObj;
+  if (pluginPresets.length > 0) {
+    let table = allTables.find((i) => i.name === pluginPresets[0].settings?.selectedTable?.label);
+
+    let views = table?.views; // Use 'table' to get views
+
+    let view = views?.find((v) => {
+      return v.name === pluginPresets[0].settings?.selectedView?.label;
+    });
+
+    tableViewObj = {
+      table: table,
+      view: view,
+    };
+  }
+  return tableViewObj;
+};

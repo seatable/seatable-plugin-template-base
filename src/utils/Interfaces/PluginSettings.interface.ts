@@ -4,8 +4,8 @@ import { TableArray, TableViewArray } from './Table.interface';
 
 interface IPluginSettingsProps {
   allTables: TableArray;
-  activeTableViews: TableViewArray;
   appActiveState: AppActiveState;
+  activeTableViews: TableViewArray;
   pluginPresets: PresetsArray;
   onTableOrViewChange: (type: 'table' | 'view', option: SelectOption) => void;
 }

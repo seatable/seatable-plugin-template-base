@@ -9,7 +9,8 @@ import {
   PresetSettings,
   PresetsArray,
 } from '../../utils/Interfaces/PluginPresets/Presets.interface';
-import { generatorPresetId, isUniquePresetName } from '../../utils/utils';
+
+import { appendPresetSuffix, generatorPresetId, isUniquePresetName } from '../../utils/utils';
 import { DEFAULT_PLUGIN_SETTINGS, PresetHandleAction, TABLE_NAME } from '../../utils/constants';
 
 import { TableArray, TableColumn } from '../../utils/Interfaces/Table.interface';
@@ -75,14 +76,12 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   // Submit new/edited preset name
   const onNewPresetSubmit = (e?: React.MouseEvent<HTMLElement>, type?: string) => {
     let _presetName =
-      presetName ||
-      DEFAULT_PLUGIN_SETTINGS.presets[0].name +
-        ' ' +
-        (type === 'edit' ? _pluginPresets.length : _pluginPresets.length + 1);
+      presetName || DEFAULT_PLUGIN_SETTINGS.presets[0].name + ' ' + _pluginPresets.length;
+    let _presetNames = _pluginPresets.map((p) => p.name);
     const isUnique = isUniquePresetName(_presetName, _pluginPresets, activePresetIdx);
 
     if (isUnique && type === PresetHandleAction.new) {
-      _presetName += ' New';
+      _presetName = appendPresetSuffix(_presetName, _presetNames);
       setPresetNameAlreadyExists(false);
     } else if (isUnique) {
       setPresetNameAlreadyExists(true);
@@ -118,7 +117,6 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     presetName: string,
     option?: { pId: string; pSettings: PresetSettings }
   ) => {
-    console.log('addPreset called', type);
     let _presetSettings: PresetSettings =
       type === PresetHandleAction.new
         ? createDefaultPresetSettings(allTables)

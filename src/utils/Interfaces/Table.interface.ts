@@ -30,7 +30,7 @@ export interface TableColumn {
   description: string | null;
 }
 
-interface TableRow {
+export interface TableRow {
   _id: string;
   _participants: any[]; // AnyToFix
   _creator: string;

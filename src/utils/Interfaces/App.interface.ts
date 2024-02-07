@@ -1,4 +1,4 @@
-import { Table, TableView } from './Table.interface';
+import { Table, TableRow, TableView } from './Table.interface';
 
 export interface IAppProps {
   isDevelopment?: boolean;
@@ -18,6 +18,7 @@ export interface AppActiveState {
   activePresetId: string; // Stores the ID of the active preset
   activePresetIdx: number; // Keeps track of the index of the active preset
   activeTable: Table | null; // Represents the currently active table in the app
-  activeTableName: string; // Holds the name of the active table
+  activeTableName: string; // Holds the name of the active table // TO REMOVE
   activeTableView: TableView | null; // Represents the currently active table view in the app
+  viewRows?: TableRow[];
 }
