@@ -51,10 +51,6 @@ const App: React.FC<IAppProps> = (props) => {
     };
   }, []);
 
-  useEffect(() => {
-    console.log('activeTable', activeTable);
-  }, [activeTable]);
-
   const initPluginDTableData = async () => {
     if (isDevelopment) {
       // local develop
@@ -143,27 +139,42 @@ const App: React.FC<IAppProps> = (props) => {
   };
 
   // Change Preset
-  const onSelectPreset = (presetId: string) => {
-    let presetIdx = pluginPresets.findIndex((preset) => preset._id === presetId);
+  const onSelectPreset = (presetId: string, newPresetActiveState?: AppActiveState) => {
+    console.log('onSelectPreset Called');
+    let updatedActiveState: AppActiveState;
+    let updatedActiveTableViews: TableView[];
+    console.log('BEFORE IF', activePresetIdx);
+    if (newPresetActiveState !== undefined) {
+      updatedActiveState = {
+        ...newPresetActiveState,
+      };
+      updatedActiveTableViews = newPresetActiveState?.activeTable?.views!;
+      console.log('INSIDE IF', updatedActiveState.activePresetIdx);
+    } else {
+      const activePresetIdx = pluginPresets.findIndex((preset) => preset._id === presetId);
+      const selectedTable = pluginPresets[activePresetIdx]?.settings?.selectedTable;
+      const selectedView = pluginPresets[activePresetIdx]?.settings?.selectedView;
 
-    const activeTableName = pluginPresets[presetIdx]?.settings?.selectedTable?.label as string;
-    const activeTableId = pluginPresets[presetIdx]?.settings?.selectedTable?.value as string;
-    const activeViewId: string = pluginPresets[presetIdx]?.settings?.selectedView?.value as string;
-    const updatedActiveTableViews = allTables.find((table) => table._id === activeTableId)?.views!;
-    const onSelectPresetActiveTable = allTables.find((table) => table._id === activeTableId)!;
-    const onSelectPresetActiveView: TableView = updatedActiveTableViews.find(
-      (view) => view._id === activeViewId
-    )!;
+      const activeTableName = selectedTable?.label as string;
+      const activeTableId = selectedTable?.value as string;
+      const activeViewId = selectedView?.value as string;
 
+      updatedActiveTableViews = allTables.find((table) => table._id === activeTableId)?.views || [];
+
+      updatedActiveState = {
+        activeTable: allTables.find((table) => table._id === activeTableId) || activeTable,
+        activeTableName,
+        activeTableView:
+          updatedActiveTableViews.find((view) => view._id === activeViewId) || activeTableViews[0],
+        activePresetId: presetId,
+        activePresetIdx: activePresetIdx,
+      };
+      console.log('INSIDE ELSE', updatedActiveState.activePresetIdx);
+    }
+    console.log('OUTSIDE ELSE', updatedActiveState.activePresetIdx);
+    console.log('**********');
     setActiveTableViews(updatedActiveTableViews);
-    setAppActiveState((prevState) => ({
-      ...prevState,
-      activeTableView: onSelectPresetActiveView,
-      activeTable: onSelectPresetActiveTable,
-      activeTableName: activeTableName,
-      activePresetIdx: presetIdx,
-      activePresetId: presetId,
-    }));
+    setAppActiveState(updatedActiveState);
   };
 
   // Update presets data
@@ -171,8 +182,10 @@ const App: React.FC<IAppProps> = (props) => {
     activePresetIdx: number,
     updatedPresets: PresetsArray,
     pluginSettings: IPluginSettings,
+    activePresetId?: string,
     callBack: any = null
   ) => {
+    console.log('activePresetIdx', activePresetIdx);
     setAppActiveState((prevState) => ({
       ...prevState,
       activePresetIdx: activePresetIdx,
@@ -194,7 +207,6 @@ const App: React.FC<IAppProps> = (props) => {
   // // switch table or view
   const onTableOrViewChange = (type: 'table' | 'view', option: SelectOption) => {
     const action = type;
-
     switch (action) {
       case 'table':
         let activeTable = allTables.find((s) => s._id === option.value) || allTables[0];
@@ -288,10 +300,10 @@ const App: React.FC<IAppProps> = (props) => {
               <div style={{ color: '#007bff' }}>{`Preset Name: ${obj.name}`}</div>
               <div style={{ marginTop: '8px', fontWeight: 'bold' }}>Settings:</div>
               <div style={{ marginLeft: '15px', color: '#28a745' }}>{`selectedTableId: ${
-                obj.settings?.selectedTable?.value ?? 'N/A'
+                obj.settings?.selectedTable?.label ?? 'N/A'
               }`}</div>
               <div style={{ marginLeft: '15px', color: '#28a745' }}>{`selectedViewId: ${
-                obj.settings?.selectedView?.value ?? 'N/A'
+                obj.settings?.selectedView?.label ?? 'N/A'
               }`}</div>
             </div>
           ))}
