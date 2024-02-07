@@ -26,7 +26,11 @@ import {
   PRESET_NAME,
 } from './utils/constants';
 import './locale';
-import { getActiveTableAndActiveView, getPluginSettings } from './utils/utils';
+import {
+  getActiveStateSafeGuard,
+  getActiveTableAndActiveView,
+  getPluginSettings,
+} from './utils/utils';
 import { act } from 'react-dom/test-utils';
 
 const App: React.FC<IAppProps> = (props) => {
@@ -64,6 +68,7 @@ const App: React.FC<IAppProps> = (props) => {
   }, []);
 
   const initPluginDTableData = async () => {
+    console.log('init');
     if (isDevelopment) {
       // local develop
       window.dtableSDK.subscribe('dtable-connect', () => {
@@ -91,10 +96,12 @@ const App: React.FC<IAppProps> = (props) => {
   };
 
   const onDTableConnect = () => {
+    console.log('onDTableConnect');
     resetData();
   };
 
   const onDTableChanged = () => {
+    console.log('onDTableChanged');
     resetData();
   };
 
@@ -102,14 +109,14 @@ const App: React.FC<IAppProps> = (props) => {
     let allTables: TableArray = window.dtableSDK.getTables(); // All the Tables of the Base
     let activeTable: Table = window.dtableSDK.getActiveTable(); // How is the ActiveTable Set? allTables[0]?
     let activeTableViews: TableViewArray = activeTable.views; // All the Views of the specific Active Table
-    let pluginPresets: PresetsArray = getPluginSettings(activeTable, PLUGIN_NAME); // An array with all the Presets
+    let pluginPresets: PresetsArray = getPluginSettings(activeTable, PLUGIN_NAME, isDevelopment!); // An array with all the Presets
+    console.log('pluginPresets', pluginPresets);
     const activeTableAndView = getActiveTableAndActiveView(pluginPresets, allTables); // Retrieve the activeTable and activeView from the pluginPresets NOT from the window.dtableSDK
     const viewRows: TableRow[] = window.dtableSDK.getViewRows(
       activeTableAndView?.view,
       activeTableAndView?.table
     );
 
-    // Checking if there are any presets, if not, we set the first Table and View as the active ones
     const checkForPresets: AppActiveState = {
       activeTable: (pluginPresets[0] && (activeTableAndView?.table as Table)) || activeTable,
       activeTableName:
@@ -120,6 +127,8 @@ const App: React.FC<IAppProps> = (props) => {
       activePresetIdx: 0,
       viewRows: viewRows,
     };
+    // const activeStateSafeGuard = getActiveStateSafeGuard(pluginSettings.presets, [activeTable]);
+
     console.log('allTables', allTables);
     console.log('pluginPresets', pluginPresets);
     console.log('checkForPresets', checkForPresets);
