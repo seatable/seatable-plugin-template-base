@@ -9,10 +9,15 @@ import {
   PresetSettings,
   PresetsArray,
 } from '../../utils/Interfaces/PluginPresets/Presets.interface';
-import { appendPresetSuffix, generatorPresetId, isPresetNameAlreadyExists } from '../../utils/utils';
+import {
+  appendPresetSuffix,
+  generatorPresetId,
+  isPresetNameAlreadyExists,
+} from '../../utils/utils';
 import {
   DEFAULT_PLUGIN_SETTINGS,
   DEFAULT_PRESET_SETTINGS,
+  PresetHandleAction,
   TABLE_NAME,
 } from '../../utils/constants';
 import { TableArray, TableColumn } from '../../utils/Interfaces/Table.interface';
@@ -79,7 +84,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   const onNewPresetSubmit = (e?: React.MouseEvent<HTMLElement>, type?: string) => {
     let _presetName =
       presetName || DEFAULT_PLUGIN_SETTINGS.presets[0].name + ' ' + _pluginPresets.length;
-    let _presetNames = _pluginPresets.map(p => p.name);
+    let _presetNames = _pluginPresets.map((p) => p.name);
     const nameExists = isPresetNameAlreadyExists(_presetName, _pluginPresets, activePresetIdx);
 
     if (nameExists && type === PresetHandleAction.new) {
