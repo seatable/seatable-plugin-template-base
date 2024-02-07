@@ -13,8 +13,8 @@ export interface AppIsShowState {
 }
 
 // AppActiveState is a state that holds the active state of what is shown in the plugin
+// as "active" is meant the state of the selected Preset
 export interface AppActiveState {
-  // as "active" is meant the state of the selected Preset
   activePresetId: string; // Stores the ID of the active preset
   activePresetIdx: number; // Keeps track of the index of the active preset
   activeTable: Table | null; // Represents the currently active table in the app

@@ -6,10 +6,7 @@ import PluginPresets from './components/PluginPresets';
 // Import of Interfaces
 import { AppActiveState, AppIsShowState, IAppProps } from './utils/Interfaces/App.interface';
 import { TableArray, TableViewArray, Table, TableView } from './utils/Interfaces/Table.interface';
-import {
-  PresetsArray,
-  IPluginSettings,
-} from './utils/Interfaces/PluginPresets/Presets.interface';
+import { PresetsArray, IPluginSettings } from './utils/Interfaces/PluginPresets/Presets.interface';
 import { SelectOption } from './utils/Interfaces/PluginSettings.interface';
 // Import of CSS
 import styles from './styles/Modal.module.scss';
@@ -21,7 +18,6 @@ import {
   PLUGIN_ID,
   PLUGIN_NAME,
   PRESET_NAME,
-  DEFAULT_SELECT_OPTION,
 } from './utils/constants';
 import useClickOut from './hooks/useClickOut';
 import './locale';
@@ -102,7 +98,7 @@ const App: React.FC<IAppProps> = (props) => {
     // let tableViews = window.dtableSDK.getViews(activeTable); // Same as above, waiting for Daniel's response
     let activeTableViews: TableViewArray = activeTable.views; // All the Views of the specific Active Table
     let pluginPresets: PresetsArray = getPluginSettings(activeTable, PLUGIN_NAME); // An array with all the Presets
-
+    console.log('allTables', allTables);
     setAllTables(allTables);
     setActiveTableViews(activeTableViews);
     setPluginPresets(pluginPresets);
@@ -137,23 +133,24 @@ const App: React.FC<IAppProps> = (props) => {
       updatedActiveTableViews = newPresetActiveState?.activeTable?.views!;
       console.log('INSIDE IF', updatedActiveState.activePresetIdx);
     } else {
-      const activePresetIdx = pluginPresets.findIndex((preset) => preset._id === presetId);
+      const _activePresetIdx = pluginPresets.findIndex((preset) => preset._id === presetId);
       const selectedTable = pluginPresets[activePresetIdx]?.settings?.selectedTable;
       const selectedView = pluginPresets[activePresetIdx]?.settings?.selectedView;
 
-      const activeTableName = selectedTable?.label as string;
-      const activeTableId = selectedTable?.value as string;
-      const activeViewId = selectedView?.value as string;
+      const _activeTableName = selectedTable?.label as string;
+      const _activeTableId = selectedTable?.value as string;
+      const _activeViewId = selectedView?.value as string;
 
-      updatedActiveTableViews = allTables.find((table) => table._id === activeTableId)?.views || [];
+      updatedActiveTableViews =
+        allTables.find((table) => table._id === _activeTableId)?.views || [];
 
       updatedActiveState = {
-        activeTable: allTables.find((table) => table._id === activeTableId) || activeTable,
-        activeTableName,
+        activeTable: allTables.find((table) => table._id === _activeTableId) || activeTable,
+        activeTableName: _activeTableName,
         activeTableView:
-          updatedActiveTableViews.find((view) => view._id === activeViewId) || activeTableViews[0],
+          updatedActiveTableViews.find((view) => view._id === _activeViewId) || activeTableViews[0],
         activePresetId: presetId,
-        activePresetIdx: activePresetIdx,
+        activePresetIdx: _activePresetIdx,
       };
       console.log('INSIDE ELSE', updatedActiveState.activePresetIdx);
     }

@@ -134,11 +134,11 @@ const PluginPresets: React.FC<IPresetsProps> = ({
 
     // Update active state info
     const newPresetActiveState: AppActiveState = {
+      activePresetId: _id,
+      activePresetIdx: _activePresetIdx,
       activeTable: allTables[0],
       activeTableName: newPresetsArray[_activePresetIdx]?.settings?.selectedTable?.label!,
       activeTableView: allTables[0].views[0],
-      activePresetId: _id,
-      activePresetIdx: _activePresetIdx,
     };
     onSelectPreset(_id, newPresetActiveState);
   };
