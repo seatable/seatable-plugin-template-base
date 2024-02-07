@@ -154,3 +154,12 @@ export const isPresetNameAlreadyExists = (
 ): boolean => {
   return presets.some((preset, index) => index !== currentIndex && preset.name === presetName);
 };
+
+export const appendPresetSuffix = (name: string, nameList: string[]): string => {
+  if (!nameList.includes(name)) {
+    return name
+  } else {
+    let _name = `${name} new`;
+    return appendPresetSuffix(_name, nameList)
+  }
+}

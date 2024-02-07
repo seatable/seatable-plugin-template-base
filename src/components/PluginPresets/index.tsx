@@ -9,8 +9,12 @@ import {
   PresetSettings,
   PresetsArray,
 } from '../../utils/Interfaces/PluginPresets/Presets.interface';
-import { generatorPresetId, isPresetNameAlreadyExists } from '../../utils/utils';
-import { DEFAULT_PLUGIN_SETTINGS, PresetHandleAction, TABLE_NAME } from '../../utils/constants';
+import { appendPresetSuffix, generatorPresetId, isPresetNameAlreadyExists } from '../../utils/utils';
+import {
+  DEFAULT_PLUGIN_SETTINGS,
+  DEFAULT_PRESET_SETTINGS,
+  TABLE_NAME,
+} from '../../utils/constants';
 import { TableArray, TableColumn } from '../../utils/Interfaces/Table.interface';
 import PresetInput from './PresetInput';
 import useClickOut from '../../hooks/useClickOut';
@@ -74,14 +78,12 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   // Submit new/edited preset name
   const onNewPresetSubmit = (e?: React.MouseEvent<HTMLElement>, type?: string) => {
     let _presetName =
-      presetName ||
-      DEFAULT_PLUGIN_SETTINGS.presets[0].name +
-        ' ' +
-        (type === 'edit' ? _pluginPresets.length : _pluginPresets.length + 1);
+      presetName || DEFAULT_PLUGIN_SETTINGS.presets[0].name + ' ' + _pluginPresets.length;
+    let _presetNames = _pluginPresets.map(p => p.name);
     const nameExists = isPresetNameAlreadyExists(_presetName, _pluginPresets, activePresetIdx);
 
     if (nameExists && type === PresetHandleAction.new) {
-      _presetName += ' New';
+      _presetName = appendPresetSuffix(_presetName, _presetNames);
       setPresetNameAlreadyExists(false);
     } else if (nameExists) {
       setPresetNameAlreadyExists(true);
