@@ -1,11 +1,6 @@
 import pluginContext from '../plugin-context';
 import { AppActiveState } from './Interfaces/App.interface';
-import {
-  IPresetInfo,
-  PresetSettings,
-  PresetsArray,
-} from './Interfaces/PluginPresets/Presets.interface';
-import { SelectOption } from './Interfaces/PluginSettings.interface';
+import { PresetSettings, PresetsArray } from './Interfaces/PluginPresets/Presets.interface';
 import {
   IActiveTableAndView,
   Table,
@@ -13,7 +8,7 @@ import {
   TableRow,
   TableView,
 } from './Interfaces/Table.interface';
-import { DEFAULT_PLUGIN_SETTINGS, PLUGIN_NAME } from './constants';
+import { DEFAULT_PLUGIN_SETTINGS } from './constants';
 
 export const generatorBase64Code = (keyLength = 4) => {
   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789';

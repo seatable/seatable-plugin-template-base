@@ -57,7 +57,7 @@ const App: React.FC<IAppProps> = (props) => {
   });
 
   useEffect(() => {
-    console.log('New Id', activePresetIdx);
+    console.log('New Id', appActiveState.activePresetIdx);
   }, [appActiveState]);
 
   useEffect(() => {
@@ -66,6 +66,7 @@ const App: React.FC<IAppProps> = (props) => {
       unsubscribeLocalDtableChanged();
       unsubscribeRemoteDtableChanged();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const initPluginDTableData = async () => {
