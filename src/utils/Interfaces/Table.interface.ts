@@ -75,5 +75,10 @@ interface GroupBy {
   count_type: string;
 }
 
+export interface IActiveTableAndView {
+  table: Table;
+  view: TableView;
+}
+
 export type TableViewArray = TableView[];
 export type TableArray = Table[];

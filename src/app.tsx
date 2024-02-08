@@ -11,6 +11,7 @@ import {
   Table,
   TableView,
   TableRow,
+  IActiveTableAndView,
 } from './utils/Interfaces/Table.interface';
 import { PresetsArray, IPluginSettings } from './utils/Interfaces/PluginPresets/Presets.interface';
 import { SelectOption } from './utils/Interfaces/PluginSettings.interface';
@@ -46,7 +47,7 @@ const App: React.FC<IAppProps> = (props) => {
   // For better understanding read the comments in the AppActiveState interface
   const [appActiveState, setAppActiveState] = useState<AppActiveState>(INITIAL_CURRENT_STATE);
   // Destructure properties from the app's active state for easier access
-  const { activeTable, activePresetId, activePresetIdx } = appActiveState;
+  const { activeTable, activePresetId, activePresetIdx, activeViewRows } = appActiveState;
   const [togglePresetsComponent, setTogglePresetsComponent] = useState<boolean>(false);
 
   // We should get rid of the pluginSettings state and use the pluginPresets state instead
@@ -101,44 +102,38 @@ const App: React.FC<IAppProps> = (props) => {
   };
 
   const onDTableChanged = () => {
-    console.log('onDTableChanged');
-    resetData();
+    // console.log('onDTableChanged');
+    // resetData();
   };
 
   const resetData = () => {
     let allTables: TableArray = window.dtableSDK.getTables(); // All the Tables of the Base
     let activeTable: Table = window.dtableSDK.getActiveTable(); // How is the ActiveTable Set? allTables[0]?
     let activeTableViews: TableViewArray = activeTable.views; // All the Views of the specific Active Table
-    let pluginPresets: PresetsArray = getPluginSettings(activeTable, PLUGIN_NAME, isDevelopment!); // An array with all the Presets
-    console.log('pluginPresets', pluginPresets);
-    const activeTableAndView = getActiveTableAndActiveView(pluginPresets, allTables); // Retrieve the activeTable and activeView from the pluginPresets NOT from the window.dtableSDK
-    const viewRows: TableRow[] = window.dtableSDK.getViewRows(
-      activeTableAndView?.view,
-      activeTableAndView?.table
+    let pluginPresets: PresetsArray = getPluginSettings(activeTable, PLUGIN_NAME); // An array with all the Presets
+    const activeTableAndView: IActiveTableAndView = getActiveTableAndActiveView(
+      pluginPresets,
+      allTables
+    ); // Retrieve both objects of activeTable and activeView from the pluginPresets NOT from the window.dtableSDK
+    console.log('activeTableAndView', activeTableAndView);
+    const activeViewRows: TableRow[] = window.dtableSDK.getViewRows(
+      activeTableAndView?.view || activeTableViews[0],
+      activeTableAndView?.table || activeTable
     );
-
-    const checkForPresets: AppActiveState = {
-      activeTable: (pluginPresets[0] && (activeTableAndView?.table as Table)) || activeTable,
-      activeTableName:
-        (pluginPresets[0] && pluginPresets[0].settings?.selectedTable?.label) || activeTable.name,
-      activeTableView:
-        (pluginPresets[0] && (activeTableAndView?.view as TableView)) || activeTable.views[0],
-      activePresetId: (pluginPresets[0] && pluginPresets[0]._id) || '0000', // '0000' as Safe guard if there are no presets
-      activePresetIdx: 0,
-      viewRows: viewRows,
-    };
-    // const activeStateSafeGuard = getActiveStateSafeGuard(pluginSettings.presets, [activeTable]);
-
-    console.log('allTables', allTables);
-    console.log('pluginPresets', pluginPresets);
-    console.log('checkForPresets', checkForPresets);
-    // onSetAppActiveState(checkForPresets);
+    console.log('activeViewRows', activeViewRows);
+    const activeStateSafeGuard = getActiveStateSafeGuard(
+      pluginPresets,
+      activeTable,
+      activeTableAndView,
+      activeViewRows
+    );
+    console.log('activeStateSafeGuard', activeStateSafeGuard);
 
     setAllTables(allTables);
     setActiveTableViews(activeTableAndView?.table?.views || activeTableViews);
     setPluginPresets(pluginPresets);
     // At first we set the first Preset as the active one
-    setAppActiveState(checkForPresets);
+    setAppActiveState(activeStateSafeGuard);
     setIsShowState((prevState) => ({ ...prevState, isLoading: false }));
   };
 
@@ -179,8 +174,12 @@ const App: React.FC<IAppProps> = (props) => {
         activePresetIdx: _activePresetIdx,
       };
     }
+    const activeViewRows: TableRow[] = window.dtableSDK.getViewRows(
+      updatedActiveState?.activeTableView,
+      updatedActiveState?.activeTable
+    );
     setActiveTableViews(updatedActiveTableViews);
-    setAppActiveState(updatedActiveState);
+    setAppActiveState({ ...updatedActiveState, activeViewRows });
   };
 
   // Update presets data
@@ -192,6 +191,7 @@ const App: React.FC<IAppProps> = (props) => {
     callBack: any = null
   ) => {
     console.log('activePresetIdx', _activePresetIdx);
+
     setAppActiveState((prevState) => ({
       ...prevState,
       activePresetIdx: _activePresetIdx,
@@ -213,21 +213,30 @@ const App: React.FC<IAppProps> = (props) => {
   // // switch table or view
   const onTableOrViewChange = (type: 'table' | 'view', option: SelectOption) => {
     const action = type;
+    let _activeViewRows: TableRow[];
+    let _activeTable = allTables.find((s) => s._id === option.value) || allTables[0];
+    let _activeTableView =
+      activeTableViews.find((s) => s._id === option.value) || activeTableViews[0];
+    _activeViewRows = window.dtableSDK.getViewRows(_activeTableView, _activeTable);
+    console.log('_activeViewRows', _activeViewRows);
+
     switch (action) {
       case 'table':
-        let activeTable = allTables.find((s) => s._id === option.value) || allTables[0];
-        setActiveTableViews(activeTable.views);
+        setActiveTableViews(_activeTable.views);
         setAppActiveState((prevState) => ({
           ...prevState,
           activeTable,
-          activeTableName: activeTable.name,
-          activeTableView: activeTable.views[0],
+          activeTableName: _activeTable.name,
+          activeTableView: _activeTable.views[0],
+          activeViewRows: _activeViewRows,
         }));
         break;
       case 'view':
-        let activeTableView =
-          activeTableViews.find((s) => s._id === option.value) || activeTableViews[0];
-        setAppActiveState((prevState) => ({ ...prevState, activeTableView }));
+        setAppActiveState((prevState) => ({
+          ...prevState,
+          activeTableView: _activeTableView,
+          activeViewRows: _activeViewRows,
+        }));
         break;
     }
     updatePresetSettings(pluginPresets, activePresetId, type, { [type]: option });
@@ -313,13 +322,29 @@ const App: React.FC<IAppProps> = (props) => {
               }`}</div>
             </div>
           ))}
-          <div id="additional-info" className={styles.body}>
-            <h2 style={{ color: '#007bff', borderBottom: '1px solid #ddd', paddingBottom: '10px' }}>
-              PRESET TABLE:: {appActiveState.activeTableName} <br />
-            </h2>
-            <h2 style={{ color: '#007bff', borderBottom: '1px solid #ddd', paddingBottom: '10px' }}>
-              PRESET VIEW:: {appActiveState?.activeTableView?.name}
-            </h2>
+          <div
+            key={appActiveState?.activeTableView?._id}
+            style={{
+              border: '1px solid #ddd',
+              padding: '10px',
+              marginBottom: '10px',
+              borderRadius: '5px',
+              backgroundColor: '#f5f5f5',
+            }}>
+            <div
+              style={{ color: '#ff6666' }}>{`Active Table: ${appActiveState.activeTableName}`}</div>
+            <div
+              style={{
+                color: '#ff6666',
+              }}>{`Active View: ${appActiveState?.activeTableView?.name}`}</div>
+          </div>
+          <div style={{ marginTop: '8px', fontWeight: 'bold' }}>View Rows:</div>
+          <div>
+            {activeViewRows?.map((row) => (
+              <div key={String(row['0000'])}>
+                <h6>{row['0000']}</h6>
+              </div>
+            ))}
           </div>
         </div>
 

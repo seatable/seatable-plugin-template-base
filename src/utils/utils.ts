@@ -6,7 +6,13 @@ import {
   PresetsArray,
 } from './Interfaces/PluginPresets/Presets.interface';
 import { SelectOption } from './Interfaces/PluginSettings.interface';
-import { Table, TableArray } from './Interfaces/Table.interface';
+import {
+  IActiveTableAndView,
+  Table,
+  TableArray,
+  TableRow,
+  TableView,
+} from './Interfaces/Table.interface';
 import { DEFAULT_PLUGIN_SETTINGS, PLUGIN_NAME } from './constants';
 
 export const generatorBase64Code = (keyLength = 4) => {
@@ -182,20 +188,18 @@ export const isUniquePresetName = (
 // export const getPluginSettings = (activeTable: Table) => {
 // Function implementation...
 // };
-export const getPluginSettings = (
-  activeTable: Table,
-  PLUGIN_NAME: string,
-  isDevelopment: boolean
-) => {
+export const getPluginSettings = (activeTable: Table, PLUGIN_NAME: string) => {
   const getPluginPresets = window.dtableSDK.getPluginSettings(PLUGIN_NAME); // Plugin Presets not Settings function name should be changed
   console.log('getPluginPresets', getPluginPresets);
 
+  // This is a safe guard to prevent the plugin from crashing if there are no presets
   const _presetSettings: PresetSettings = {
     selectedTable: { value: activeTable._id, label: activeTable.name },
     selectedView: { value: activeTable.views[0]._id, label: activeTable.views[0].name },
   };
 
-  const updatedSettings = {
+  // Importing the default settings from the constants file and updating the presets array with the Default Settings
+  const updatedDefaultSettings = {
     ...DEFAULT_PLUGIN_SETTINGS,
     presets: [
       {
@@ -204,30 +208,11 @@ export const getPluginSettings = (
       },
     ],
   };
-  const pluginSettings = window.dtableSDK.getPluginSettings(PLUGIN_NAME)
-    ? window.dtableSDK.getPluginSettings(PLUGIN_NAME)
-    : updatedSettings;
+
+  const pluginSettings = getPluginPresets ? getPluginPresets : updatedDefaultSettings;
+
   console.log('pluginSettings', pluginSettings);
-  // const maptoMap = isDevelopment ? pluginSettings.presets : pluginSettings.views;
-  // console.log('maptoMap', maptoMap);
 
-  // pluginSettings.presets = pluginSettings.presets.map((preset: IPresetInfo) => {
-  //   if (
-  //     preset?.settings?.selectedTable?.value === '' &&
-  //     preset.settings.selectedTable.label === ''
-  //   ) {
-  //     preset.settings.selectedTable = {
-  //       value: activeTable._id,
-  //       label: activeTable.name,
-  //     };
-  //     preset.settings.selectedView = {
-  //       value: activeTable.views[0]._id,
-  //       label: activeTable.views[0].name,
-  //     };
-  //   }
-
-  //   return preset;
-  // });
   return pluginSettings.presets;
 };
 
@@ -241,36 +226,43 @@ export const appendPresetSuffix = (name: string, nameList: string[]): string => 
 };
 
 // Checking if there are any presets, if not, we set the first Table and View as the active ones
-export const getActiveStateSafeGuard = (pluginPresets: PresetsArray, allTables: TableArray) => {
-  // const checkForPresets: AppActiveState = {
-  //   activeTable: (pluginPresets[0] && (activeTableAndView?.table as Table)) || activeTable,
-  //   activeTableName:
-  //     (pluginPresets[0] && pluginPresets[0].settings?.selectedTable?.label) || activeTable.name,
-  //   activeTableView:
-  //     (pluginPresets[0] && (activeTableAndView?.view as TableView)) || activeTable.views[0],
-  //   activePresetId: (pluginPresets[0] && pluginPresets[0]._id) || '0000', // '0000' as Safe guard if there are no presets
-  //   activePresetIdx: 0,
-  //   viewRows: viewRows,
-  // };
+export const getActiveStateSafeGuard = (
+  pluginPresets: PresetsArray,
+  activeTable: Table,
+  activeTableAndView: {
+    table: Table;
+    view: TableView;
+  },
+  activeViewRows: TableRow[]
+) => {
+  const checkForPresets: AppActiveState = {
+    activeTable: (pluginPresets[0] && (activeTableAndView?.table as Table)) || activeTable,
+    activeTableName:
+      (pluginPresets[0] && pluginPresets[0].settings?.selectedTable?.label) || activeTable.name,
+    activeTableView:
+      (pluginPresets[0] && (activeTableAndView?.view as TableView)) || activeTable.views[0],
+    activePresetId: (pluginPresets[0] && pluginPresets[0]._id) || '0000', // '0000' as Safe guard if there are no presets
+    activePresetIdx: 0,
+    activeViewRows: activeViewRows,
+  };
+  return checkForPresets;
 };
 
 export const getActiveTableAndActiveView = (pluginPresets: PresetsArray, allTables: TableArray) => {
+  console.log('pluginPresets check', pluginPresets);
+  console.log('allTables check', allTables);
   let tableViewObj;
-  console.log('utils', pluginPresets);
-  console.log('utils', allTables);
   if (pluginPresets.length > 0) {
-    let table = allTables.find((i) => i.name === pluginPresets[0].settings?.selectedTable?.label);
-
+    let table = allTables.find((i) => i.name === pluginPresets[0].settings?.selectedTable?.label)!;
     let views = table?.views; // Use 'table' to get views
-
     let view = views?.find((v) => {
       return v.name === pluginPresets[0].settings?.selectedView?.label;
-    });
+    })!;
 
     tableViewObj = {
       table: table,
       view: view,
     };
   }
-  return tableViewObj;
+  return tableViewObj as IActiveTableAndView;
 };
