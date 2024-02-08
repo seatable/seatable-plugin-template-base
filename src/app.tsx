@@ -57,13 +57,10 @@ const App: React.FC<IAppProps> = (props) => {
   });
 
   useEffect(() => {
-<<<<<<< Updated upstream
-    console.log('New Id', activePresetIdx);
-=======
     console.log('New Active State');
     console.log(appActiveState);
     console.log('*************');
->>>>>>> Stashed changes
+
   }, [appActiveState]);
 
   useEffect(() => {
