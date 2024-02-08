@@ -57,7 +57,13 @@ const App: React.FC<IAppProps> = (props) => {
   });
 
   useEffect(() => {
+<<<<<<< Updated upstream
     console.log('New Id', activePresetIdx);
+=======
+    console.log('New Active State');
+    console.log(appActiveState);
+    console.log('*************');
+>>>>>>> Stashed changes
   }, [appActiveState]);
 
   useEffect(() => {
@@ -69,7 +75,6 @@ const App: React.FC<IAppProps> = (props) => {
   }, []);
 
   const initPluginDTableData = async () => {
-    console.log('init');
     if (isDevelopment) {
       // local develop
       window.dtableSDK.subscribe('dtable-connect', () => {
@@ -97,7 +102,6 @@ const App: React.FC<IAppProps> = (props) => {
   };
 
   const onDTableConnect = () => {
-    console.log('onDTableConnect');
     resetData();
   };
 
@@ -115,19 +119,19 @@ const App: React.FC<IAppProps> = (props) => {
       pluginPresets,
       allTables
     ); // Retrieve both objects of activeTable and activeView from the pluginPresets NOT from the window.dtableSDK
-    console.log('activeTableAndView', activeTableAndView);
+    // console.log('activeTableAndView', activeTableAndView);
     const activeViewRows: TableRow[] = window.dtableSDK.getViewRows(
       activeTableAndView?.view || activeTableViews[0],
       activeTableAndView?.table || activeTable
     );
-    console.log('activeViewRows', activeViewRows);
+    // console.log('activeViewRows', activeViewRows);
     const activeStateSafeGuard = getActiveStateSafeGuard(
       pluginPresets,
       activeTable,
       activeTableAndView,
       activeViewRows
     );
-    console.log('activeStateSafeGuard', activeStateSafeGuard);
+    // console.log('activeStateSafeGuard', activeStateSafeGuard);
 
     setAllTables(allTables);
     setActiveTableViews(activeTableAndView?.table?.views || activeTableViews);
@@ -175,10 +179,14 @@ const App: React.FC<IAppProps> = (props) => {
         activePresetIdx: _activePresetIdx,
       };
     }
+    console.log('XXXXXXXX');
+    console.log('updatedActiveState', updatedActiveState);
     const activeViewRows: TableRow[] = window.dtableSDK.getViewRows(
       updatedActiveState?.activeTableView,
       updatedActiveState?.activeTable
     );
+    console.log('activeViewRows', activeViewRows);
+    console.log('XXXXXXXX');
     setActiveTableViews(updatedActiveTableViews);
     setAppActiveState({ ...updatedActiveState, activeViewRows });
   };
@@ -191,7 +199,7 @@ const App: React.FC<IAppProps> = (props) => {
     activePresetId?: string,
     callBack: any = null
   ) => {
-    console.log('activePresetIdx', _activePresetIdx);
+    // console.log('activePresetIdx', _activePresetIdx);
 
     setAppActiveState((prevState) => ({
       ...prevState,
@@ -215,25 +223,24 @@ const App: React.FC<IAppProps> = (props) => {
   const onTableOrViewChange = (type: 'table' | 'view', option: SelectOption) => {
     const action = type;
     let _activeViewRows: TableRow[];
-    let _activeTable = allTables.find((s) => s._id === option.value) || allTables[0];
-    let _activeTableView =
-      activeTableViews.find((s) => s._id === option.value) || activeTableViews[0];
-    _activeViewRows = window.dtableSDK.getViewRows(_activeTableView, _activeTable);
-    console.log('_activeTableView', _activeTableView);
-    console.log('_activeViewRows', _activeViewRows);
 
     switch (action) {
       case 'table':
+        let _activeTable = allTables.find((s) => s._id === option.value)!;
+        _activeViewRows = window.dtableSDK.getViewRows(_activeTable.views[0], _activeTable);
         setActiveTableViews(_activeTable.views);
         setAppActiveState((prevState) => ({
           ...prevState,
-          activeTable,
+          activeTable: _activeTable,
           activeTableName: _activeTable.name,
           activeTableView: _activeTable.views[0],
           activeViewRows: _activeViewRows,
         }));
         break;
       case 'view':
+        let _activeTableView =
+          activeTableViews.find((s) => s._id === option.value) || activeTableViews[0];
+        _activeViewRows = window.dtableSDK.getViewRows(_activeTableView, activeTable);
         setAppActiveState((prevState) => ({
           ...prevState,
           activeTableView: _activeTableView,

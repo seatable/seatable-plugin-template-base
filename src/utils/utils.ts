@@ -190,7 +190,6 @@ export const isUniquePresetName = (
 // };
 export const getPluginSettings = (activeTable: Table, PLUGIN_NAME: string) => {
   const getPluginPresets = window.dtableSDK.getPluginSettings(PLUGIN_NAME); // Plugin Presets not Settings function name should be changed
-  console.log('getPluginPresets', getPluginPresets);
 
   // This is a safe guard to prevent the plugin from crashing if there are no presets
   const _presetSettings: PresetSettings = {
@@ -210,8 +209,6 @@ export const getPluginSettings = (activeTable: Table, PLUGIN_NAME: string) => {
   };
 
   const pluginSettings = getPluginPresets ? getPluginPresets : updatedDefaultSettings;
-
-  console.log('pluginSettings', pluginSettings);
 
   return pluginSettings.presets;
 };
@@ -249,8 +246,6 @@ export const getActiveStateSafeGuard = (
 };
 
 export const getActiveTableAndActiveView = (pluginPresets: PresetsArray, allTables: TableArray) => {
-  console.log('pluginPresets check', pluginPresets);
-  console.log('allTables check', allTables);
   let tableViewObj;
   if (pluginPresets.length > 0) {
     let table = allTables.find((i) => i.name === pluginPresets[0].settings?.selectedTable?.label)!;
