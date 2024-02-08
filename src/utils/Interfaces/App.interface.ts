@@ -20,5 +20,5 @@ export interface AppActiveState {
   activeTable: Table | null; // Represents the currently active table in the app
   activeTableName: string; // Holds the name of the active table // TO REMOVE
   activeTableView: TableView | null; // Represents the currently active table view in the app
-  viewRows?: TableRow[];
+  activeViewRows?: TableRow[]; // Represents the currently active view rows in the app
 }
