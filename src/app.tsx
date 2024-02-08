@@ -219,6 +219,7 @@ const App: React.FC<IAppProps> = (props) => {
     let _activeTableView =
       activeTableViews.find((s) => s._id === option.value) || activeTableViews[0];
     _activeViewRows = window.dtableSDK.getViewRows(_activeTableView, _activeTable);
+    console.log('_activeTableView', _activeTableView);
     console.log('_activeViewRows', _activeViewRows);
 
     switch (action) {

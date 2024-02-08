@@ -51,10 +51,14 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
     console.log('tableOptions', tableOptions);
     console.log('viewOptions', viewOptions);
     // Set selected options based on activeTable and activeTableView
-    let tableSelectedOption = tableOptions.find((item) => item.value === activeTable?._id);
+    let tableSelectedOption = {
+      value: appActiveState?.activeTable?._id!,
+      label: appActiveState.activeTableName,
+    };
     let viewSelectedOption = viewOptions.find((item) => item.value === activeTableView?._id);
-    console.log('tableSelectedOption', tableSelectedOption?.label);
+    console.log('tableSelectedOption', tableSelectedOption);
     console.log('viewSelectedOption', viewSelectedOption?.label);
+
     // Update state with new options and selected values
     setTableOptions(tableOptions);
     setTableSelectedOption(tableSelectedOption);
