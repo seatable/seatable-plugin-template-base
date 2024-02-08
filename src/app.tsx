@@ -155,8 +155,9 @@ const App: React.FC<IAppProps> = (props) => {
       updatedActiveTableViews = newPresetActiveState?.activeTable?.views!;
     } else {
       const _activePresetIdx = pluginPresets.findIndex((preset) => preset._id === presetId);
-      const selectedTable = pluginPresets[activePresetIdx]?.settings?.selectedTable;
-      const selectedView = pluginPresets[activePresetIdx]?.settings?.selectedView;
+      const activePreset = pluginPresets.find((preset) => preset._id === presetId);
+      const selectedTable = activePreset?.settings?.selectedTable;
+      const selectedView = activePreset?.settings?.selectedView;
 
       const _activeTableName = selectedTable?.label as string;
       const _activeTableId = selectedTable?.value as string;
