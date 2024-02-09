@@ -349,7 +349,7 @@ const App: React.FC<IAppProps> = (props) => {
           <div style={{ marginTop: '8px', fontWeight: 'bold' }}>View Rows:</div>
           <div>
             {activeViewRows?.map((row) => (
-              <div key={String(row['0000'])}>
+              <div key={row._id}>
                 <h6>{row['0000']}</h6>
               </div>
             ))}
