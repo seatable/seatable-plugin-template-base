@@ -213,12 +213,12 @@ export const getPluginSettings = (activeTable: Table, PLUGIN_NAME: string) => {
   return pluginSettings.presets;
 };
 
-export const appendPresetSuffix = (name: string, nameList: string[]): string => {
-  if (!nameList.includes(name)) {
+export const appendPresetSuffix = (name: string, nameList: string[], suffix: string): string => {
+  if (!nameList.includes(name.trim())) {
     return name;
   } else {
-    let _name = `${name} new`;
-    return appendPresetSuffix(_name, nameList);
+    let _name = `${name} ${suffix}`;
+    return appendPresetSuffix(_name, nameList, suffix);
   }
 };
 
