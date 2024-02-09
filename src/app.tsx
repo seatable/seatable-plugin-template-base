@@ -57,6 +57,7 @@ const App: React.FC<IAppProps> = (props) => {
 
   // useEffect(() => {
   //   console.log('New Active State');
+  //   console.log('pluginPresets', pluginPresets);
   //   console.log(appActiveState);
   //   console.log('*************');
   // }, [appActiveState]);
@@ -219,12 +220,12 @@ const App: React.FC<IAppProps> = (props) => {
 
   // // switch table or view
   const onTableOrViewChange = (type: 'table' | 'view', option: SelectOption) => {
-    const action = type;
     let _activeViewRows: TableRow[];
+    let updatedPluginPresets: PresetsArray;
 
-    switch (action) {
+    switch (type) {
       case 'table':
-        let _activeTable = allTables.find((s) => s._id === option.value)!;
+        const _activeTable = allTables.find((s) => s._id === option.value)!;
         _activeViewRows = window.dtableSDK.getViewRows(_activeTable.views[0], _activeTable);
         setActiveTableViews(_activeTable.views);
         setAppActiveState((prevState) => ({
@@ -234,7 +235,24 @@ const App: React.FC<IAppProps> = (props) => {
           activeTableView: _activeTable.views[0],
           activeViewRows: _activeViewRows,
         }));
+
+        updatedPluginPresets = pluginPresets.map((preset) =>
+          preset._id === activePresetId
+            ? {
+                ...preset,
+                settings: {
+                  ...preset.settings,
+                  selectedTable: { value: _activeTable._id, label: _activeTable.name },
+                  selectedView: {
+                    value: _activeTable.views[0]._id,
+                    label: _activeTable.views[0].name,
+                  },
+                },
+              }
+            : preset
+        );
         break;
+
       case 'view':
         let _activeTableView =
           activeTableViews.find((s) => s._id === option.value) || activeTableViews[0];
@@ -244,46 +262,29 @@ const App: React.FC<IAppProps> = (props) => {
           activeTableView: _activeTableView,
           activeViewRows: _activeViewRows,
         }));
+
+        updatedPluginPresets = pluginPresets.map((preset) =>
+          preset._id === activePresetId
+            ? {
+                ...preset,
+                settings: {
+                  ...preset.settings,
+                  selectedView: { value: _activeTableView._id, label: _activeTableView.name },
+                },
+              }
+            : preset
+        );
         break;
     }
-    updatePresetSettings(pluginPresets, activePresetId, type, { [type]: option });
-  };
-
-  const updatePresetSettings = (
-    pluginPresets: PresetsArray,
-    activePresetId: string,
-    type: 'table' | 'view',
-    option: {
-      view?: SelectOption;
-      table?: SelectOption;
-    }
-  ) => {
-    const dynamicField = option.view ? 'selectedView' : 'selectedTable';
-    const value = option[type]?.value;
-    const label = option[type]?.label;
-    const updatedPluginPresets = pluginPresets.map((preset) => {
-      if (preset._id === activePresetId) {
-        return {
-          ...preset,
-          settings: {
-            ...preset.settings,
-            [dynamicField]: {
-              value,
-              label,
-            },
-          },
-        };
-      } else return preset;
-    });
 
     setPluginPresets(updatedPluginPresets);
   };
+
   const { collaborators } = window.app.state;
 
   if (!isShowPlugin) {
     return null;
   }
-
   return isLoading ? (
     <div></div>
   ) : (
