@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../../../styles/Modal.module.scss';
+import stylesPresets from '../../../styles/Presets.module.scss';
 import { IPresetDropdownProps } from '../../../utils/Interfaces/PluginPresets/Dropdown.interface';
 import { PresetHandleAction } from '../../../utils/constants';
 
 const PresetDropdown: React.FC<IPresetDropdownProps> = ({
   togglePresetsUpdatePopUp,
   dropdownRef,
+  pluginPresets,
 }) => {
+  const isPresets = pluginPresets.length >= 2;
+
   return (
     <ul ref={dropdownRef} className={styles.preset_dropdown}>
       <li
@@ -24,11 +28,17 @@ const PresetDropdown: React.FC<IPresetDropdownProps> = ({
         <p className="ml-2">Duplicate Preset</p>
       </li>
       <li
-        onClick={togglePresetsUpdatePopUp}
+        onClick={isPresets ? togglePresetsUpdatePopUp : undefined}
         id={PresetHandleAction.delete}
-        className="d-flex align-items-center">
-        <i className="item-icon dtable-font dtable-icon-delete"></i>
-        <p className="ml-2">Delete Preset</p>
+        className={`d-flex align-items-center ${isPresets ? 'clickable' : 'not-clickable'}`}
+        style={{ pointerEvents: isPresets ? 'auto' : 'none' }}>
+        <i
+          className={`item-icon dtable-font dtable-icon-delete ${
+            !isPresets ? stylesPresets.isPresetsCondition : ''
+          }`}></i>
+        <p className={`ml-2 ${!isPresets ? stylesPresets.isPresetsCondition : ''}`}>
+          Delete Preset
+        </p>
       </li>
     </ul>
   );

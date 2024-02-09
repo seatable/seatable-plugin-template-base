@@ -1,4 +1,4 @@
-import { PRESET_NAME } from '../../constants';
+import { PLUGIN_NAME } from '../../constants';
 import { AppActiveState } from '../App.interface';
 import { SelectOption } from '../PluginSettings.interface';
 import { TableArray } from '../Table.interface';
@@ -21,7 +21,7 @@ export interface IPresetsState {
 
 export interface IPluginSettings {
   presets: PresetsArray;
-  [PRESET_NAME]: string;
+  [PLUGIN_NAME]: string;
 }
 
 export interface IPresetInfo {

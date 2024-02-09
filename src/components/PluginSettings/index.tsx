@@ -22,13 +22,8 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
   const [tableSelectedOption, setTableSelectedOption] = useState<SelectOption>();
   const [viewSelectedOption, setViewSelectedOption] = useState<SelectOption>();
 
-  // useEffect(() => {
-  //   console.log('activePresetIdx in Settings', appActiveState.activePresetIdx);
-  // }, [appActiveState.activePresetIdx]);
-
   // Change options when active table or view changes
   useEffect(() => {
-    // console.log('Settings has been called');
     const { activeTable, activeTableView } = appActiveState;
 
     // Create options for tables
@@ -45,22 +40,19 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
       return { value, label };
     });
 
-    // console.log('tableOptions', tableOptions);
-    // console.log('viewOptions', viewOptions);
     // Set selected options based on activeTable and activeTableView
     let tableSelectedOption = {
       value: appActiveState?.activeTable?._id!,
       label: appActiveState.activeTableName,
     };
     let viewSelectedOption = viewOptions.find((item) => item.value === activeTableView?._id);
-    // console.log('tableSelectedOption', tableSelectedOption);
-    // console.log('viewSelectedOption', viewSelectedOption?.label);
 
     // Update state with new options and selected values
     setTableOptions(tableOptions);
     setTableSelectedOption(tableSelectedOption);
     setViewOptions(viewOptions);
     setViewSelectedOption(viewSelectedOption);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appActiveState]);
 
   return (
