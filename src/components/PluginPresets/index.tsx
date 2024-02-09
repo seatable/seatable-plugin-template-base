@@ -142,9 +142,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       activeTableView: allTables[0].views[0],
     };
 
-    if (type !== PresetHandleAction.duplicate) {
-      onSelectPreset(_id, newPresetActiveState);
-    }
+    onSelectPreset(_id, newPresetActiveState);
   };
 
   // Duplicate a preset
