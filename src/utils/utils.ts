@@ -1,11 +1,11 @@
 import pluginContext from '../plugin-context';
 import { AppActiveState } from './Interfaces/App.interface';
 import {
+  IPluginSettings,
   IPresetInfo,
   PresetSettings,
   PresetsArray,
 } from './Interfaces/PluginPresets/Presets.interface';
-import { SelectOption } from './Interfaces/PluginSettings.interface';
 import {
   IActiveTableAndView,
   Table,
@@ -13,7 +13,7 @@ import {
   TableRow,
   TableView,
 } from './Interfaces/Table.interface';
-import { DEFAULT_PLUGIN_SETTINGS, PLUGIN_NAME } from './constants';
+import { DEFAULT_PLUGIN_SETTINGS, DEFAULT_PRESET_NAME, PLUGIN_NAME } from './constants';
 
 export const generatorBase64Code = (keyLength = 4) => {
   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789';
@@ -260,4 +260,26 @@ export const getActiveTableAndActiveView = (pluginPresets: PresetsArray, allTabl
     };
   }
   return tableViewObj as IActiveTableAndView;
+};
+
+/**
+ * Creates a default preset for the plugin.
+ * @param activeTable - The active table for which it retrieves the info.
+ * @param pluginName - The name of the plugin associated with the preset.
+ * @returns The default preset with initial settings.
+ */
+export const createDefaultPreset = (activeTable: Table, pluginName: string): IPluginSettings => {
+  return {
+    presets: [
+      {
+        _id: generatorPresetId([]),
+        name: DEFAULT_PRESET_NAME,
+        settings: {
+          selectedTable: { value: activeTable._id, label: activeTable.name },
+          selectedView: { value: activeTable?.views[0]?._id, label: activeTable?.views[0]?.name },
+        },
+      },
+    ],
+    [PLUGIN_NAME]: pluginName,
+  };
 };

@@ -24,15 +24,14 @@ import {
   INITIAL_CURRENT_STATE,
   PLUGIN_ID,
   PLUGIN_NAME,
-  PRESET_NAME,
 } from './utils/constants';
 import './locale';
 import {
+  createDefaultPreset,
   getActiveStateSafeGuard,
   getActiveTableAndActiveView,
   getPluginSettings,
 } from './utils/utils';
-import { act } from 'react-dom/test-utils';
 
 const App: React.FC<IAppProps> = (props) => {
   const { isDevelopment } = props;
@@ -53,15 +52,14 @@ const App: React.FC<IAppProps> = (props) => {
   // We should get rid of the pluginSettings state and use the pluginPresets state instead
   const [pluginSettings, setPluginSettings] = useState<IPluginSettings>({
     presets: [],
-    [PRESET_NAME]: PRESET_NAME,
+    [PLUGIN_NAME]: PLUGIN_NAME,
   });
 
-  useEffect(() => {
-    console.log('New Active State');
-    console.log(appActiveState);
-    console.log('*************');
-
-  }, [appActiveState]);
+  // useEffect(() => {
+  //   console.log('New Active State');
+  //   console.log(appActiveState);
+  //   console.log('*************');
+  // }, [appActiveState]);
 
   useEffect(() => {
     initPluginDTableData();
@@ -112,23 +110,29 @@ const App: React.FC<IAppProps> = (props) => {
     let activeTable: Table = window.dtableSDK.getActiveTable(); // How is the ActiveTable Set? allTables[0]?
     let activeTableViews: TableViewArray = activeTable.views; // All the Views of the specific Active Table
     let pluginPresets: PresetsArray = getPluginSettings(activeTable, PLUGIN_NAME); // An array with all the Presets
+
+    // If there are no presets, the default one is created
+    if (pluginPresets.length === 0) {
+      const defaultPluginSettings: IPluginSettings = createDefaultPreset(activeTable, PLUGIN_NAME);
+      window.dtableSDK.updatePluginSettings(PLUGIN_NAME, defaultPluginSettings);
+    }
+    // Retrieve both objects of activeTable and activeView from the pluginPresets NOT from the window.dtableSDK
     const activeTableAndView: IActiveTableAndView = getActiveTableAndActiveView(
       pluginPresets,
       allTables
-    ); // Retrieve both objects of activeTable and activeView from the pluginPresets NOT from the window.dtableSDK
-    // console.log('activeTableAndView', activeTableAndView);
+    );
+    // Get the activeViewRows from the window.dtableSDK
     const activeViewRows: TableRow[] = window.dtableSDK.getViewRows(
       activeTableAndView?.view || activeTableViews[0],
       activeTableAndView?.table || activeTable
     );
-    // console.log('activeViewRows', activeViewRows);
+
     const activeStateSafeGuard = getActiveStateSafeGuard(
       pluginPresets,
       activeTable,
       activeTableAndView,
       activeViewRows
     );
-    // console.log('activeStateSafeGuard', activeStateSafeGuard);
 
     setAllTables(allTables);
     setActiveTableViews(activeTableAndView?.table?.views || activeTableViews);
@@ -176,14 +180,12 @@ const App: React.FC<IAppProps> = (props) => {
         activePresetIdx: _activePresetIdx,
       };
     }
-    console.log('XXXXXXXX');
-    console.log('updatedActiveState', updatedActiveState);
+
     const activeViewRows: TableRow[] = window.dtableSDK.getViewRows(
       updatedActiveState?.activeTableView,
       updatedActiveState?.activeTable
     );
-    console.log('activeViewRows', activeViewRows);
-    console.log('XXXXXXXX');
+
     setActiveTableViews(updatedActiveTableViews);
     setAppActiveState({ ...updatedActiveState, activeViewRows });
   };
@@ -196,7 +198,6 @@ const App: React.FC<IAppProps> = (props) => {
     activePresetId?: string,
     callBack: any = null
   ) => {
-    // console.log('activePresetIdx', _activePresetIdx);
 
     setAppActiveState((prevState) => ({
       ...prevState,

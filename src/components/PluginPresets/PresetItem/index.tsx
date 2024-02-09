@@ -99,6 +99,7 @@ const PresetItem: React.FC<IPresetItemProps> = ({
         {showPresetDropdown && (
           <PresetDropdown
             dropdownRef={popupDomNode}
+            pluginPresets={pluginPresets}
             togglePresetsUpdatePopUp={handlePresetsUpdate}
           />
         )}

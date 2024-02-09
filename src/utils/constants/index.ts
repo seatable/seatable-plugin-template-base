@@ -3,13 +3,13 @@ import { PresetSettings } from '../Interfaces/PluginPresets/Presets.interface';
 import { AppActiveState, AppIsShowState } from '../Interfaces/App.interface';
 import { IActivePresetSettings } from '../Interfaces/PluginSettings.interface';
 
-const TABLE_NAME = 'table_name';
-const PRESET_NAME = 'view_name';
-
 // Customize constant names for each different plugin.
 const PLUGIN_NAME = 'Plugin template'; // INSERT PLUGIN NAME
 const PLUGIN_ICON = Icons['RiOrganizationChart']; // Change PLUGIN Icon Name
 const PLUGIN_ID = 'main-custom-content'; // Insert Plugin ID
+
+const TABLE_NAME = 'table_name';
+const DEFAULT_PRESET_NAME = 'Default Preset';
 
 const DEFAULT_SELECT_OPTION = {
   value: '',
@@ -26,7 +26,7 @@ const DEFAULT_PLUGIN_SETTINGS = {
   presets: [
     {
       _id: '0000',
-      name: 'Default Preset',
+      name: DEFAULT_PRESET_NAME,
       settings: {},
     },
   ],
@@ -75,7 +75,7 @@ export {
   PLUGIN_NAME,
   PLUGIN_ID,
   TABLE_NAME,
-  PRESET_NAME,
+  DEFAULT_PRESET_NAME,
   DEFAULT_PLUGIN_SETTINGS,
   DEFAULT_PRESET_SETTINGS,
   PresetHandleAction,
