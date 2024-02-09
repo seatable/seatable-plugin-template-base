@@ -61,6 +61,7 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
     setTableSelectedOption(tableSelectedOption);
     setViewOptions(viewOptions);
     setViewSelectedOption(viewSelectedOption);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appActiveState]);
 
   return (
