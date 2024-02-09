@@ -150,7 +150,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     // anytofix
     const { name, _id, settings } = p;
     let _presetNames = _pluginPresets.map((p) => p.name);
-    let _presetName =  appendPresetSuffix(name, _presetNames, 'copy');
+    let _presetName = appendPresetSuffix(name, _presetNames, 'copy');
     addPreset(PresetHandleAction.duplicate, _presetName, { pId: _id, pSettings: settings });
   };
 
