@@ -79,7 +79,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     const isUnique = isUniquePresetName(_presetName, _pluginPresets, activePresetIdx);
 
     if (isUnique && type === PresetHandleAction.new) {
-      _presetName = appendPresetSuffix(_presetName, _presetNames);
+      _presetName = appendPresetSuffix(_presetName, _presetNames, 'new');
       setPresetNameAlreadyExists(false);
     } else if (isUnique) {
       setPresetNameAlreadyExists(true);
@@ -151,7 +151,9 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   const duplicatePreset = (p: any) => {
     // anytofix
     const { name, _id, settings } = p;
-    addPreset(PresetHandleAction.duplicate, `${name} copy`, { pId: _id, pSettings: settings });
+    let _presetNames = _pluginPresets.map((p) => p.name);
+    let _presetName =  appendPresetSuffix(name, _presetNames, 'copy');
+    addPreset(PresetHandleAction.duplicate, _presetName, { pId: _id, pSettings: settings });
   };
 
   // edit preset name
