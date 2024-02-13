@@ -1,5 +1,5 @@
 import pluginContext from '../plugin-context';
-import { AppActiveState } from './Interfaces/App.interface';
+import { AppActiveState, IPluginDataStore } from './Interfaces/App.interface';
 import {
   IPluginSettings,
   IPresetInfo,
@@ -193,7 +193,7 @@ export const isUniquePresetName = (
 // export const getPluginSettings = (activeTable: Table) => {
 // Function implementation...
 // };
-export const getPluginSettings = (activeTable: Table, PLUGIN_NAME: string) => {
+export const getPluginDataStore = (activeTable: Table, PLUGIN_NAME: string) => {
   const getPluginPresets = window.dtableSDK.getPluginSettings(PLUGIN_NAME); // Plugin Presets not Settings function name should be changed
 
   // This is a safe guard to prevent the plugin from crashing if there are no presets
@@ -213,10 +213,27 @@ export const getPluginSettings = (activeTable: Table, PLUGIN_NAME: string) => {
     ],
   };
 
-  const pluginSettings = getPluginPresets ? getPluginPresets : updatedDefaultSettings;
-
-  return pluginSettings.presets;
+  const pluginDataStore = (getPluginPresets && getPluginPresets.presets.length !== 0) ? getPluginPresets : updatedDefaultSettings;
+  return pluginDataStore;
 };
+
+export const parsePluginDataToActiveState = (pluginDataStore: IPluginDataStore, pluginPresets: PresetsArray, allTables:TableArray) => {
+  let idx = pluginDataStore.activePresetIdx;
+  let id = pluginDataStore.activePresetId;
+  let table = allTables.find(t => t._id === pluginPresets[idx].settings?.selectedTable?.value)!
+  let tableName = table.name;
+  let tableView = table.views.find(v => v._id === pluginPresets[idx].settings?.selectedView?.value)!
+
+  const appActiveState = {
+    activePresetId: id, 
+    activePresetIdx: idx, 
+    activeTable: table, 
+    activeTableName: tableName, 
+    activeTableView: tableView,
+  }
+
+  return appActiveState
+}
 
 export const appendPresetSuffix = (name: string, nameList: string[], suffix: string): string => {
   if (!nameList.includes(name.trim())) {
