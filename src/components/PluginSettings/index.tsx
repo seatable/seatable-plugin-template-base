@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import DtableSelect from '../Elements/dtable-select';
 import styles from '../../styles/PluginSettings.module.scss';
 import {
-  IActivePresetSettings,
   SelectOption,
   IPluginSettingsProps,
 } from '../../utils/Interfaces/PluginSettings.interface';
@@ -13,7 +12,6 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
   allTables,
   appActiveState,
   activeTableViews,
-  pluginPresets,
   onTableOrViewChange,
 }) => {
   // State variables for table and view options
@@ -24,7 +22,7 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
 
   // Change options when active table or view changes
   useEffect(() => {
-    const { activeTable, activeTableView } = appActiveState;
+    const { activeTableView } = appActiveState;
 
     // Create options for tables
     let tableOptions = allTables.map((item) => {

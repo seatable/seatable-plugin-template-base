@@ -13,7 +13,12 @@ import {
   TableRow,
   TableView,
 } from './Interfaces/Table.interface';
-import { DEFAULT_PLUGIN_SETTINGS, DEFAULT_PRESET_NAME, PLUGIN_NAME } from './constants';
+import {
+  DEFAULT_PLUGIN_SETTINGS,
+  DEFAULT_PRESET_NAME,
+  PLUGIN_NAME,
+  PresetHandleAction,
+} from './constants';
 
 export const generatorBase64Code = (keyLength = 4) => {
   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789';
@@ -245,21 +250,52 @@ export const getActiveStateSafeGuard = (
   return checkForPresets;
 };
 
-export const getActiveTableAndActiveView = (pluginPresets: PresetsArray, allTables: TableArray) => {
+
+/**
+ * Retrieves the active table and view based on the preset handling action type.
+ *
+ * @param pluginPresets - Array of plugin presets.
+ * @param allTables - Array of all available tables.
+ * @param type - Type of preset handling action (e.g., new, duplicate).
+ * @param option - Additional options for handling presets (e.g., preset ID, preset settings).
+ * @returns An object containing the active table and view.
+ */
+export const getActiveTableAndActiveView = (
+  pluginPresets: PresetsArray,
+  allTables: TableArray,
+  type?: string,
+  option?: { pId: string; pSettings: PresetSettings }
+) => {
   let tableViewObj;
-  if (pluginPresets.length > 0) {
-    let table = allTables.find((i) => i.name === pluginPresets[0].settings?.selectedTable?.label)!;
-    let views = table?.views; // Use 'table' to get views
-    let view = views?.find((v) => {
+  let table;
+  let views;
+  let view;
+
+  // Type === 'new' we set the first Table and View as the active ones
+  // Type === 'duplicate' we set the selected Table and View as the active ones
+  // Type === undefined we set the last used Table and View as the active ones (TO-DO)
+  if (type === PresetHandleAction.new) {
+    table = allTables[0];
+    view = table?.views[0];
+  } else if (type === PresetHandleAction.duplicate) {
+    table = allTables.find((i) => i.name === option?.pSettings.selectedTable?.label)!;
+    views = table?.views;
+    view = views?.find((v) => {
+      return v.name === option?.pSettings.selectedView?.label;
+    })!;
+  } else if (pluginPresets.length > 0 && type === undefined) {
+    // This needs to be changes since in this case we need to retrieve the Last Preset used from the USER
+    table = allTables.find((i) => i.name === pluginPresets[0].settings?.selectedTable?.label)!;
+    views = table?.views;
+    view = views?.find((v) => {
       return v.name === pluginPresets[0].settings?.selectedView?.label;
     })!;
-
-    tableViewObj = {
-      table: table,
-      view: view,
-    };
   }
-  return tableViewObj as IActiveTableAndView;
+
+  return (tableViewObj = {
+    table: table,
+    view: view,
+  } as IActiveTableAndView);
 };
 
 /**

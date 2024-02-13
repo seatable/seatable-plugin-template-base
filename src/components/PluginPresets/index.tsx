@@ -9,9 +9,18 @@ import {
   PresetSettings,
   PresetsArray,
 } from '../../utils/Interfaces/PluginPresets/Presets.interface';
-import { appendPresetSuffix, generatorPresetId, isUniquePresetName } from '../../utils/utils';
+import {
+  appendPresetSuffix,
+  generatorPresetId,
+  getActiveTableAndActiveView,
+  isUniquePresetName,
+} from '../../utils/utils';
 import { DEFAULT_PLUGIN_SETTINGS, PresetHandleAction, TABLE_NAME } from '../../utils/constants';
-import { TableArray, TableColumn } from '../../utils/Interfaces/Table.interface';
+import {
+  IActiveTableAndView,
+  TableArray,
+  TableColumn,
+} from '../../utils/Interfaces/Table.interface';
 import PresetInput from './PresetInput';
 import useClickOut from '../../hooks/useClickOut';
 import { createDefaultPresetSettings } from '../../utils/helpers';
@@ -132,14 +141,20 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     newPresetsArray[_activePresetIdx].settings = Object.assign(_presetSettings, initUpdated);
     pluginSettings.presets = newPresetsArray;
     updatePresets(_activePresetIdx, newPresetsArray, pluginSettings, _id);
+    const _activeTableAndView: IActiveTableAndView = getActiveTableAndActiveView(
+      newPresetsArray,
+      allTables,
+      type,
+      option
+    );
 
     // Update active state info
     const newPresetActiveState: AppActiveState = {
       activePresetId: _id,
       activePresetIdx: _activePresetIdx,
-      activeTable: allTables[0],
+      activeTable: _activeTableAndView.table,
       activeTableName: newPresetsArray[_activePresetIdx]?.settings?.selectedTable?.label!,
-      activeTableView: allTables[0].views[0],
+      activeTableView: _activeTableAndView.view,
     };
 
     onSelectPreset(_id, newPresetActiveState);
@@ -150,7 +165,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     // anytofix
     const { name, _id, settings } = p;
     let _presetNames = _pluginPresets.map((p) => p.name);
-    let _presetName =  appendPresetSuffix(name, _presetNames, 'copy');
+    let _presetName = appendPresetSuffix(name, _presetNames, 'copy');
     addPreset(PresetHandleAction.duplicate, _presetName, { pId: _id, pSettings: settings });
   };
 
