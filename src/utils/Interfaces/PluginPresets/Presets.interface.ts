@@ -11,6 +11,7 @@ export interface IPresetsProps {
   pluginSettings: IPluginSettings;
   isShowPresets: boolean;
   allTables: TableArray;
+  updateActiveData: () => void;
 }
 
 export interface IPresetsState {

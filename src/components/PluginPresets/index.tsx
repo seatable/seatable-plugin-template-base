@@ -34,6 +34,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   isShowPresets,
   onSelectPreset,
   updatePresets,
+  updateActiveData
 }) => {
   const [dragItemIndex, setDragItemIndex] = useState<number | null>(null);
   const [dragOverItemIndex, setDragOverItemIndex] = useState<number | null>(null);
@@ -191,6 +192,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     }
     pluginSettings.presets = newPluginPresets;
     updatePresets(0, newPluginPresets, pluginSettings, PresetHandleAction.delete);
+    updateActiveData();
   };
 
   // drag and drop logic

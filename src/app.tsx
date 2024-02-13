@@ -55,20 +55,12 @@ const App: React.FC<IAppProps> = (props) => {
     [PLUGIN_NAME]: PLUGIN_NAME,
   });
 
-  // useEffect(() => {
-  //   console.log('New Active State');
-  //   console.log('pluginPresets', pluginPresets);
-  //   console.log(appActiveState);
-  //   console.log('*************');
-  // }, [appActiveState]);
-
   useEffect(() => {
     initPluginDTableData();
     return () => {
       unsubscribeLocalDtableChanged();
       unsubscribeRemoteDtableChanged();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const initPluginDTableData = async () => {
@@ -214,6 +206,25 @@ const App: React.FC<IAppProps> = (props) => {
     window.dtableSDK.updatePluginSettings(PLUGIN_NAME, pluginSettings);
   };
 
+  const updateActiveData = () => {
+    let allTables: TableArray = window.dtableSDK.getTables();
+    let tableOfPresetOne = pluginPresets[0].settings?.selectedTable!;
+    let viewOfPresetOne = pluginPresets[0].settings?.selectedView!;
+    let table = allTables.find((t) => t._id === tableOfPresetOne.value)!;
+    let view = table?.views.find((v) => v._id === viewOfPresetOne.value)!;
+
+    const newPresetActiveState: AppActiveState = {
+      activePresetId: pluginPresets[0]._id,
+      activePresetIdx: 0,
+      activeTable: table,
+      activeTableName: table.name,
+      activeTableView: view,
+      activeViewRows: window.dtableSDK.getViewRows(view, table),
+    };
+
+    setAppActiveState(newPresetActiveState);
+  };
+
   const togglePresets = () => {
     setTogglePresetsComponent((prev) => !prev);
   };
@@ -306,6 +317,7 @@ const App: React.FC<IAppProps> = (props) => {
           isShowPresets={isShowPresets}
           onSelectPreset={onSelectPreset}
           updatePresets={updatePresets}
+          updateActiveData={updateActiveData}
         />
         {/* content  */}
         <div id={PLUGIN_ID} className={styles.body}>
