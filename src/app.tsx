@@ -45,7 +45,7 @@ const App: React.FC<IAppProps> = (props) => {
   // Boolean state to show/hide the plugin's components
   const [isShowState, setIsShowState] = useState<AppIsShowState>(INITIAL_IS_SHOW_STATE);
   const { isShowPlugin, isShowSettings, isLoading, isShowPresets } = isShowState;
-  // *** // Tables, Presets, Views as dataStates. The main data of the plugin
+  // Tables, Presets, Views as dataStates. The main data of the plugin
   const [allTables, setAllTables] = useState<TableArray>([]);
   const [activeTableViews, setActiveTableViews] = useState<TableViewArray>([]);
   const [pluginDataStore, setPluginDataStore] = useState<IPluginDataStore>(DEFAULT_PLUGIN_DATA);
@@ -124,7 +124,6 @@ const App: React.FC<IAppProps> = (props) => {
 
       return;
     } else {
-      console.log('else');
       // If there are no presets, the default one is created
       if (pluginPresets.length === 0) {
         const defaultPluginDataStore: IPluginSettings = createDefaultPluginDataStore(
