@@ -195,7 +195,7 @@ const App: React.FC<IAppProps> = (props) => {
         activePresetIdx: _activePresetIdx,
       };
 
-      updatePluginSettings({
+      updatePluginDataStore({
         ...pluginDataStore,
         activePresetId: presetId,
         activePresetIdx: _activePresetIdx,
@@ -230,11 +230,11 @@ const App: React.FC<IAppProps> = (props) => {
     }));
     setPluginPresets(updatedPresets);
     setPluginDataStore(pluginDataStore);
-    updatePluginSettings(_pluginDataStore);
+    updatePluginDataStore(_pluginDataStore);
   };
 
   // Update plugin data store (old plugin settings)
-  const updatePluginSettings = (pluginDataStore: IPluginDataStore) => {
+  const updatePluginDataStore = (pluginDataStore: IPluginDataStore) => {
     window.dtableSDK.updatePluginSettings(PLUGIN_NAME, pluginDataStore);
   };
 
@@ -321,7 +321,7 @@ const App: React.FC<IAppProps> = (props) => {
     }
 
     setPluginPresets(updatedPluginPresets);
-    updatePluginSettings({ ...pluginDataStore, presets: updatedPluginPresets });
+    updatePluginDataStore({ ...pluginDataStore, presets: updatedPluginPresets });
   };
 
   const { collaborators } = window.app.state;

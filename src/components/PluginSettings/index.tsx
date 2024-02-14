@@ -5,7 +5,7 @@ import {
   SelectOption,
   IPluginSettingsProps,
 } from '../../utils/Interfaces/PluginSettings.interface';
-import { truncateTableName } from '../../utils/helpers';
+import { truncateTableName } from '../../utils/utils';
 
 // PluginSettings component for managing table and view options
 const PluginSettings: React.FC<IPluginSettingsProps> = ({

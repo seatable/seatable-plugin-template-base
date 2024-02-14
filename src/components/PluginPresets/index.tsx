@@ -11,6 +11,7 @@ import {
 } from '../../utils/Interfaces/PluginPresets/Presets.interface';
 import {
   appendPresetSuffix,
+  createDefaultPresetSettings,
   generatorPresetId,
   getActiveTableAndActiveView,
   isUniquePresetName,
@@ -23,7 +24,6 @@ import {
 } from '../../utils/Interfaces/Table.interface';
 import PresetInput from './PresetInput';
 import useClickOut from '../../hooks/useClickOut';
-import { createDefaultPresetSettings } from '../../utils/helpers';
 import { AppActiveState } from '../../utils/Interfaces/App.interface';
 
 const PluginPresets: React.FC<IPresetsProps> = ({
