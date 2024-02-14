@@ -29,10 +29,11 @@ import {
   INITIAL_CURRENT_STATE,
   PLUGIN_ID,
   PLUGIN_NAME,
+  DEFAULT_PLUGIN_DATA,
 } from './utils/constants';
 import './locale';
 import {
-  createDefaultPreset,
+  createDefaultPluginDataStore,
   getActiveStateSafeGuard,
   getActiveTableAndActiveView,
   getPluginDataStore,
@@ -54,13 +55,7 @@ const App: React.FC<IAppProps> = (props) => {
   // Destructure properties from the app's active state for easier access
   const { activeTable, activePresetId, activePresetIdx, activeViewRows } = appActiveState;
   const [togglePresetsComponent, setTogglePresetsComponent] = useState<boolean>(false);
-
-  const [pluginDataStore, setPluginDataStore] = useState<IPluginDataStore>({
-    presets: [],
-    [PLUGIN_NAME]: PLUGIN_NAME,
-    activePresetId: "",
-    activePresetIdx: 0
-  });
+  const [pluginDataStore, setPluginDataStore] = useState<IPluginDataStore>(DEFAULT_PLUGIN_DATA);
 
   useEffect(() => {
     initPluginDTableData();
@@ -131,7 +126,7 @@ const App: React.FC<IAppProps> = (props) => {
     } else {
       // If there are no presets, the default one is created
       if (pluginPresets.length === 0) {
-        const defaultPluginSettings: IPluginSettings = createDefaultPreset(
+        const defaultPluginSettings: IPluginSettings = createDefaultPluginDataStore(
           activeTable,
           PLUGIN_NAME
         );
@@ -220,7 +215,7 @@ const App: React.FC<IAppProps> = (props) => {
     _activePresetIdx: number,
     updatedPresets: PresetsArray,
     pluginDataStore: IPluginDataStore,
-    activePresetId?: string,
+    activePresetId: string,
     callBack: any = null
   ) => {
     let _pluginDataStore = {
