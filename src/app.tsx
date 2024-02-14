@@ -326,7 +326,7 @@ const App: React.FC<IAppProps> = (props) => {
     }
 
     setPluginPresets(updatedPluginPresets);
-    updatePluginSettings({...pluginSettings, presets: updatedPluginPresets})
+    updatePluginSettings({...pluginDataStore, presets: updatedPluginPresets})
   };
 
   const { collaborators } = window.app.state;
