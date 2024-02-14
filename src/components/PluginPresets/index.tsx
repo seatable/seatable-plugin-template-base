@@ -222,9 +222,9 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       setPluginPresets(__pluginPresets);
       setDragItemIndex(null);
       setDragOverItemIndex(null);
-      let _pluginSettings = { ...pluginDataStore, presets: __pluginPresets };
+      let _pluginDataStore = { ...pluginDataStore, presets: __pluginPresets };
 
-      updatePresets(activePresetIdx, __pluginPresets, _pluginSettings, 'drag');
+      updatePresets(activePresetIdx, __pluginPresets, _pluginDataStore, 'drag');
     }
   };
 
