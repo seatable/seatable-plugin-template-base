@@ -163,7 +163,9 @@ const App: React.FC<IAppProps> = (props) => {
     window.app.onClosePlugin();
   };
 
-  // Change Preset
+  /**
+   * Handles the selection of a preset, updating the active state and associated data accordingly.
+   */
   const onSelectPreset = (presetId: string, newPresetActiveState?: AppActiveState) => {
     let updatedActiveState: AppActiveState;
     let updatedActiveTableViews: TableView[];
@@ -210,7 +212,9 @@ const App: React.FC<IAppProps> = (props) => {
     setAppActiveState({ ...updatedActiveState, activeViewRows });
   };
 
-  // Update presets data
+  /**
+   * Updates the presets and associated plugin data store.
+   */
   const updatePresets = (
     _activePresetIdx: number,
     updatedPresets: PresetsArray,
@@ -237,6 +241,11 @@ const App: React.FC<IAppProps> = (props) => {
     window.dtableSDK.updatePluginSettings(PLUGIN_NAME, pluginDataStore);
   };
 
+  /**
+   * Updates the active data based on the settings of the first preset.
+   * Retrieves table and view information from the first preset's settings, fetches the corresponding
+   * data from the available tables, and updates the active state accordingly.
+   */
   const updateActiveData = () => {
     let allTables: TableArray = window.dtableSDK.getTables();
     let tableOfPresetOne = pluginPresets[0].settings?.selectedTable!;
@@ -260,7 +269,9 @@ const App: React.FC<IAppProps> = (props) => {
     setTogglePresetsComponent((prev) => !prev);
   };
 
-  // // switch table or view
+  /**
+   * Handles the change of the active table or view, updating the application state and presets accordingly.
+   */
   const onTableOrViewChange = (type: 'table' | 'view', option: SelectOption) => {
     let _activeViewRows: TableRow[];
     let updatedPluginPresets: PresetsArray;
