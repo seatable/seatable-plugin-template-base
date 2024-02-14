@@ -59,8 +59,8 @@ const App: React.FC<IAppProps> = (props) => {
   const [pluginDataStore, setPluginDataStore] = useState<IPluginDataStore>({
     presets: [],
     [PLUGIN_NAME]: PLUGIN_NAME,
-    activePresetId: "",
-    activePresetIdx: 0
+    activePresetId: '',
+    activePresetIdx: 0,
   });
 
   useEffect(() => {

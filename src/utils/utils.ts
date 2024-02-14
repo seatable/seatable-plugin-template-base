@@ -213,27 +213,36 @@ export const getPluginDataStore = (activeTable: Table, PLUGIN_NAME: string) => {
     ],
   };
 
-  const pluginDataStore = (getPluginPresets && getPluginPresets.presets.length !== 0) ? getPluginPresets : updatedDefaultSettings;
+  const pluginDataStore =
+    getPluginPresets && getPluginPresets.presets.length !== 0
+      ? getPluginPresets
+      : updatedDefaultSettings;
   return pluginDataStore;
 };
 
-export const parsePluginDataToActiveState = (pluginDataStore: IPluginDataStore, pluginPresets: PresetsArray, allTables:TableArray) => {
+export const parsePluginDataToActiveState = (
+  pluginDataStore: IPluginDataStore,
+  pluginPresets: PresetsArray,
+  allTables: TableArray
+) => {
   let idx = pluginDataStore.activePresetIdx;
   let id = pluginDataStore.activePresetId;
-  let table = allTables.find(t => t._id === pluginPresets[idx].settings?.selectedTable?.value)!
+  let table = allTables.find((t) => t._id === pluginPresets[idx].settings?.selectedTable?.value)!;
   let tableName = table.name;
-  let tableView = table.views.find(v => v._id === pluginPresets[idx].settings?.selectedView?.value)!
+  let tableView = table.views.find(
+    (v) => v._id === pluginPresets[idx].settings?.selectedView?.value
+  )!;
 
   const appActiveState = {
-    activePresetId: id, 
-    activePresetIdx: idx, 
-    activeTable: table, 
-    activeTableName: tableName, 
+    activePresetId: id,
+    activePresetIdx: idx,
+    activeTable: table,
+    activeTableName: tableName,
     activeTableView: tableView,
-  }
+  };
 
-  return appActiveState
-}
+  return appActiveState;
+};
 
 export const appendPresetSuffix = (name: string, nameList: string[], suffix: string): string => {
   if (!nameList.includes(name.trim())) {
@@ -266,7 +275,6 @@ export const getActiveStateSafeGuard = (
   };
   return checkForPresets;
 };
-
 
 /**
  * Retrieves the active table and view based on the preset handling action type.
