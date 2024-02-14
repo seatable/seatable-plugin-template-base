@@ -1,4 +1,5 @@
-import { IPluginSettings } from './PluginPresets/Presets.interface';
+import { PLUGIN_NAME } from '../constants';
+import { PresetsArray } from './PluginPresets/Presets.interface';
 import { Table, TableRow, TableView } from './Table.interface';
 
 export interface IAppProps {
@@ -34,5 +35,7 @@ export interface AppActiveState {
 }
 
 export interface IPluginDataStore
-  extends IPluginSettings,
-    Pick<AppActiveState, 'activePresetId' | 'activePresetIdx'> {}
+  extends Pick<AppActiveState, 'activePresetId' | 'activePresetIdx'> {
+  presets: PresetsArray;
+  [PLUGIN_NAME]: string;
+}

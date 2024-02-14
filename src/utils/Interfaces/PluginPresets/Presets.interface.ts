@@ -25,11 +25,6 @@ export interface IPresetsState {
   _allViews: any[];
 }
 
-export interface IPluginSettings {
-  presets: PresetsArray;
-  [PLUGIN_NAME]: string;
-}
-
 export interface IPresetInfo {
   _id: string;
   name: string;

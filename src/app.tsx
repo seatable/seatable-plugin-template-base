@@ -18,7 +18,7 @@ import {
   TableRow,
   IActiveTableAndView,
 } from './utils/Interfaces/Table.interface';
-import { PresetsArray, IPluginSettings } from './utils/Interfaces/PluginPresets/Presets.interface';
+import { PresetsArray } from './utils/Interfaces/PluginPresets/Presets.interface';
 import { SelectOption } from './utils/Interfaces/PluginSettings.interface';
 // Import of CSS
 import styles from './styles/Modal.module.scss';
@@ -126,7 +126,7 @@ const App: React.FC<IAppProps> = (props) => {
     } else {
       // If there are no presets, the default one is created
       if (pluginPresets.length === 0) {
-        const defaultPluginDataStore: IPluginSettings = createDefaultPluginDataStore(
+        const defaultPluginDataStore: IPluginDataStore = createDefaultPluginDataStore(
           activeTable,
           PLUGIN_NAME
         );
