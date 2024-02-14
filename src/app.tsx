@@ -55,7 +55,6 @@ const App: React.FC<IAppProps> = (props) => {
   const { activeTable, activePresetId, activePresetIdx, activeViewRows } = appActiveState;
   const [togglePresetsComponent, setTogglePresetsComponent] = useState<boolean>(false);
 
-  // We should get rid of the pluginSettings state and use the pluginPresets state instead
   const [pluginDataStore, setPluginDataStore] = useState<IPluginDataStore>({
     presets: [],
     [PLUGIN_NAME]: PLUGIN_NAME,
@@ -238,9 +237,9 @@ const App: React.FC<IAppProps> = (props) => {
     updatePluginSettings(_pluginDataStore);
   };
 
-  // update plugin settings
-  const updatePluginSettings = (pluginSettings: IPluginSettings | IPluginDataStore) => {
-    window.dtableSDK.updatePluginSettings(PLUGIN_NAME, pluginSettings);
+  // Update plugin data store (old plugin settings)
+  const updatePluginSettings = (pluginDataStore: IPluginSettings | IPluginDataStore) => {
+    window.dtableSDK.updatePluginSettings(PLUGIN_NAME, pluginDataStore);
   };
 
   const updateActiveData = () => {
