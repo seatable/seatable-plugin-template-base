@@ -103,8 +103,8 @@ const App: React.FC<IAppProps> = (props) => {
   };
 
   const onDTableChanged = () => {
-    // console.log('onDTableChanged');
-    // resetData();
+    console.log('onDTableChanged');
+    resetData();
   };
 
   const resetData = () => {
