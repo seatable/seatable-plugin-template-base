@@ -11,6 +11,18 @@ const PLUGIN_ID = 'main-custom-content'; // Insert Plugin ID
 const TABLE_NAME = 'table_name';
 const DEFAULT_PRESET_NAME = 'Default Preset';
 
+const DEFAULT_SELECT_OPTION = {
+  value: '',
+  label: '',
+};
+
+const DEFAULT_PRESET_SETTINGS: PresetSettings = {
+  shown_image_name: '',
+  shown_title_name: '',
+  selectedTable: DEFAULT_SELECT_OPTION,
+  selectedView: DEFAULT_SELECT_OPTION,
+};
+
 const DEFAULT_PLUGIN_DATA = {
   [PLUGIN_NAME]: PLUGIN_NAME,
   activePresetId: '0000',
@@ -19,29 +31,7 @@ const DEFAULT_PLUGIN_DATA = {
     {
       _id: '0000',
       name: DEFAULT_PRESET_NAME,
-      settings: {},
-    },
-  ],
-};
-
-const DEFAULT_SELECT_OPTION = {
-  value: '',
-  label: '',
-};
-const DEFAULT_PRESET_SETTINGS: PresetSettings = {
-  shown_image_name: '',
-  shown_title_name: '',
-  selectedTable: DEFAULT_SELECT_OPTION,
-  selectedView: DEFAULT_SELECT_OPTION,
-};
-
-const DEFAULT_PLUGIN_SETTINGS = {
-  [PLUGIN_NAME]: PLUGIN_NAME,
-  presets: [
-    {
-      _id: '0000',
-      name: DEFAULT_PRESET_NAME,
-      settings: {},
+      settings: DEFAULT_PRESET_SETTINGS,
     },
   ],
 };
@@ -91,7 +81,6 @@ export {
   TABLE_NAME,
   DEFAULT_PLUGIN_DATA,
   DEFAULT_PRESET_NAME,
-  DEFAULT_PLUGIN_SETTINGS,
   DEFAULT_PRESET_SETTINGS,
   PresetHandleAction,
   INITIAL_IS_SHOW_STATE,

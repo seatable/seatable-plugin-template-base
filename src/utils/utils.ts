@@ -1,11 +1,6 @@
 import pluginContext from '../plugin-context';
 import { AppActiveState, IPluginDataStore } from './Interfaces/App.interface';
-import {
-  IPluginSettings,
-  IPresetInfo,
-  PresetSettings,
-  PresetsArray,
-} from './Interfaces/PluginPresets/Presets.interface';
+import { PresetSettings, PresetsArray } from './Interfaces/PluginPresets/Presets.interface';
 import {
   IActiveTableAndView,
   Table,
@@ -13,13 +8,7 @@ import {
   TableRow,
   TableView,
 } from './Interfaces/Table.interface';
-import {
-  DEFAULT_PLUGIN_DATA,
-  DEFAULT_PLUGIN_SETTINGS,
-  DEFAULT_PRESET_NAME,
-  PLUGIN_NAME,
-  PresetHandleAction,
-} from './constants';
+import { DEFAULT_PLUGIN_DATA, PLUGIN_NAME, PresetHandleAction } from './constants';
 
 export const generatorBase64Code = (keyLength = 4) => {
   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789';
@@ -185,16 +174,6 @@ export const isUniquePresetName = (
 };
 
 /**
- * The function has the purpose of getting the plugin's presets.
- * If the plugin presets are not found, it maps inside the activeTable and returns set it as value.
- * @param {string} PLUGIN_NAME The name of the plugin.
- * @param {Table} activeTable A Table object needed in the .
- * @returns An array with the plugin's presets
- */
-// export const getPluginSettings = (activeTable: Table) => {
-// Function implementation...
-// };
-/**
  * The function has the purpose of getting the plugin data
  * If the plugin presets are not found, it maps inside the activeTable and returns set it as value.
  * @param {string} PLUGIN_NAME The name of the plugin.
@@ -208,25 +187,6 @@ export const getPluginDataStore = (activeTable: Table, PLUGIN_NAME: string) => {
   // Retrieving the Plugin Data as the IPluginDataStore
   const getPluginDataStore: IPluginDataStore = window.dtableSDK.getPluginSettings(PLUGIN_NAME); // getPluginSettings = getPluginDataStore
 
-  // This is a safe guard to prevent the plugin from crashing if there are no presets
-  const _presetSettings: PresetSettings = {
-    selectedTable: { value: activeTable._id, label: activeTable.name },
-    selectedView: { value: activeTable.views[0]._id, label: activeTable.views[0].name },
-  };
-
-  // Importing the default settings from the constants file and updating the presets array with the Default Settings
-  const updatedDefaultSettings = {
-    ...DEFAULT_PLUGIN_SETTINGS,
-    presets: [
-      {
-        ...DEFAULT_PLUGIN_SETTINGS.presets[0],
-        settings: _presetSettings,
-      },
-    ],
-  };
-
-  // const pluginDataStore = (getPluginPresets && getPluginPresets.presets.length !== 0) ? getPluginPresets : updatedDefaultSettings;
-  // return pluginDataStore;
   return getPluginDataStore === null || getPluginDataStore.presets.length === 0
     ? createDefaultPluginDataStore(activeTable, PLUGIN_NAME)
     : getPluginDataStore;
@@ -362,6 +322,6 @@ export const createDefaultPluginDataStore = (
       },
     ],
   };
-  // window.dtableSDK.updatePluginSettings(pluginName, updatedDefaultDataStore);
+  window.dtableSDK.updatePluginSettings(pluginName, updatedDefaultDataStore);
   return updatedDefaultDataStore;
 };

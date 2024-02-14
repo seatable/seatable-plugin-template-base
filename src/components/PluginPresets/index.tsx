@@ -15,7 +15,7 @@ import {
   getActiveTableAndActiveView,
   isUniquePresetName,
 } from '../../utils/utils';
-import { DEFAULT_PLUGIN_SETTINGS, PresetHandleAction, TABLE_NAME } from '../../utils/constants';
+import { DEFAULT_PLUGIN_DATA, PresetHandleAction, TABLE_NAME } from '../../utils/constants';
 import {
   IActiveTableAndView,
   TableArray,
@@ -84,7 +84,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   // Submit new/edited preset name
   const onNewPresetSubmit = (e?: React.MouseEvent<HTMLElement>, type?: string) => {
     let _presetName =
-      presetName || DEFAULT_PLUGIN_SETTINGS.presets[0].name + ' ' + _pluginPresets.length;
+      presetName || DEFAULT_PLUGIN_DATA.presets[0].name + ' ' + _pluginPresets.length;
     let _presetNames = _pluginPresets.map((p) => p.name);
     const isUnique = isUniquePresetName(_presetName, _pluginPresets, activePresetIdx);
 
