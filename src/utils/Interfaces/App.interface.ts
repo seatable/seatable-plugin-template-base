@@ -1,3 +1,4 @@
+import { IPluginSettings } from './PluginPresets/Presets.interface';
 import { Table, TableRow, TableView } from './Table.interface';
 
 export interface IAppProps {
@@ -22,3 +23,16 @@ export interface AppActiveState {
   activeTableView: TableView | null; // Represents the currently active table view in the app
   activeViewRows?: TableRow[]; // Represents the currently active view rows in the app
 }
+
+export interface AppActiveState {
+  activePresetId: string; // Stores the ID of the active preset
+  activePresetIdx: number; // Keeps track of the index of the active preset
+  activeTable: Table | null; // Represents the currently active table in the app
+  activeTableName: string; // Holds the name of the active table // TO REMOVE
+  activeTableView: TableView | null; // Represents the currently active table view in the app
+  activeViewRows?: TableRow[]; // Represents the currently active view rows in the app
+}
+
+export interface IPluginDataStore
+  extends IPluginSettings,
+    Pick<AppActiveState, 'activePresetId' | 'activePresetIdx'> {}

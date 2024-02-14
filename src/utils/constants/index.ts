@@ -23,6 +23,7 @@ const DEFAULT_PRESET_SETTINGS: PresetSettings = {
 };
 
 const DEFAULT_PLUGIN_SETTINGS = {
+  [PLUGIN_NAME]: PLUGIN_NAME,
   presets: [
     {
       _id: '0000',
