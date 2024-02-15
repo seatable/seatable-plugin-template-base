@@ -15,6 +15,7 @@ const DEFAULT_SELECT_OPTION = {
   value: '',
   label: '',
 };
+
 const DEFAULT_PRESET_SETTINGS: PresetSettings = {
   shown_image_name: '',
   shown_title_name: '',
@@ -22,13 +23,15 @@ const DEFAULT_PRESET_SETTINGS: PresetSettings = {
   selectedView: DEFAULT_SELECT_OPTION,
 };
 
-const DEFAULT_PLUGIN_SETTINGS = {
+const DEFAULT_PLUGIN_DATA = {
   [PLUGIN_NAME]: PLUGIN_NAME,
+  activePresetId: '0000',
+  activePresetIdx: 0,
   presets: [
     {
       _id: '0000',
       name: DEFAULT_PRESET_NAME,
-      settings: {},
+      settings: DEFAULT_PRESET_SETTINGS,
     },
   ],
 };
@@ -76,8 +79,8 @@ export {
   PLUGIN_NAME,
   PLUGIN_ID,
   TABLE_NAME,
+  DEFAULT_PLUGIN_DATA,
   DEFAULT_PRESET_NAME,
-  DEFAULT_PLUGIN_SETTINGS,
   DEFAULT_PRESET_SETTINGS,
   PresetHandleAction,
   INITIAL_IS_SHOW_STATE,

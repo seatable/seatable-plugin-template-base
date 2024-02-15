@@ -15,7 +15,7 @@ import {
   getActiveTableAndActiveView,
   isUniquePresetName,
 } from '../../utils/utils';
-import { DEFAULT_PLUGIN_SETTINGS, PresetHandleAction, TABLE_NAME } from '../../utils/constants';
+import { DEFAULT_PLUGIN_DATA, PresetHandleAction, TABLE_NAME } from '../../utils/constants';
 import {
   IActiveTableAndView,
   TableArray,
@@ -84,7 +84,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   // Submit new/edited preset name
   const onNewPresetSubmit = (e?: React.MouseEvent<HTMLElement>, type?: string) => {
     let _presetName =
-      presetName || DEFAULT_PLUGIN_SETTINGS.presets[0].name + ' ' + _pluginPresets.length;
+      presetName || DEFAULT_PLUGIN_DATA.presets[0].name + ' ' + _pluginPresets.length;
     let _presetNames = _pluginPresets.map((p) => p.name);
     const isUnique = isUniquePresetName(_presetName, _pluginPresets, activePresetIdx);
 
@@ -222,9 +222,9 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       setPluginPresets(__pluginPresets);
       setDragItemIndex(null);
       setDragOverItemIndex(null);
-      let _pluginSettings = { ...pluginDataStore, presets: __pluginPresets };
+      let _pluginDataStore = { ...pluginDataStore, presets: __pluginPresets };
 
-      updatePresets(activePresetIdx, __pluginPresets, _pluginSettings, 'drag');
+      updatePresets(activePresetIdx, __pluginPresets, _pluginDataStore, 'drag');
     }
   };
 

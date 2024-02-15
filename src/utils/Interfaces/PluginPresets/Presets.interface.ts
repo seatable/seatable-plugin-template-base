@@ -7,7 +7,12 @@ export interface IPresetsProps {
   pluginPresets: PresetsArray;
   activePresetIdx: number;
   onSelectPreset: (presetId: string, newPresetActiveState?: AppActiveState) => void;
-  updatePresets: (currentIdx: number, presets: any[], pluginSettings: any, type: string) => void;
+  updatePresets: (
+    currentIdx: number,
+    presets: PresetsArray,
+    _pluginDataStore: IPluginDataStore,
+    type: string
+  ) => void;
   pluginDataStore: IPluginDataStore;
   isShowPresets: boolean;
   allTables: TableArray;
