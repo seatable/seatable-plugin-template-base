@@ -5,8 +5,3 @@ export interface IPresetDropdownProps {
   dropdownRef: React.RefObject<HTMLUListElement> | undefined;
   pluginPresets: PresetsArray;
 }
-
-// Not Used Anymore, still to keep?
-export interface IViewDropdownState {
-  showViewDropdown: boolean;
-}

@@ -18,7 +18,7 @@ import {
   TableRow,
   IActiveTableAndView,
 } from './utils/Interfaces/Table.interface';
-import { PresetsArray, IPluginSettings } from './utils/Interfaces/PluginPresets/Presets.interface';
+import { PresetsArray } from './utils/Interfaces/PluginPresets/Presets.interface';
 import { SelectOption } from './utils/Interfaces/PluginSettings.interface';
 // Import of CSS
 import styles from './styles/Modal.module.scss';
@@ -45,7 +45,7 @@ const App: React.FC<IAppProps> = (props) => {
   // Boolean state to show/hide the plugin's components
   const [isShowState, setIsShowState] = useState<AppIsShowState>(INITIAL_IS_SHOW_STATE);
   const { isShowPlugin, isShowSettings, isLoading, isShowPresets } = isShowState;
-  // *** // Tables, Presets, Views as dataStates. The main data of the plugin
+  // Tables, Presets, Views as dataStates. The main data of the plugin
   const [allTables, setAllTables] = useState<TableArray>([]);
   const [activeTableViews, setActiveTableViews] = useState<TableViewArray>([]);
   const [pluginDataStore, setPluginDataStore] = useState<IPluginDataStore>(DEFAULT_PLUGIN_DATA);
@@ -124,10 +124,9 @@ const App: React.FC<IAppProps> = (props) => {
 
       return;
     } else {
-      console.log('else');
       // If there are no presets, the default one is created
       if (pluginPresets.length === 0) {
-        const defaultPluginDataStore: IPluginSettings = createDefaultPluginDataStore(
+        const defaultPluginDataStore: IPluginDataStore = createDefaultPluginDataStore(
           activeTable,
           PLUGIN_NAME
         );
@@ -164,7 +163,9 @@ const App: React.FC<IAppProps> = (props) => {
     window.app.onClosePlugin();
   };
 
-  // Change Preset
+  /**
+   * Handles the selection of a preset, updating the active state and associated data accordingly.
+   */
   const onSelectPreset = (presetId: string, newPresetActiveState?: AppActiveState) => {
     let updatedActiveState: AppActiveState;
     let updatedActiveTableViews: TableView[];
@@ -195,7 +196,7 @@ const App: React.FC<IAppProps> = (props) => {
         activePresetIdx: _activePresetIdx,
       };
 
-      updatePluginSettings({
+      updatePluginDataStore({
         ...pluginDataStore,
         activePresetId: presetId,
         activePresetIdx: _activePresetIdx,
@@ -211,7 +212,9 @@ const App: React.FC<IAppProps> = (props) => {
     setAppActiveState({ ...updatedActiveState, activeViewRows });
   };
 
-  // Update presets data
+  /**
+   * Updates the presets and associated plugin data store.
+   */
   const updatePresets = (
     _activePresetIdx: number,
     updatedPresets: PresetsArray,
@@ -230,14 +233,19 @@ const App: React.FC<IAppProps> = (props) => {
     }));
     setPluginPresets(updatedPresets);
     setPluginDataStore(pluginDataStore);
-    updatePluginSettings(_pluginDataStore);
+    updatePluginDataStore(_pluginDataStore);
   };
 
   // Update plugin data store (old plugin settings)
-  const updatePluginSettings = (pluginDataStore: IPluginDataStore) => {
+  const updatePluginDataStore = (pluginDataStore: IPluginDataStore) => {
     window.dtableSDK.updatePluginSettings(PLUGIN_NAME, pluginDataStore);
   };
 
+  /**
+   * Updates the active data based on the settings of the first preset.
+   * Retrieves table and view information from the first preset's settings, fetches the corresponding
+   * data from the available tables, and updates the active state accordingly.
+   */
   const updateActiveData = () => {
     let allTables: TableArray = window.dtableSDK.getTables();
     let tableOfPresetOne = pluginPresets[0].settings?.selectedTable!;
@@ -261,7 +269,9 @@ const App: React.FC<IAppProps> = (props) => {
     setTogglePresetsComponent((prev) => !prev);
   };
 
-  // // switch table or view
+  /**
+   * Handles the change of the active table or view, updating the application state and presets accordingly.
+   */
   const onTableOrViewChange = (type: 'table' | 'view', option: SelectOption) => {
     let _activeViewRows: TableRow[];
     let updatedPluginPresets: PresetsArray;
@@ -321,7 +331,7 @@ const App: React.FC<IAppProps> = (props) => {
     }
 
     setPluginPresets(updatedPluginPresets);
-    updatePluginSettings({ ...pluginDataStore, presets: updatedPluginPresets });
+    updatePluginDataStore({ ...pluginDataStore, presets: updatedPluginPresets });
   };
 
   const { collaborators } = window.app.state;

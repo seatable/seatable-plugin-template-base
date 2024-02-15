@@ -8,13 +8,12 @@ import {
   TableRow,
   TableView,
 } from './Interfaces/Table.interface';
-import { DEFAULT_PLUGIN_DATA, PLUGIN_NAME, PresetHandleAction } from './constants';
+import { DEFAULT_PLUGIN_DATA, PLUGIN_NAME, POSSIBLE, PresetHandleAction } from './constants';
 
 export const generatorBase64Code = (keyLength = 4) => {
-  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789';
   let key = '';
   for (let i = 0; i < keyLength; i++) {
-    key += possible.charAt(Math.floor(Math.random() * possible.length));
+    key += POSSIBLE.charAt(Math.floor(Math.random() * POSSIBLE.length));
   }
   return key;
 };
@@ -156,6 +155,18 @@ export const checkSVGImage = (url: string): boolean | undefined => {
   return url.substr(-4).toLowerCase() === '.svg';
 };
 
+export const truncateTableName = (tableName: string) => {
+  let _tableName;
+
+  if (tableName.split('').length > 22) {
+    _tableName = tableName.slice(0, 20) + '...';
+
+    return _tableName;
+  }
+
+  return tableName;
+};
+
 /**
  * Checks whether a preset name already exists in the presets array, excluding the current index.
  *
@@ -171,6 +182,15 @@ export const isUniquePresetName = (
 ): boolean => {
   // Using the `some` method to check if any preset (excluding the current index) has the same name
   return presets.some((preset, index) => index !== currentIndex && preset.name === presetName);
+};
+
+export const appendPresetSuffix = (name: string, nameList: string[], suffix: string): string => {
+  if (!nameList.includes(name.trim())) {
+    return name;
+  } else {
+    let _name = `${name} ${suffix}`;
+    return appendPresetSuffix(_name, nameList, suffix);
+  }
 };
 
 /**
@@ -192,11 +212,19 @@ export const getPluginDataStore = (activeTable: Table, PLUGIN_NAME: string) => {
     : getPluginDataStore;
 };
 
+/**
+ * Parses plugin data to create the active state for the application.
+ *
+ * @param {IPluginDataStore} pluginDataStore - The data store containing plugin-related information.
+ * @param {PresetsArray} pluginPresets - An array of presets used by the plugin.
+ * @param {TableArray} allTables - An array containing all available tables in the application.
+ */
 export const parsePluginDataToActiveState = (
   pluginDataStore: IPluginDataStore,
   pluginPresets: PresetsArray,
   allTables: TableArray
 ) => {
+  // Extract relevant data from the pluginDataStore and allTables arrays
   let idx = pluginDataStore.activePresetIdx;
   let id = pluginDataStore.activePresetId;
   let table = allTables.find((t) => t._id === pluginPresets[idx].settings?.selectedTable?.value)!;
@@ -205,6 +233,7 @@ export const parsePluginDataToActiveState = (
     (v) => v._id === pluginPresets[idx].settings?.selectedView?.value
   )!;
 
+  // Create the appActiveState object with the extracted data
   const appActiveState = {
     activePresetId: id,
     activePresetIdx: idx,
@@ -213,19 +242,19 @@ export const parsePluginDataToActiveState = (
     activeTableView: tableView,
   };
 
+  // Return the active state object
   return appActiveState;
 };
 
-export const appendPresetSuffix = (name: string, nameList: string[], suffix: string): string => {
-  if (!nameList.includes(name.trim())) {
-    return name;
-  } else {
-    let _name = `${name} ${suffix}`;
-    return appendPresetSuffix(_name, nameList, suffix);
-  }
-};
-
-// Checking if there are any presets, if not, we set the first Table and View as the active ones
+/**
+ * Safeguard function to determine the active state, considering the presence of presets.
+ * If no presets are available, the first Table and View are set as the active ones.
+ *
+ * @param {PresetsArray} pluginPresets - An array of presets used by the plugin.
+ * @param {Table} activeTable - The currently active table in the application.
+ * @param {object} activeTableAndView - The active table and view as an object containing {table: Table, view: TableView}.
+ * @param {TableRow[]} activeViewRows - An array of rows for the active view.
+ */
 export const getActiveStateSafeGuard = (
   pluginPresets: PresetsArray,
   activeTable: Table,
@@ -235,6 +264,7 @@ export const getActiveStateSafeGuard = (
   },
   activeViewRows: TableRow[]
 ) => {
+  // Create the checkForPresets object with the active state based on presets or default values
   const checkForPresets: AppActiveState = {
     activeTable: (pluginPresets[0] && (activeTableAndView?.table as Table)) || activeTable,
     activeTableName:
@@ -245,6 +275,8 @@ export const getActiveStateSafeGuard = (
     activePresetIdx: 0,
     activeViewRows: activeViewRows,
   };
+
+  // Return the active state object considering presets or default values
   return checkForPresets;
 };
 
@@ -324,4 +356,24 @@ export const createDefaultPluginDataStore = (
   };
   window.dtableSDK.updatePluginSettings(pluginName, updatedDefaultDataStore);
   return updatedDefaultDataStore;
+};
+
+/**
+ * Creates default preset settings based on the provided array of tables.
+ *
+ * @param {TableArray} allTables - An array containing all available tables in the application.
+ * @returns {object} defaultPresetSettings - Default settings for a preset.
+ */
+export const createDefaultPresetSettings = (allTables: TableArray) => {
+  // Extract information for the default table and view
+  const tableInfo = { value: allTables[0]._id, label: allTables[0].name };
+  const viewInfo = { value: allTables[0].views[0]._id, label: allTables[0].views[0].name };
+
+  // Create and return the default preset settings object
+  return {
+    shown_image_name: 'Image',
+    shown_title_name: 'Title',
+    selectedTable: tableInfo,
+    selectedView: viewInfo,
+  };
 };
