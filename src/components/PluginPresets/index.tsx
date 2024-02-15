@@ -74,7 +74,11 @@ const PluginPresets: React.FC<IPresetsProps> = ({
 
   // handle preset name change
   const onChangePresetName = (e: React.FormEvent<HTMLInputElement>) => {
-    setPresetName(e.currentTarget.value);
+    if (e.currentTarget.value.includes('  ')) {
+      return;
+    } else {
+      setPresetName(e.currentTarget.value);
+    }
   };
 
   useClickOut(() => {
@@ -84,7 +88,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   // Submit new/edited preset name
   const onNewPresetSubmit = (e?: React.MouseEvent<HTMLElement>, type?: string) => {
     let _presetName =
-      presetName || DEFAULT_PLUGIN_DATA.presets[0].name + ' ' + _pluginPresets.length;
+      presetName.trim() || DEFAULT_PLUGIN_DATA.presets[0].name + ' ' + _pluginPresets.length;
     let _presetNames = _pluginPresets.map((p) => p.name);
     const isUnique = isUniquePresetName(_presetName, _pluginPresets, activePresetIdx);
 

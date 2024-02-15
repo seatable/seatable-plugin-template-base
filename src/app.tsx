@@ -97,7 +97,6 @@ const App: React.FC<IAppProps> = (props) => {
   };
 
   const onDTableChanged = () => {
-    console.log('onDTableChanged');
     resetData();
   };
 
