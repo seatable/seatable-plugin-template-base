@@ -67,7 +67,7 @@ const App: React.FC<IAppProps> = (props) => {
 
   const initPluginDTableData = async () => {
     if (isDevelopment) {
-      // local develop
+      // local develop //
       window.dtableSDK.subscribe('dtable-connect', () => {
         onDTableConnect();
       });
