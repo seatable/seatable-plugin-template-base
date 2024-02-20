@@ -341,15 +341,8 @@ const App: React.FC<IAppProps> = (props) => {
   return isLoading ? (
     <div></div>
   ) : (
-    <div className={styles.modal}>
-      <Header
-        togglePresets={togglePresets}
-        toggleSettings={toggleSettings}
-        isShowSettings={isShowSettings}
-        togglePlugin={onPluginToggle}
-      />
-      {/* main body  */}
-      <div className="d-flex position-relative" style={{ height: '100%' }}>
+    <div className={styles.modal_wrapper}>
+      <div>
         {/* presets  */}
         <PluginPresets
           allTables={allTables}
@@ -361,11 +354,41 @@ const App: React.FC<IAppProps> = (props) => {
           updatePresets={updatePresets}
           updateActiveData={updateActiveData}
         />
-        {/* content  */}
-        <div id={PLUGIN_ID} className={styles.body}>
-          {pluginPresets.map((obj) => (
+      </div>
+      <div className={styles.modal}>
+        <Header
+          togglePresets={togglePresets}
+          toggleSettings={toggleSettings}
+          isShowSettings={isShowSettings}
+          togglePlugin={onPluginToggle}
+        />
+        {/* main body  */}
+        <div className="d-flex position-relative" style={{ height: '100%' }}>
+          {/* content  */}
+          <div id={PLUGIN_ID} className={styles.body}>
+            {pluginPresets.map((obj) => (
+              <div
+                key={obj._id}
+                style={{
+                  border: '1px solid #ddd',
+                  padding: '10px',
+                  marginBottom: '10px',
+                  borderRadius: '5px',
+                  backgroundColor: '#f5f5f5',
+                }}>
+                <div style={{ fontWeight: 'bold' }}>{`Preset ID: ${obj._id}`}</div>
+                <div style={{ color: '#007bff' }}>{`Preset Name: ${obj.name}`}</div>
+                <div style={{ marginTop: '8px', fontWeight: 'bold' }}>Settings:</div>
+                <div style={{ marginLeft: '15px', color: '#28a745' }}>{`selectedTableId: ${
+                  obj.settings?.selectedTable?.label ?? 'N/A'
+                }`}</div>
+                <div style={{ marginLeft: '15px', color: '#28a745' }}>{`selectedViewId: ${
+                  obj.settings?.selectedView?.label ?? 'N/A'
+                }`}</div>
+              </div>
+            ))}
             <div
-              key={obj._id}
+              key={appActiveState?.activeTableView?._id}
               style={{
                 border: '1px solid #ddd',
                 padding: '10px',
@@ -373,54 +396,37 @@ const App: React.FC<IAppProps> = (props) => {
                 borderRadius: '5px',
                 backgroundColor: '#f5f5f5',
               }}>
-              <div style={{ fontWeight: 'bold' }}>{`Preset ID: ${obj._id}`}</div>
-              <div style={{ color: '#007bff' }}>{`Preset Name: ${obj.name}`}</div>
-              <div style={{ marginTop: '8px', fontWeight: 'bold' }}>Settings:</div>
-              <div style={{ marginLeft: '15px', color: '#28a745' }}>{`selectedTableId: ${
-                obj.settings?.selectedTable?.label ?? 'N/A'
-              }`}</div>
-              <div style={{ marginLeft: '15px', color: '#28a745' }}>{`selectedViewId: ${
-                obj.settings?.selectedView?.label ?? 'N/A'
-              }`}</div>
+              <div
+                style={{
+                  color: '#ff6666',
+                }}>{`Active Table: ${appActiveState.activeTableName}`}</div>
+              <div
+                style={{
+                  color: '#ff6666',
+                }}>{`Active View: ${appActiveState?.activeTableView?.name}`}</div>
             </div>
-          ))}
-          <div
-            key={appActiveState?.activeTableView?._id}
-            style={{
-              border: '1px solid #ddd',
-              padding: '10px',
-              marginBottom: '10px',
-              borderRadius: '5px',
-              backgroundColor: '#f5f5f5',
-            }}>
-            <div
-              style={{ color: '#ff6666' }}>{`Active Table: ${appActiveState.activeTableName}`}</div>
-            <div
-              style={{
-                color: '#ff6666',
-              }}>{`Active View: ${appActiveState?.activeTableView?.name}`}</div>
+            <div style={{ marginTop: '8px', fontWeight: 'bold' }}>View Rows:</div>
+            <div>
+              {activeViewRows?.map((row) => (
+                <div key={row._id}>
+                  <h6>{row['0000']}</h6>
+                </div>
+              ))}
+            </div>
           </div>
-          <div style={{ marginTop: '8px', fontWeight: 'bold' }}>View Rows:</div>
-          <div>
-            {activeViewRows?.map((row) => (
-              <div key={row._id}>
-                <h6>{row['0000']}</h6>
-              </div>
-            ))}
-          </div>
-        </div>
 
-        {isShowSettings && (
-          <div>
-            <PluginSettings
-              allTables={allTables}
-              appActiveState={appActiveState}
-              activeTableViews={activeTableViews}
-              pluginPresets={pluginPresets}
-              onTableOrViewChange={onTableOrViewChange}
-            />
-          </div>
-        )}
+          {isShowSettings && (
+            <div>
+              <PluginSettings
+                allTables={allTables}
+                appActiveState={appActiveState}
+                activeTableViews={activeTableViews}
+                pluginPresets={pluginPresets}
+                onTableOrViewChange={onTableOrViewChange}
+              />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

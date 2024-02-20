@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getTableByName } from 'dtable-utils';
 import PresetItem from './PresetItem/index';
 import styles from '../../styles/Presets.module.scss';
+import styles1 from '../../styles/Modal.module.scss';
 import deepCopy from 'deep-copy';
 import Preset from '../../model/preset';
 import {
@@ -16,7 +17,13 @@ import {
   getActiveTableAndActiveView,
   isUniquePresetName,
 } from '../../utils/utils';
-import { DEFAULT_PLUGIN_DATA, PresetHandleAction, TABLE_NAME } from '../../utils/constants';
+import {
+  DEFAULT_PLUGIN_DATA,
+  PLUGIN_ICON,
+  PLUGIN_NAME,
+  PresetHandleAction,
+  TABLE_NAME,
+} from '../../utils/constants';
 import {
   IActiveTableAndView,
   TableArray,
@@ -235,6 +242,13 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   return (
     <div style={isShowPresets ? { display: 'block' } : {}} className={`${styles.presets}`}>
       <div className="d-flex flex-column">
+        <div className="d-flex align-items-center pl-5 py-2 pb-4">
+          <div className={`bg-info py-1 px-2 rounded mr-2 ${styles1.modal_header_logo}`}>
+            <PLUGIN_ICON size={16} color="#fff" />
+          </div>
+          <div className={styles1.modal_header_name}>{PLUGIN_NAME}</div>
+        </div>
+
         {pluginPresets?.map((v, i) => (
           <div
             style={
