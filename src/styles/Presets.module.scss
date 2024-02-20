@@ -2,13 +2,82 @@
 
 .presets {
   height: 100vh;
-  min-width: 300px;
+  width: 300px;
   background-color: #fff;
   padding: 10px 0;
   border-right: 1px solid rgba(113, 113, 113, 0.079);
+  position: relative;
+  transition: 0.2s width ease-in-out;
 
   @include tablet {
     position: fixed;
+    display: none;
+  }
+
+  &_collapsed {
+    width: 0;
+
+    .presets_collapse_btn {
+      display: none;
+    }
+  }
+
+  &_collapse_btn {
+    all: unset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 12px;
+    right: -12px;
+    background: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 4px;
+    border-radius: 50%;
+    opacity: 0;
+    transition: 0.2s opacity ease-in-out;
+    cursor: pointer;
+  }
+
+  &_uncollapse_btns_wrapper:hover {
+    .presets_uncollapse_btn1 {
+      display: none;
+    }
+
+    .presets_uncollapse_btn2 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgb(240, 240, 240);
+    }
+  }
+
+  &_uncollapse_btn1 {
+    all: unset;
+    margin-right: 20px;
+    cursor: pointer;
+    outline: none !important;
+    z-index: 9;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 12px;
+    right: -60px;
+  }
+
+  &_uncollapse_btn2 {
+    all: unset;
+    margin-right: 20px;
+    cursor: pointer;
+    outline: none !important;
+    z-index: 9;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 12px;
+    right: -60px;
     display: none;
   }
 
@@ -55,4 +124,8 @@
   .isPresetsCondition {
     color: #888888; /* This is a shade of gray */
   }
+}
+
+.presets:hover .presets_collapse_btn {
+  opacity: 1;
 }
