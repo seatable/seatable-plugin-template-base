@@ -93,7 +93,7 @@ const PresetItem: React.FC<IPresetItemProps> = ({
             <p className="ml-2 mb-0">{v.name}</p>
           </div>
           <span onClick={togglePresetDropdown}>
-            <BsThreeDots color="#191717" className={styles.modal_header_viewBtn_icons} />
+            <BsThreeDots className={styles.modal_header_viewBtn_icons} />
           </span>
         </div>
         {showPresetDropdown && (
