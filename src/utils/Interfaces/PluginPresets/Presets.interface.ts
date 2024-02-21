@@ -17,6 +17,7 @@ export interface IPresetsProps {
   isShowPresets: boolean;
   allTables: TableArray;
   onTogglePresets: () => void;
+  onToggleSettings: () => void;
   updateActiveData: () => void;
 }
 

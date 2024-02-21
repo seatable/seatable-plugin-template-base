@@ -41,6 +41,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   pluginDataStore,
   isShowPresets,
   onTogglePresets,
+  onToggleSettings,
   onSelectPreset,
   updatePresets,
   updateActiveData,
@@ -247,8 +248,8 @@ const PluginPresets: React.FC<IPresetsProps> = ({
         <HiOutlineChevronDoubleLeft />
       </button>
       <div className="d-flex flex-column">
-        <div className="d-flex align-items-center pl-5 py-2 pb-4">
-          <div className={`bg-info py-1 px-2 rounded mr-2 ${styles1.modal_header_logo}`}>
+        <div className={`d-flex align-items-center py-2 pb-4 ${styles1.modal_header_logo}`}>
+          <div className={`bg-info py-1 px-2 rounded mr-2`}>
             <PLUGIN_ICON size={16} color="#fff" />
           </div>
           <div className={styles1.modal_header_name}>{PLUGIN_NAME}</div>
@@ -282,6 +283,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
                 onNewPresetSubmit(e, PresetHandleAction.edit)
               }
               showEditPresetPopUp={showEditPresetPopUp}
+              onToggleSettings={onToggleSettings}
             />
           </div>
         ))}

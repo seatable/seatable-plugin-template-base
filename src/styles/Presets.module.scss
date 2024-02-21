@@ -9,7 +9,7 @@
   padding: 10px 0;
   border-right: 1px solid $borderR-color;
   position: relative;
-  transition: 0.2s width ease-in-out;
+  transition: 0.5s width ease-in-out;
 
   @include tablet {
     position: fixed;
@@ -35,7 +35,8 @@
     position: absolute;
     top: 12px;
     right: -12px;
-    background: $preset-bgColor;
+    background: $light-gray;
+    color: $preset-bgColor;
     box-shadow: colorContrast($preset-bgColor) 0px 0px 4px;
     border-radius: 50%;
     opacity: 0;

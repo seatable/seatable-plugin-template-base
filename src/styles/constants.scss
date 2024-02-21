@@ -32,8 +32,3 @@ $header-text1: colorContrast($preset-bgColor);
     @return $preset-text1;
   }
 }
-
-@function opacity($color) {
-  $lighterColor: lighten($color, 30%); // Adjust the percentage as needed
-  @return rgba($lighterColor, 0.5);
-}
