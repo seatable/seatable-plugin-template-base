@@ -339,6 +339,7 @@
   height: 100%;
   overflow: scroll;
   padding-bottom: 50px;
+  background-color: $main-content-bgColor;
 
   &::-webkit-scrollbar {
     display: none;
