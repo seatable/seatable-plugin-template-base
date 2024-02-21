@@ -342,19 +342,17 @@ const App: React.FC<IAppProps> = (props) => {
     <div></div>
   ) : (
     <div className={styles.modal_wrapper}>
-      <div>
-        {/* presets  */}
-        <PluginPresets
-          allTables={allTables}
-          pluginPresets={pluginPresets}
-          activePresetIdx={activePresetIdx}
-          pluginDataStore={pluginDataStore}
-          isShowPresets={isShowPresets}
-          onSelectPreset={onSelectPreset}
-          updatePresets={updatePresets}
-          updateActiveData={updateActiveData}
-        />
-      </div>
+      {/* presets  */}
+      <PluginPresets
+        allTables={allTables}
+        pluginPresets={pluginPresets}
+        activePresetIdx={activePresetIdx}
+        pluginDataStore={pluginDataStore}
+        isShowPresets={isShowPresets}
+        onSelectPreset={onSelectPreset}
+        updatePresets={updatePresets}
+        updateActiveData={updateActiveData}
+      />
       <div className={styles.modal}>
         <Header
           togglePresets={togglePresets}
