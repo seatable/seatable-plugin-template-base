@@ -42,13 +42,6 @@ const Header: React.FC<IHeaderProps> = (props) => {
 
   return (
     <div className={styles.modal_header}>
-      {/* logo and plugin name  */}
-      <div className="d-flex align-items-center">
-        <button className={styles.modal_header_viewBtn_menu} onClick={togglePresets}>
-          <span className="dtable-font dtable-icon-menu"></span>
-        </button>
-      </div>
-
       {/* settings and close icons  */}
       <div
         className={`d-flex align-items-center justify-content-end ${styles.modal_header_settings}`}>

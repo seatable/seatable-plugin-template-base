@@ -17,7 +17,7 @@
 
   &_header {
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
     align-items: center;
     background: #fff;
     padding: 15px 15px 10px;
@@ -26,7 +26,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 999;
+    z-index: 8;
 
     @include mobile {
       padding: 10px 10px 7px;
@@ -48,22 +48,6 @@
       @include mobile {
         font-size: 11px;
         margin-left: -5px;
-      }
-    }
-
-    &_viewBtn_menu {
-      all: unset;
-      display: none;
-      margin-right: 20px;
-      cursor: pointer;
-      outline: none !important;
-
-      @include tablet {
-        display: block;
-      }
-
-      @include mobile {
-        margin-right: 10px;
       }
     }
 
