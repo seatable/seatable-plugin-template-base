@@ -194,7 +194,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     newPluginPresets.splice(activePresetIdx, 1, updatedPreset);
     pluginDataStore.presets = newPluginPresets;
 
-    updatePresets(activePresetIdx, newPluginPresets, pluginDataStore, PresetHandleAction.edit);
+    updatePresets(activePresetIdx, newPluginPresets, pluginDataStore, _id);
   };
 
   // Delete the selected Preset
@@ -238,7 +238,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       setDragOverItemIndex(null);
       let _pluginDataStore = { ...pluginDataStore, presets: __pluginPresets };
 
-      updatePresets(activePresetIdx, __pluginPresets, _pluginDataStore, 'drag');
+      updatePresets(activePresetIdx, __pluginPresets, _pluginDataStore, v_id);
     }
   };
 
