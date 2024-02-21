@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../styles/Modal.module.scss';
+import styles2 from '../../styles/Presets.module.scss';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import { IHeaderProps } from '../../utils/Interfaces/Header.interface';
-import { PLUGIN_ICON, PLUGIN_ID, PLUGIN_NAME } from '../../utils/constants';
-import { compareLoose } from 'semver';
+import { PLUGIN_ID } from '../../utils/constants';
+import { HiOutlineChevronDoubleRight } from 'react-icons/hi2';
 
 const Header: React.FC<IHeaderProps> = (props) => {
-  const { isShowSettings, togglePresets, toggleSettings, togglePlugin } = props;
+  const {
+    presetName,
+    isShowSettings,
+    isShowPresets,
+    onTogglePresets,
+    toggleSettings,
+    togglePlugin,
+  } = props;
   const [orgChartContent, setOrgChartContent] = useState<string | null>(null);
 
   useEffect(() => {
@@ -42,7 +50,22 @@ const Header: React.FC<IHeaderProps> = (props) => {
 
   return (
     <div className={styles.modal_header}>
-      {/* settings and close icons  */}
+      <div className={`d-flex align-items-center justify-content-start`}>
+        <div
+          className={`align-items-center ${isShowPresets ? 'd-none' : 'd-flex'} ${
+            styles2.presets_uncollapse_btns_wrapper
+          }`}>
+          <button className={styles2.presets_uncollapse_btn1}>
+            <span className="dtable-font dtable-icon-menu"></span>
+          </button>
+          <button className={styles2.presets_uncollapse_btn2} onClick={onTogglePresets}>
+            <HiOutlineChevronDoubleRight />
+          </button>
+        </div>
+        <div className={styles2.presets_pluginName}>
+          <p>{presetName}</p>
+        </div>
+      </div>
       <div
         className={`d-flex align-items-center justify-content-end ${styles.modal_header_settings}`}>
         <span className={styles.modal_header_icon_btn} onClick={downloadPdfDocument}>

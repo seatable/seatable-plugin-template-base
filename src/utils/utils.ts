@@ -377,3 +377,8 @@ export const createDefaultPresetSettings = (allTables: TableArray) => {
     selectedView: viewInfo,
   };
 };
+
+
+export const findPresetName = (presets: PresetsArray, presetId: string) => {
+  return presets.find((preset) => preset._id === presetId)?.name;
+}

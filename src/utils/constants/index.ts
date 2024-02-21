@@ -9,10 +9,11 @@ import { IActivePresetSettings } from '../Interfaces/PluginSettings.interface';
 // Constants
 const POSSIBLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789';
 
-// Plugin Configuration
+// Plugin Configuration That Needs to be moved in a json file.
 const PLUGIN_NAME = 'Plugin template'; // INSERT PLUGIN NAME
 const PLUGIN_ICON = Icons['RiOrganizationChart']; // Change PLUGIN Icon Name
 const PLUGIN_ID = 'main-custom-content'; // Insert Plugin ID
+const BACKGROUND_COLOR = 'rgb(29, 40, 56)'; // Insert Background Color
 
 // Table and Preset Defaults
 const TABLE_NAME = 'table_name';
@@ -60,7 +61,7 @@ const INITIAL_IS_SHOW_STATE: AppIsShowState = {
   isShowPlugin: true,
   isShowSettings: false,
   isLoading: true,
-  isShowPresets: false,
+  isShowPresets: true,
 };
 
 const INITIAL_CURRENT_STATE: AppActiveState = {
@@ -85,6 +86,7 @@ export {
   PLUGIN_NAME,
   PLUGIN_ID,
   TABLE_NAME,
+  BACKGROUND_COLOR,
   DEFAULT_PLUGIN_DATA,
   DEFAULT_PRESET_NAME,
   DEFAULT_PRESET_SETTINGS,
