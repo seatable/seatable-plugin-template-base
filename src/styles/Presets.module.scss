@@ -60,29 +60,25 @@
 
   &_uncollapse_btn1 {
     all: unset;
-    margin-right: 20px;
+    margin-right: 5px;
     cursor: pointer;
     outline: none !important;
     z-index: 9;
     width: 24px;
     height: 24px;
-    position: absolute;
     top: 12px;
-    right: -60px;
     color: $preset-bgColor;
   }
 
   &_uncollapse_btn2 {
     all: unset;
-    margin-right: 20px;
+    margin-right: 5px;
     cursor: pointer;
     outline: none !important;
     z-index: 9;
     width: 24px;
     height: 24px;
-    position: absolute;
     top: 12px;
-    right: -60px;
     display: none;
   }
 

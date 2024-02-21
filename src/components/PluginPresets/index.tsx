@@ -32,7 +32,7 @@ import {
 import PresetInput from './PresetInput';
 import useClickOut from '../../hooks/useClickOut';
 import { AppActiveState } from '../../utils/Interfaces/App.interface';
-import { HiOutlineChevronDoubleLeft, HiOutlineChevronDoubleRight } from 'react-icons/hi2';
+import { HiOutlineChevronDoubleLeft } from 'react-icons/hi2';
 
 const PluginPresets: React.FC<IPresetsProps> = ({
   allTables,
@@ -40,6 +40,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   activePresetIdx,
   pluginDataStore,
   isShowPresets,
+  onTogglePresets,
   onSelectPreset,
   updatePresets,
   updateActiveData,
@@ -51,7 +52,6 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   const [_pluginPresets, setPluginPresets] = useState<PresetsArray>([]);
   const [showNewPresetPopUp, setShowNewPresetPopUp] = useState<boolean>(false);
   const [showEditPresetPopUp, setShowEditPresetPopUp] = useState<boolean>(false);
-  const [collapsePresets, setCollapsePresets] = useState<boolean>(false);
 
   useEffect(() => {
     setPluginPresets(pluginPresets);
@@ -241,15 +241,9 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     }
   };
 
-  const togglePresets = () => {
-    setCollapsePresets(!collapsePresets);
-  };
-
   return (
-    <div
-      style={isShowPresets ? { display: 'block' } : {}}
-      className={`${styles.presets}  ${collapsePresets && styles.presets_collapsed}`}>
-      <button onClick={togglePresets} className={styles.presets_collapse_btn}>
+    <div className={`${styles.presets}  ${!isShowPresets && styles.presets_collapsed}`}>
+      <button onClick={onTogglePresets} className={styles.presets_collapse_btn}>
         <HiOutlineChevronDoubleLeft />
       </button>
       <div className="d-flex flex-column">
@@ -259,19 +253,6 @@ const PluginPresets: React.FC<IPresetsProps> = ({
           </div>
           <div className={styles1.modal_header_name}>{PLUGIN_NAME}</div>
         </div>
-
-        <div
-          className={`align-items-center ${!collapsePresets ? 'd-none' : 'd-flex'} ${
-            styles.presets_uncollapse_btns_wrapper
-          }`}>
-          <button className={styles.presets_uncollapse_btn1}>
-            <span className="dtable-font dtable-icon-menu"></span>
-          </button>
-          <button className={styles.presets_uncollapse_btn2} onClick={togglePresets}>
-            <HiOutlineChevronDoubleRight />
-          </button>
-        </div>
-
         {pluginPresets?.map((v, i) => (
           <div
             style={

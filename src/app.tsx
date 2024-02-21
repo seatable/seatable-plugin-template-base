@@ -34,6 +34,7 @@ import {
 import './locale';
 import {
   createDefaultPluginDataStore,
+  findPresetName,
   getActiveStateSafeGuard,
   getActiveTableAndActiveView,
   getPluginDataStore,
@@ -55,7 +56,6 @@ const App: React.FC<IAppProps> = (props) => {
   const [appActiveState, setAppActiveState] = useState<AppActiveState>(INITIAL_CURRENT_STATE);
   // Destructure properties from the app's active state for easier access
   const { activeTable, activePresetId, activePresetIdx, activeViewRows } = appActiveState;
-  const [togglePresetsComponent, setTogglePresetsComponent] = useState<boolean>(false);
 
   useEffect(() => {
     initPluginDTableData();
@@ -265,7 +265,7 @@ const App: React.FC<IAppProps> = (props) => {
   };
 
   const togglePresets = () => {
-    setTogglePresetsComponent((prev) => !prev);
+    setIsShowState((prevState) => ({ ...prevState, isShowPresets: !prevState.isShowPresets }));
   };
 
   /**
@@ -349,15 +349,18 @@ const App: React.FC<IAppProps> = (props) => {
         activePresetIdx={activePresetIdx}
         pluginDataStore={pluginDataStore}
         isShowPresets={isShowPresets}
+        onTogglePresets={togglePresets}
         onSelectPreset={onSelectPreset}
         updatePresets={updatePresets}
         updateActiveData={updateActiveData}
       />
       <div className={styles.modal}>
         <Header
-          togglePresets={togglePresets}
-          toggleSettings={toggleSettings}
+          presetName={findPresetName(pluginPresets, activePresetId)}
+          isShowPresets={isShowPresets}
           isShowSettings={isShowSettings}
+          onTogglePresets={togglePresets}
+          toggleSettings={toggleSettings}
           togglePlugin={onPluginToggle}
         />
         {/* main body  */}
