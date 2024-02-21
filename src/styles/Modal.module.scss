@@ -16,6 +16,7 @@
 .modal {
   width: 100%;
   background: rgb(250, 250, 250);
+  padding-left: 13px;
 
   &_header {
     display: flex;
@@ -35,6 +36,7 @@
     }
 
     &_logo {
+      padding-left: 10px;
       @include mobile {
         transform: scale(0.7);
       }
@@ -112,7 +114,7 @@
       all: unset;
       position: relative;
       font-size: 15px;
-      padding: 10px 20px;
+      padding: 10px;
       border-radius: 5px;
       color: colorContrast($preset-bgColor);
       cursor: pointer;
