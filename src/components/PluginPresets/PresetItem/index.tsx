@@ -21,6 +21,7 @@ const PresetItem: React.FC<IPresetItemProps> = ({
   duplicatePreset,
   togglePresetsUpdate,
   onEditPresetSubmit,
+  onToggleSettings,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [showPresetDropdown, setShowPresetDropdown] = useState(false);
@@ -92,8 +93,14 @@ const PresetItem: React.FC<IPresetItemProps> = ({
             <i className={`dtable-font dtable-icon-drag ${styles.modal_header_viewBtn_icons}`}></i>
             <p className="ml-2 mb-0">{v.name}</p>
           </div>
-          <span onClick={togglePresetDropdown}>
-            <BsThreeDots className={styles.modal_header_viewBtn_icons} />
+          <span>
+            <span
+              className={`dtable-font dtable-icon-set-up ${styles.modal_header_viewBtn_settings}`}
+              onClick={onToggleSettings}></span>
+            <BsThreeDots
+              className={styles.modal_header_viewBtn_icons}
+              onClick={togglePresetDropdown}
+            />
           </span>
         </div>
         {showPresetDropdown && (

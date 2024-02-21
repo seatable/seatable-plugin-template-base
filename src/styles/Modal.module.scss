@@ -129,16 +129,24 @@
         opacity: 0;
         color: colorContrast($preset-bgColor);
       }
+      &_settings {
+        opacity: 0;
+        color: colorContrast($preset-bgColor);
+        margin-right: 5px;
+      }
 
       &:hover {
         .modal_header_viewBtn_icons {
+          opacity: 1;
+        }
+        .modal_header_viewBtn_settings {
           opacity: 1;
         }
       }
     }
 
     &_viewBtn_active {
-      background-color: #0000001f;
+      background-color: lighten($preset-bgColor, 30%);
     }
 
     &_settings {
@@ -314,7 +322,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: opacity($preset-bgColor);
+      background-color: lighten($preset-bgColor, 30%);
     }
   }
 }

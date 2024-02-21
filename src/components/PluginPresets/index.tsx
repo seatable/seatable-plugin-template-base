@@ -41,6 +41,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   pluginDataStore,
   isShowPresets,
   onTogglePresets,
+  onToggleSettings,
   onSelectPreset,
   updatePresets,
   updateActiveData,
@@ -282,6 +283,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
                 onNewPresetSubmit(e, PresetHandleAction.edit)
               }
               showEditPresetPopUp={showEditPresetPopUp}
+              onToggleSettings={onToggleSettings}
             />
           </div>
         ))}
