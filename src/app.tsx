@@ -120,7 +120,6 @@ const App: React.FC<IAppProps> = (props) => {
       );
 
       onSelectPreset(pluginDataStore.activePresetId, appActiveState);
-
       return;
     } else {
       // If there are no presets, the default one is created
