@@ -415,18 +415,17 @@ const App: React.FC<IAppProps> = (props) => {
               ))}
             </div>
           </div>
-
-            <div>
-              <PluginSettings
-                isShowSettings={isShowSettings}
-                allTables={allTables}
-                appActiveState={appActiveState}
-                activeTableViews={activeTableViews}
-                pluginPresets={pluginPresets}
-                onTableOrViewChange={onTableOrViewChange}
-                onToggleSettings={toggleSettings}
-              />
-            </div>
+          <div>
+            <PluginSettings
+              isShowSettings={isShowSettings}
+              allTables={allTables}
+              appActiveState={appActiveState}
+              activeTableViews={activeTableViews}
+              pluginPresets={pluginPresets}
+              onTableOrViewChange={onTableOrViewChange}
+              onToggleSettings={toggleSettings}
+            />
+          </div>
         </div>
       </div>
     </div>
