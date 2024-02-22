@@ -8,22 +8,22 @@
   height: 95%;
   bottom: 0;
   border-radius: 10px 10px 0 0;
-  box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.134);
-  background: rgb(250, 250, 250);
+  box-shadow: 0 0 0 1000px $modal-boxShadow;
+  background: $modal-bgColor;
   display: flex;
 }
 
 .modal {
   width: 100%;
-  background: rgb(250, 250, 250);
+  background: $modal-bgColor;
 
   &_header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #fff;
+    background: $modal-bgColor;
     padding: 15px 15px 10px;
-    border-bottom: 1px solid rgba(113, 113, 113, 0.079);
+    border-bottom: 1px solid $modal-header-borderBottom;
     position: sticky;
     top: 0;
     left: 0;
@@ -86,11 +86,11 @@
 
       p {
         font-size: 12px;
-        color: #132043;
+        color: $modal-header-p;
       }
 
       &:hover {
-        background: #ff800146;
+        background: $modal-header-hover;
       }
 
       &_active {
@@ -180,7 +180,7 @@
     top: -50px;
     height: 50px;
     width: 2px;
-    background: #9ba4b5;
+    background: $modal-cards-bgColor;
   }
 
   &_cards,
@@ -197,7 +197,7 @@
       top: -10px;
       height: 10px;
       width: 2px;
-      background: #9ba4b5;
+      background: $modal-cards-bgColor;
     }
 
     &::after {
@@ -208,7 +208,7 @@
       transform: translateX(-50%);
       height: 2px;
       width: 100%;
-      background: #9ba4b5;
+      background: $modal-cards-bgColor;
     }
   }
 
@@ -290,12 +290,12 @@
     position: absolute;
     top: 0;
     left: 0;
-    border-bottom: 2px solid #eee;
+    border-bottom: 2px solid $figure-borderBottom;
   }
 
   h6 {
     text-transform: uppercase;
-    color: #9ba4b5;
+    color: $modal-cards-bgColor;
     font-size: 10px;
     font-weight: 600;
   }
@@ -313,7 +313,7 @@
   right: -160px;
   background-color: $preset-bgColor;
   border: 1px solid rgba($preset-bgColor, 0.12);
-  box-shadow: 0 0 5px #ccc;
+  box-shadow: 0 0 5px $dropDown-boxShadow;
   z-index: 100;
   padding: 0;
 
@@ -333,7 +333,7 @@
   cursor: pointer;
   width: 60px;
   height: 60px;
-  background-color: #ff8001;
+  background-color: $modal-addRow;
   position: fixed;
   bottom: 50px;
   right: 50px;
