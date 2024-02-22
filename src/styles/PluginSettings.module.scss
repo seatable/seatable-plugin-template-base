@@ -9,6 +9,7 @@
   height: 100%;
   width: 25%;
   transition: 0.5s width ease-in-out;
+  border-left: 1px solid $borderColor;
 
   &_header {
     border-bottom: 1px solid $borderColor;
