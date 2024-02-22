@@ -1,5 +1,6 @@
 // External imports
 import * as Icons from 'react-icons/ri';
+import info from '../../plugin-config/info.json';
 
 // Interfaces
 import { PresetSettings } from '../Interfaces/PluginPresets/Presets.interface';
@@ -10,7 +11,10 @@ import { IActivePresetSettings } from '../Interfaces/PluginSettings.interface';
 const POSSIBLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789';
 
 // Plugin Configuration That Needs to be moved in a json file.
-const PLUGIN_NAME = 'Plugin template'; // INSERT PLUGIN NAME
+const PLUGIN_NAME = info.name
+  .replace(/-([a-z])/g, (_, match) => ' ' + match.toUpperCase())
+  .replace(/^./, (str) => str.toUpperCase());
+
 const PLUGIN_ICON = Icons['RiOrganizationChart']; // Change PLUGIN Icon Name
 const PLUGIN_ID = 'main-custom-content'; // Insert Plugin ID
 const BACKGROUND_COLOR = 'rgb(29, 40, 56)'; // Insert Background Color
@@ -35,7 +39,7 @@ const DEFAULT_PRESET_SETTINGS: PresetSettings = {
 
 // Default Plugin Data
 const DEFAULT_PLUGIN_DATA = {
-  [PLUGIN_NAME]: PLUGIN_NAME,
+  pluginName: PLUGIN_NAME,
   activePresetId: '0000',
   activePresetIdx: 0,
   presets: [
