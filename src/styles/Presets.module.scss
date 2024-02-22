@@ -71,7 +71,7 @@
     color: $preset-bgColor;
   }
 
-  &_uncollapse_btn2 {
+  &_uncollapse_btn2,  &_uncollapse_btn2_settings{
     all: unset;
     margin-right: 5px;
     cursor: pointer;
@@ -81,6 +81,15 @@
     height: 24px;
     top: 12px;
     display: none;
+  }
+
+  &_uncollapse_btn2_settings {
+    display: flex;
+    background-color: $light-gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
   }
 
   &_add_button {
