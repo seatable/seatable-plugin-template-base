@@ -8,6 +8,8 @@ interface IPluginSettingsProps {
   activeTableViews: TableViewArray;
   pluginPresets: PresetsArray;
   onTableOrViewChange: (type: 'table' | 'view', option: SelectOption) => void;
+  onToggleSettings: () => void;
+  isShowSettings: boolean; 
 }
 
 interface SelectOption {

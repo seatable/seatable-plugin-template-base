@@ -120,7 +120,6 @@ const App: React.FC<IAppProps> = (props) => {
       );
 
       onSelectPreset(pluginDataStore.activePresetId, appActiveState);
-
       return;
     } else {
       // If there are no presets, the default one is created
@@ -417,17 +416,17 @@ const App: React.FC<IAppProps> = (props) => {
             </div>
           </div>
 
-          {isShowSettings && (
             <div>
               <PluginSettings
+                isShowSettings={isShowSettings}
                 allTables={allTables}
                 appActiveState={appActiveState}
                 activeTableViews={activeTableViews}
                 pluginPresets={pluginPresets}
                 onTableOrViewChange={onTableOrViewChange}
+                onToggleSettings={toggleSettings}
               />
             </div>
-          )}
         </div>
       </div>
     </div>

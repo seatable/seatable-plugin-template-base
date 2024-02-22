@@ -32,7 +32,6 @@ const PresetInput: React.FC<IPresetInput> = ({
   };
 
   const onBtnCloseClick = () => {
-    onEditPresetSubmit();
     setIsEditing(false);
   };
 
