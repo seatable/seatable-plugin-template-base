@@ -288,27 +288,28 @@ const PluginPresets: React.FC<IPresetsProps> = ({
             />
           </div>
         ))}
+        {/* add new preset input  */}
+        {showNewPresetPopUp && (
+          <PresetInput
+            onChangePresetName={onChangePresetName}
+            onEditPresetSubmit={(e?: React.MouseEvent<HTMLElement>) =>
+              onNewPresetSubmit(e, PresetHandleAction.new)
+            }
+            isEditing={showNewPresetPopUp}
+            setIsEditing={setShowNewPresetPopUp}
+            presetName={presetName}
+          />
+        )}
+        {/* add new preset button  */}
+        {!showNewPresetPopUp && (
+          <button
+            onClick={(e) => togglePresetsUpdate(e, PresetHandleAction.new)}
+            className={`d-flex ${styles.presets_add_button}`}>
+            <i className="dtable-font dtable-icon-add-table"></i>
+            <p className="ml-2 mb-0">Add Preset</p>
+          </button>
+        )}
       </div>
-      {/* add new preset input  */}
-      {showNewPresetPopUp && (
-        <PresetInput
-          onChangePresetName={onChangePresetName}
-          onEditPresetSubmit={(e?: React.MouseEvent<HTMLElement>) =>
-            onNewPresetSubmit(e, PresetHandleAction.new)
-          }
-          isEditing={showNewPresetPopUp}
-          setIsEditing={setShowNewPresetPopUp}
-          presetName={presetName}
-        />
-      )}
-      {/* add new preset button  */}
-      {!showNewPresetPopUp && (
-        <button
-          onClick={(e) => togglePresetsUpdate(e, PresetHandleAction.new)}
-          className={styles.presets_add_button}>
-          <i className="dtable-font dtable-icon-add-table"></i>
-        </button>
-      )}
       {presetNameAlreadyExists && (
         <div className="error-message d-flex justify-content-center mt-9">
           <span className="alert-danger">There is another preset with this name</span>

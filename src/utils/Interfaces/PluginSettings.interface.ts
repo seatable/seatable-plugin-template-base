@@ -9,7 +9,7 @@ interface IPluginSettingsProps {
   pluginPresets: PresetsArray;
   onTableOrViewChange: (type: 'table' | 'view', option: SelectOption) => void;
   onToggleSettings: () => void;
-  isShowSettings: boolean; 
+  isShowSettings: boolean;
 }
 
 interface SelectOption {
