@@ -51,14 +51,8 @@ const Header: React.FC<IHeaderProps> = (props) => {
   return (
     <div className={styles.modal_header}>
       <div className={`d-flex align-items-center justify-content-start`}>
-        <div
-          className={`align-items-center ${isShowPresets ? 'd-none' : 'd-flex'} ${
-            styles2.presets_uncollapse_btns_wrapper
-          }`}>
-          <button className={styles2.presets_uncollapse_btn1}>
-            <span className="dtable-font dtable-icon-menu"></span>
-          </button>
-          <button className={styles2.presets_uncollapse_btn2} onClick={onTogglePresets}>
+        <div className={`align-items-center ${isShowPresets ? 'd-none' : 'd-flex'} `}>
+          <button className={styles2.presets_uncollapse_btn2_settings} onClick={onTogglePresets}>
             <HiOutlineChevronDoubleRight />
           </button>
         </div>
@@ -73,16 +67,6 @@ const Header: React.FC<IHeaderProps> = (props) => {
         </span>
         <span className={styles.modal_header_icon_btn} onClick={printPdfDocument}>
           <span className="dtable-font dtable-icon-print"></span>
-        </span>
-        <span
-          className={`${styles.modal_header_icon_btn} ${
-            isShowSettings ? styles.modal_header_icon_btn_active : ''
-          }`}
-          onClick={toggleSettings}>
-          <span className="dtable-font dtable-icon-set-up"></span>
-          {isShowSettings && (
-            <span className={styles.modal_header_icon_btn_settings}>Settings</span>
-          )}
         </span>
         <span className={styles.modal_header_icon_btn} onClick={togglePlugin}>
           <span className="dtable-font dtable-icon-x btn-close"></span>
