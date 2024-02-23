@@ -89,6 +89,11 @@ const DEFAULT_SELECTED_PRESET: IActivePresetSettings = {
   selectedView: DEFAULT_SELECT_OPTION,
 };
 
+const STRING_VALUE = {
+  addPreset: 'Add Preset',
+  nameExistWarn: 'There is another preset with this name',
+};
+
 // Exported Constants
 export {
   POSSIBLE,
@@ -106,4 +111,5 @@ export {
   INITIAL_CURRENT_STATE,
   DEFAULT_SELECTED_PRESET,
   DEFAULT_SELECT_OPTION,
+  STRING_VALUE,
 };

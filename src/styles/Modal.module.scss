@@ -34,26 +34,6 @@
       padding: 10px 10px 7px;
     }
 
-    &_logo {
-      padding-left: 10px;
-      @include mobile {
-        transform: scale(0.7);
-      }
-    }
-
-    &_name {
-      color: $header-text1;
-      font-weight: 600;
-      font-size: 15px;
-      white-space: nowrap;
-      margin-bottom: 0;
-
-      @include mobile {
-        font-size: 11px;
-        margin-left: -5px;
-      }
-    }
-
     &_views {
       display: flex;
       max-width: 50%;
@@ -127,13 +107,13 @@
       }
 
       &_icons {
+        justify-self: center;
         opacity: 0;
         color: colorContrast($preset-bgColor);
       }
       &_settings {
         opacity: 0;
         color: colorContrast($preset-bgColor);
-        margin-right: 5px;
       }
 
       &:hover {
