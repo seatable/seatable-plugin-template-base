@@ -24,6 +24,26 @@
     }
   }
 
+  &_logo {
+    padding-left: 10px;
+    @include mobile {
+      transform: scale(0.7);
+    }
+  }
+
+  &_name {
+    color: $header-text1;
+    font-weight: 600;
+    font-size: 15px;
+    white-space: nowrap;
+    margin-bottom: 0;
+
+    @include mobile {
+      font-size: 11px;
+      margin-left: -5px;
+    }
+  }
+
   &_collapse_btn {
     all: unset;
     display: flex;
@@ -72,6 +92,7 @@
     padding: 10px;
     border-radius: 3px;
     margin-top: 0px;
+    align-items: center;
 
     &:hover {
       background-color: $add-btn-hover;
