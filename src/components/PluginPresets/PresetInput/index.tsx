@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles2 from '../../../styles/Presets.module.scss';
 import { IPresetInput } from '../../../utils/Interfaces/PluginPresets/Input.interface';
 import useClickOut from '../../../hooks/useClickOut';
@@ -10,7 +10,17 @@ const PresetInput: React.FC<IPresetInput> = ({
   isEditing,
   presetName,
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [_presetName, setPresetName] = useState('');
+
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+      setTimeout(() => {
+        inputRef?.current?.select();
+      }, 0);
+    }
+  }, [isEditing]);
 
   useEffect(() => {
     setPresetName(presetName);
@@ -40,7 +50,13 @@ const PresetInput: React.FC<IPresetInput> = ({
       className={styles2.presets_input}
       ref={editDomNode}
       style={{ display: !isEditing ? 'none' : 'flex' }}>
-      <input autoFocus value={_presetName} onKeyDown={onKeyDown} onChange={onChangePresetName} />
+      <input
+        id="select-input"
+        ref={inputRef}
+        value={_presetName}
+        onKeyDown={onKeyDown}
+        onChange={onChangePresetName}
+      />
       <button onClick={onCheckMarkClick}>
         <span className="dtable-font dtable-icon-check-mark"></span>
       </button>
