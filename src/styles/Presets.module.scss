@@ -44,33 +44,6 @@
     cursor: pointer;
   }
 
-  &_uncollapse_btns_wrapper:hover {
-    .presets_uncollapse_btn1 {
-      display: none;
-    }
-
-    .presets_uncollapse_btn2 {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: $light-gray;
-      color: $preset-bgColor;
-      border-radius: 50%;
-    }
-  }
-
-  &_uncollapse_btn1 {
-    all: unset;
-    margin-right: 5px;
-    cursor: pointer;
-    outline: none !important;
-    z-index: 9;
-    width: 24px;
-    height: 24px;
-    top: 12px;
-    color: $preset-bgColor;
-  }
-
   &_uncollapse_btn2,
   &_uncollapse_btn2_settings {
     all: unset;
