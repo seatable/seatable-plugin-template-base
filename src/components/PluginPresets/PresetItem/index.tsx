@@ -90,10 +90,10 @@ const PresetItem: React.FC<IPresetItemProps> = ({
               : styles.modal_header_viewBtn
           }>
           <div className="d-flex align-items-center">
-            <i className={`dtable-font dtable-icon-drag ${styles.modal_header_viewBtn_icons}`}></i>
-            <p className="ml-2 mb-0">{v.name}</p>
+            <p className="mb-0">{v.name}</p>
           </div>
           <span>
+            <span><i className={`dtable-font dtable-icon-drag ${styles.modal_header_viewBtn_icons} mr-1`}></i></span>
             <span
               className={`dtable-font dtable-icon-set-up ${styles.modal_header_viewBtn_settings}`}
               onClick={onToggleSettings}></span>
