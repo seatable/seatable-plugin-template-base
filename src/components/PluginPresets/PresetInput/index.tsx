@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles2 from '../../../styles/Presets.module.scss';
 import { IPresetInput } from '../../../utils/Interfaces/PluginPresets/Input.interface';
 import useClickOut from '../../../hooks/useClickOut';
+import { KeyDownActions } from '../../../utils/constants';
 
 const PresetInput: React.FC<IPresetInput> = ({
   onChangePresetName,
@@ -27,22 +28,20 @@ const PresetInput: React.FC<IPresetInput> = ({
   }, [presetName]);
 
   let editDomNode = useClickOut(() => {
-    setIsEditing(false);
+    !isEditing
+      ? setIsEditing(false)
+      : (() => {
+          setIsEditing(false);
+          onEditPresetSubmit();
+        })();
   });
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === KeyDownActions.enter) {
       onEditPresetSubmit();
+    } else if (e.key === KeyDownActions.escape) {
+      setIsEditing(false);
     }
-  };
-
-  const onCheckMarkClick = () => {
-    onEditPresetSubmit();
-    setIsEditing(false);
-  };
-
-  const onBtnCloseClick = () => {
-    setIsEditing(false);
   };
 
   return (
@@ -57,12 +56,6 @@ const PresetInput: React.FC<IPresetInput> = ({
         onKeyDown={onKeyDown}
         onChange={onChangePresetName}
       />
-      <button onClick={onCheckMarkClick}>
-        <span className="dtable-font dtable-icon-check-mark"></span>
-      </button>
-      <button onClick={onBtnCloseClick}>
-        <span className="dtable-font dtable-icon-x btn-close"></span>
-      </button>
     </div>
   );
 };

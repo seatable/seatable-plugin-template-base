@@ -60,6 +60,12 @@ const PresetHandleAction = {
   new: 'new',
 };
 
+// KeyDown Actions
+const KeyDownActions = {
+  enter: 'Enter',
+  escape: 'Escape',
+};
+
 // Initial App State
 const INITIAL_IS_SHOW_STATE: AppIsShowState = {
   isShowPlugin: true,
@@ -95,6 +101,7 @@ export {
   DEFAULT_PRESET_NAME,
   DEFAULT_PRESET_SETTINGS,
   PresetHandleAction,
+  KeyDownActions,
   INITIAL_IS_SHOW_STATE,
   INITIAL_CURRENT_STATE,
   DEFAULT_SELECTED_PRESET,
