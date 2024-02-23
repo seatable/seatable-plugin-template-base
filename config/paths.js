@@ -68,7 +68,7 @@ module.exports = {
   proxySetup: resolveApp('src/setupProxy.js'),
   appNodeModules: resolveApp('node_modules'),
   zipPath: resolveApp('plugin-zip'),
-  pluginConfigPath: resolveApp('plugin-config'),
+  pluginConfigPath: resolveApp('src/plugin-config'),
   appWebpackCache: resolveApp('node_modules/.cache'),
   appTsBuildInfoFile: resolveApp('node_modules/.cache/tsconfig.tsbuildinfo'),
   swSrc: resolveModule(resolveApp, 'src/service-worker'),
