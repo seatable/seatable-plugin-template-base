@@ -57,7 +57,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
           </button>
         </div>
         <div className={styles2.presets_pluginName}>
-          <p>{presetName}</p>
+          <p className="font-weight-bold">{presetName}</p>
         </div>
       </div>
       <div
