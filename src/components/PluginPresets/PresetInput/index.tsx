@@ -6,7 +6,6 @@ import { KeyDownActions } from '../../../utils/constants';
 
 const PresetInput: React.FC<IPresetInput> = ({
   onChangePresetName,
-  onEditPresetSubmit,
   setIsEditing,
   isEditing,
   presetName,
@@ -16,6 +15,7 @@ const PresetInput: React.FC<IPresetInput> = ({
 
   useEffect(() => {
     if (isEditing && inputRef.current) {
+      setPresetName(presetName);
       inputRef.current.focus();
       setTimeout(() => {
         inputRef?.current?.select();
@@ -23,22 +23,17 @@ const PresetInput: React.FC<IPresetInput> = ({
     }
   }, [isEditing]);
 
-  useEffect(() => {
-    setPresetName(presetName);
-  }, [presetName]);
+  const onChangePresetNameSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPresetName(e.target.value);
+  };
 
   let editDomNode = useClickOut(() => {
-    !isEditing
-      ? setIsEditing(false)
-      : (() => {
-          setIsEditing(false);
-          onEditPresetSubmit();
-        })();
+    setIsEditing(false);
   });
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === KeyDownActions.enter) {
-      onEditPresetSubmit();
+      onChangePresetName(e);
     } else if (e.key === KeyDownActions.escape) {
       setIsEditing(false);
     }
@@ -54,7 +49,7 @@ const PresetInput: React.FC<IPresetInput> = ({
         ref={inputRef}
         value={_presetName}
         onKeyDown={onKeyDown}
-        onChange={onChangePresetName}
+        onChange={onChangePresetNameSubmit}
       />
     </div>
   );
