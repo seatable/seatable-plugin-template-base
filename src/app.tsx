@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { FaPlus } from 'react-icons/fa6';
 // Import of Component
 import Header from './components/Header';
 import PluginSettings from './components/PluginSettings';
@@ -17,6 +18,7 @@ import {
   TableView,
   TableRow,
   IActiveTableAndView,
+  TableColumn,
 } from './utils/Interfaces/Table.interface';
 import { PresetsArray } from './utils/Interfaces/PluginPresets/Presets.interface';
 import { SelectOption } from './utils/Interfaces/PluginSettings.interface';
@@ -40,6 +42,7 @@ import {
   getPluginDataStore,
   parsePluginDataToActiveState,
 } from './utils/utils';
+import pluginContext from './plugin-context';
 
 const App: React.FC<IAppProps> = (props) => {
   const { isDevelopment } = props;
@@ -55,7 +58,9 @@ const App: React.FC<IAppProps> = (props) => {
   // For better understanding read the comments in the AppActiveState interface
   const [appActiveState, setAppActiveState] = useState<AppActiveState>(INITIAL_CURRENT_STATE);
   // Destructure properties from the app's active state for easier access
-  const { activeTable, activePresetId, activePresetIdx, activeViewRows } = appActiveState;
+  const { activeTable, activePresetId, activePresetIdx, activeViewRows, activeTableView } =
+    appActiveState;
+  const { collaborators } = window.app.state;
 
   useEffect(() => {
     initPluginDTableData();
@@ -332,7 +337,65 @@ const App: React.FC<IAppProps> = (props) => {
     updatePluginDataStore({ ...pluginDataStore, presets: updatedPluginPresets });
   };
 
-  const { collaborators } = window.app.state;
+  const addRowItem = () => {
+    if (activeViewRows) {
+      console.log('activeViewRows', activeViewRows);
+      let row_id = activeViewRows.length > 0 ? activeViewRows[activeViewRows.length - 1]._id : '';
+      console.log('row_id', row_id);
+      let rowData = window.dtableSDK.getInsertedRowInitData(activeTableView!, activeTable!, row_id);
+      console.log('rowData', rowData);
+      onInsertRow(activeTable!, activeTableView!, rowData);
+    }
+  };
+  const onInsertRow = (table: Table, view: TableView, rowData: any) => {
+    let columns = window.dtableSDK.getColumns(table);
+    let newRowData: { [key: string]: any } = {};
+    console.log('columns', columns);
+    for (let key in rowData) {
+      console.log('key', key);
+      let column = columns.find((column: TableColumn) => column.name === key);
+      console.log('column.type', column.type);
+      if (!column) {
+        continue;
+      }
+      switch (column.type) {
+        case 'single-select': {
+          newRowData[column.name] =
+            column.data.options.find((item: any) => item.name === rowData[key])?.name || '';
+          break;
+        }
+        case 'multiple-select': {
+          let multipleSelectNameList: any[] = [];
+          rowData[key].forEach((multiItemId: any) => {
+            let multiSelectItemName = column.data.options.find(
+              (multiItem: any) => multiItem.id === multiItemId
+            );
+            if (multiSelectItemName) {
+              multipleSelectNameList.push(multiSelectItemName.name);
+            }
+          });
+          newRowData[column.name] = multipleSelectNameList;
+          break;
+        }
+        default:
+          newRowData[column.name] = rowData[key];
+      }
+    }
+
+    let row_data = { ...newRowData };
+    console.log('row_data', row_data);
+    window.dtableSDK.appendRow(table, row_data, view);
+    let viewRows = window.dtableSDK.getViewRows(view, table);
+    console.log('viewRows', viewRows);
+    setAppActiveState((prevState) => ({
+      ...prevState,
+      activeViewRows: viewRows,
+    }));
+    // let insertedRow = viewRows[viewRows.length - 1];
+    // if (insertedRow) {
+    //   pluginContext.expandRow(insertedRow, table);
+    // }
+  };
 
   if (!isShowPlugin) {
     return null;
@@ -364,9 +427,9 @@ const App: React.FC<IAppProps> = (props) => {
           togglePlugin={onPluginToggle}
         />
         {/* main body  */}
-        <div className="d-flex position-relative" style={{ height: '100%' }}>
+        <div className="d-flex position-relative" style={{ height: '100%', width: '100vw' }}>
           {/* content  */}
-          <div id={PLUGIN_ID} className={styles.body}>
+          <div id={PLUGIN_ID} className={styles.body} style={{ height: '100%', width: '100vw' }}>
             {pluginPresets.map((obj) => (
               <div
                 key={obj._id}
@@ -409,11 +472,17 @@ const App: React.FC<IAppProps> = (props) => {
             <div style={{ marginTop: '8px', fontWeight: 'bold' }}>View Rows:</div>
             <div>
               {activeViewRows?.map((row) => (
-                <div key={row._id}>
-                  <h6>{row['0000']}</h6>
+                <div key={row._id} style={{ marginBottom: '8px' }}>
+                  {Object.keys(row).map((key) => (
+                    <h6 key={key}>{row[key]}</h6>
+                  ))}
                 </div>
               ))}
             </div>
+
+            <button className={styles.add_row} onClick={addRowItem}>
+              <FaPlus size={30} color="#fff" />
+            </button>
           </div>
           <div>
             <PluginSettings
