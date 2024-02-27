@@ -197,7 +197,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     let newPluginPresets = deepCopy(pluginPresets);
     let oldPreset = pluginPresets[activePresetIdx];
     let _id: string = generatorPresetId(pluginPresets) || '';
-    let updatedPreset = new Preset({ ...oldPreset, _id, name: presetName });
+    let updatedPreset = new Preset({ ...oldPreset, name: presetName });
 
     newPluginPresets.splice(activePresetIdx, 1, updatedPreset);
     pluginDataStore.presets = newPluginPresets;
