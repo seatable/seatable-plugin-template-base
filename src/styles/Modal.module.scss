@@ -16,6 +16,20 @@
 .modal {
   width: 100%;
   background: $modal-bgColor;
+  height: 100%;
+
+  &_draggable {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 10px;
+    width: 50px;
+    height: 3px;
+    border-radius: 10px;
+    background-color: $borderColor;
+    z-index: 10;
+    cursor: row-resize;
+  }
 
   &_header {
     display: flex;
