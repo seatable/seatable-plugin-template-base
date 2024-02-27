@@ -35,13 +35,15 @@ const PresetInput: React.FC<IPresetInput> = ({
     if (e.key === KeyDownActions.enter) {
       onChangePresetName(e);
     } else if (e.key === KeyDownActions.escape) {
+      console.log(e.key, e);
       setIsEditing(false);
     }
   };
 
-  // const handleFocusOut = (e: React.FormEvent<HTMLInputElement>) => {
-  //   onChangePresetName(e);
-  // };
+  const handleFocusOut = (e: React.FormEvent<HTMLInputElement>) => {
+    console.log(e.type, e);
+    onChangePresetName(e);
+  };
 
   return (
     <div
@@ -54,7 +56,7 @@ const PresetInput: React.FC<IPresetInput> = ({
         value={_presetName}
         onKeyDown={onKeyDown}
         onChange={onChangePresetNameSubmit}
-        // onBlur={handleFocusOut}
+        onBlur={handleFocusOut}
       />
     </div>
   );
