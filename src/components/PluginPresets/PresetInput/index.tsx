@@ -39,9 +39,9 @@ const PresetInput: React.FC<IPresetInput> = ({
     }
   };
 
-  const handleFocusOut = (e: React.FormEvent<HTMLInputElement>) => {
-    onChangePresetName(e);
-  };
+  // const handleFocusOut = (e: React.FormEvent<HTMLInputElement>) => {
+  //   onChangePresetName(e);
+  // };
 
   return (
     <div
@@ -54,7 +54,7 @@ const PresetInput: React.FC<IPresetInput> = ({
         value={_presetName}
         onKeyDown={onKeyDown}
         onChange={onChangePresetNameSubmit}
-        onBlur={handleFocusOut}
+        // onBlur={handleFocusOut}
       />
     </div>
   );
