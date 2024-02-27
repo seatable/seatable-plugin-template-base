@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 // Import of Component
 import Header from './components/Header';
 import PluginSettings from './components/PluginSettings';
 import PluginPresets from './components/PluginPresets';
+import ResizableWrapper from './components/ResizableWrapper';
 // Import of Interfaces
 import {
   AppActiveState,
@@ -340,7 +341,7 @@ const App: React.FC<IAppProps> = (props) => {
   return isLoading ? (
     <div></div>
   ) : (
-    <div className={styles.modal_wrapper}>
+    <ResizableWrapper>
       {/* presets  */}
       <PluginPresets
         allTables={allTables}
@@ -428,7 +429,7 @@ const App: React.FC<IAppProps> = (props) => {
           </div>
         </div>
       </div>
-    </div>
+    </ResizableWrapper>
   );
 };
 
