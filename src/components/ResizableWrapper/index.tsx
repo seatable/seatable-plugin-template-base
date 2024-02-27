@@ -1,10 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from '../../styles/Modal.module.scss';
 import { IResizableWrapper } from '../../utils/Interfaces/ResizableWrapper.interface';
 
 const ResizableWrapper:React.FC<IResizableWrapper> = ({ children }) => {
+  const [allowTextSelection, setAllowTextSelection] =
+        useState<boolean>(true);
   const modalRef = useRef<null | HTMLDivElement>(null);
   const modalTop = useRef<null | HTMLDivElement>(null);
+
   useEffect(() => {
     let resizableModal = modalRef.current;
     let style;
@@ -28,6 +31,7 @@ const ResizableWrapper:React.FC<IResizableWrapper> = ({ children }) => {
       document.removeEventListener('mousemove', onMouseMoveTopResize);
     };
     const onMouseDownTopResize = (event: MouseEvent) => {
+      setAllowTextSelection(false);
       yCord = event.clientY;
       if (resizableModal) {
         style = window.getComputedStyle(resizableModal);
@@ -40,12 +44,13 @@ const ResizableWrapper:React.FC<IResizableWrapper> = ({ children }) => {
     topResizer?.addEventListener('mousedown', onMouseDownTopResize);
 
     return () => {
+      setAllowTextSelection(true);
       topResizer?.removeEventListener('mousedown', onMouseDownTopResize);
     };
   }, [modalRef]);
 
   return (
-    <div ref={modalRef} className={styles.modal_wrapper}>
+    <div ref={modalRef} className={styles.modal_wrapper} style={{userSelect: allowTextSelection ? 'auto' : 'none'}}>
       {/* draggable  */}
       <div ref={modalTop} className={styles.modal_draggable}>
         <span></span>
