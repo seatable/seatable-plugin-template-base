@@ -24,6 +24,26 @@
     }
   }
 
+  &_logo {
+    padding-left: 10px;
+    @include mobile {
+      transform: scale(0.7);
+    }
+  }
+
+  &_name {
+    color: $header-text1;
+    font-weight: 600;
+    font-size: 15px;
+    white-space: nowrap;
+    margin-bottom: 0;
+
+    @include mobile {
+      font-size: 11px;
+      margin-left: -5px;
+    }
+  }
+
   &_collapse_btn {
     all: unset;
     display: flex;
@@ -42,33 +62,6 @@
     opacity: 0;
     transition: 0.2s opacity ease-in-out;
     cursor: pointer;
-  }
-
-  &_uncollapse_btns_wrapper:hover {
-    .presets_uncollapse_btn1 {
-      display: none;
-    }
-
-    .presets_uncollapse_btn2 {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: $light-gray;
-      color: $preset-bgColor;
-      border-radius: 50%;
-    }
-  }
-
-  &_uncollapse_btn1 {
-    all: unset;
-    margin-right: 5px;
-    cursor: pointer;
-    outline: none !important;
-    z-index: 9;
-    width: 24px;
-    height: 24px;
-    top: 12px;
-    color: $preset-bgColor;
   }
 
   &_uncollapse_btn2,
@@ -99,6 +92,7 @@
     padding: 10px;
     border-radius: 3px;
     margin-top: 0px;
+    align-items: center;
 
     &:hover {
       background-color: $add-btn-hover;

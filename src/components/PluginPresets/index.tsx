@@ -22,6 +22,7 @@ import {
   PLUGIN_ICON,
   PLUGIN_NAME,
   PresetHandleAction,
+  STRING_VALUE,
   TABLE_NAME,
 } from '../../utils/constants';
 import {
@@ -249,11 +250,11 @@ const PluginPresets: React.FC<IPresetsProps> = ({
         <HiOutlineChevronDoubleLeft />
       </button>
       <div className="d-flex flex-column">
-        <div className={`d-flex align-items-center py-2 pb-4 ${styles1.modal_header_logo}`}>
+        <div className={`d-flex align-items-center py-2 pb-4 ${styles.presets_logo}`}>
           <div className={`bg-info py-1 px-2 rounded mr-2`}>
             <PLUGIN_ICON size={16} color="#fff" />
           </div>
-          <div className={styles1.modal_header_name}>{PLUGIN_NAME}</div>
+          <div className={styles.presets_name}>{PLUGIN_NAME}</div>
         </div>
         {pluginPresets?.map((v, i) => (
           <div
@@ -306,13 +307,13 @@ const PluginPresets: React.FC<IPresetsProps> = ({
             onClick={(e) => togglePresetsUpdate(e, PresetHandleAction.new)}
             className={`d-flex ${styles.presets_add_button}`}>
             <i className="dtable-font dtable-icon-add-table"></i>
-            <p className="ml-2 mb-0">Add Preset</p>
+            <p className="mx-1">{STRING_VALUE.addPreset}</p>
           </button>
         )}
       </div>
       {presetNameAlreadyExists && (
         <div className="error-message d-flex justify-content-center mt-9">
-          <span className="alert-danger">There is another preset with this name</span>
+          <span className="alert-danger">{STRING_VALUE.nameExistWarn}</span>
         </div>
       )}
     </div>

@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
-
+// External dependencies
+import useClickOut from '../../../hooks/useClickOut';
+// Internal dependencies
+import PresetDropdown from '../PresetDropdown';
+import PresetInput from '../PresetInput';
+// Constants
+import { KeyDownActions, PresetHandleAction } from '../../../utils/constants';
+// Interfaces
+import { IPresetItemProps } from '../../../utils/Interfaces/PluginPresets/Item.interface';
+// Styles
 import styles from '../../../styles/Modal.module.scss';
 import '../../../assets/css/plugin-layout.css';
-
-import PresetDropdown from '../PresetDropdown';
-import useClickOut from '../../../hooks/useClickOut';
-import { IPresetItemProps } from '../../../utils/Interfaces/PluginPresets/Item.interface';
-import PresetInput from '../PresetInput';
-import { PresetHandleAction } from '../../../utils/constants';
 
 const PresetItem: React.FC<IPresetItemProps> = ({
   v,
@@ -36,7 +39,7 @@ const PresetItem: React.FC<IPresetItemProps> = ({
   };
 
   const editOnEnterKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === KeyDownActions.enter) {
       onEditPresetSubmit();
     }
   };
@@ -90,15 +93,18 @@ const PresetItem: React.FC<IPresetItemProps> = ({
               : styles.modal_header_viewBtn
           }>
           <div className="d-flex align-items-center">
-            <i className={`dtable-font dtable-icon-drag ${styles.modal_header_viewBtn_icons}`}></i>
-            <p className="ml-2 mb-0">{v.name}</p>
+            <p className="mb-0">{v.name}</p>
           </div>
-          <span>
+          <span className="d-flex align-items-center">
+            <span>
+              <i
+                className={`dtable-font dtable-icon-drag mx-1 ${styles.modal_header_viewBtn_icons}`}></i>
+            </span>
             <span
               className={`dtable-font dtable-icon-set-up ${styles.modal_header_viewBtn_settings}`}
               onClick={onToggleSettings}></span>
             <BsThreeDots
-              className={styles.modal_header_viewBtn_icons}
+              className={`mx-1 ${styles.modal_header_viewBtn_icons}`}
               onClick={togglePresetDropdown}
             />
           </span>
