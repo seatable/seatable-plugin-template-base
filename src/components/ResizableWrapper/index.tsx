@@ -47,7 +47,10 @@ const ResizableWrapper:React.FC<IResizableWrapper> = ({ children }) => {
   return (
     <div ref={modalRef} className={styles.modal_wrapper}>
       {/* draggable  */}
-      <div ref={modalTop} className={styles.modal_draggable}></div>
+      <div ref={modalTop} className={styles.modal_draggable}>
+        <span></span>
+        <span></span>
+      </div>
       {children}
     </div>
   );
