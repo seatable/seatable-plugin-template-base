@@ -59,8 +59,6 @@ const App: React.FC<IAppProps> = (props) => {
   const { activeTable, activePresetId, activePresetIdx, activeViewRows } = appActiveState;
 
   useEffect(() => {
-    // window.dtableSDK.updatePluginSettings(PLUGIN_NAME, DEFAULT_PLUGIN_DATA);
-
     initPluginDTableData();
     return () => {
       unsubscribeLocalDtableChanged();
