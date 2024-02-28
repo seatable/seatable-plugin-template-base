@@ -247,8 +247,14 @@ const App: React.FC<IAppProps> = (props) => {
    */
   const updateActiveData = () => {
     let allTables: TableArray = window.dtableSDK.getTables();
-    let tableOfPresetOne = pluginPresets[0].settings?.selectedTable!;
-    let viewOfPresetOne = pluginPresets[0].settings?.selectedView!;
+    let tableOfPresetOne = pluginPresets[0].settings?.selectedTable || {
+      value: allTables[0]._id,
+      label: allTables[0].name,
+    };
+    let viewOfPresetOne = pluginPresets[0].settings?.selectedView || {
+      value: allTables[0].views[0]._id,
+      label: allTables[0].views[0].name,
+    };
     let table = allTables.find((t) => t._id === tableOfPresetOne.value)!;
     let view = table?.views.find((v) => v._id === viewOfPresetOne.value)!;
 
