@@ -33,14 +33,8 @@ const DEFAULT_SELECT_OPTION = {
 const DEFAULT_PRESET_SETTINGS: PresetSettings = {
   shown_image_name: '',
   shown_title_name: '',
-  selectedTable: {
-    value: '0000',
-    label: 'Fantastical Hybrids',
-  },
-  selectedView: {
-    value: '0000',
-    label: 'Default View',
-  },
+  selectedTable: DEFAULT_SELECT_OPTION,
+  selectedView: DEFAULT_SELECT_OPTION,
 };
 
 // Default Plugin Data
