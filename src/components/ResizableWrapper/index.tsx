@@ -2,9 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from '../../styles/Modal.module.scss';
 import { IResizableWrapper } from '../../utils/Interfaces/ResizableWrapper.interface';
 
-const ResizableWrapper:React.FC<IResizableWrapper> = ({ children }) => {
-  const [allowTextSelection, setAllowTextSelection] =
-        useState<boolean>(true);
+const ResizableWrapper: React.FC<IResizableWrapper> = ({ children }) => {
+  const [allowTextSelection, setAllowTextSelection] = useState<boolean>(true);
   const modalRef = useRef<null | HTMLDivElement>(null);
   const modalTop = useRef<null | HTMLDivElement>(null);
 
@@ -50,7 +49,10 @@ const ResizableWrapper:React.FC<IResizableWrapper> = ({ children }) => {
   }, [modalRef]);
 
   return (
-    <div ref={modalRef} className={styles.modal_wrapper} style={{userSelect: allowTextSelection ? 'auto' : 'none'}}>
+    <div
+      ref={modalRef}
+      className={styles.modal_wrapper}
+      style={{ userSelect: allowTextSelection ? 'auto' : 'none' }}>
       {/* draggable  */}
       <div ref={modalTop} className={styles.modal_draggable}>
         <span></span>

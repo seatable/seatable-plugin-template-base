@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { getTableByName } from 'dtable-utils';
 import PresetItem from './PresetItem/index';
 import styles from '../../styles/Presets.module.scss';
-import styles1 from '../../styles/Modal.module.scss';
 import deepCopy from 'deep-copy';
 import Preset from '../../model/preset';
 import {

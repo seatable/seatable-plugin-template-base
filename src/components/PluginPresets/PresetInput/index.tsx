@@ -5,10 +5,10 @@ import useClickOut from '../../../hooks/useClickOut';
 import { KeyDownActions } from '../../../utils/constants';
 
 const PresetInput: React.FC<IPresetInput> = ({
-  onChangePresetName,
-  setIsEditing,
-  isEditing,
   presetName,
+  onChangePresetName,
+  isEditing,
+  setIsEditing,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [_presetName, setPresetName] = useState('');
@@ -33,21 +33,23 @@ const PresetInput: React.FC<IPresetInput> = ({
   });
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === KeyDownActions.enter) {
-      onChangePresetName(e);
-    } else if (e.key === KeyDownActions.escape) {
-      setBlurCausedByKeyDown(true);
-      setIsEditing(false);
+    switch (e.key) {
+      case KeyDownActions.enter:
+        onChangePresetName(e);
+        break;
+      case KeyDownActions.escape: {
+        setBlurCausedByKeyDown(true);
+        setIsEditing(false);
+        break;
+      }
+      default:
+        break;
     }
   };
 
-  const handleFocusOut = (e: React.FormEvent<HTMLInputElement>) => {
-    if (!blurCausedByKeyDown) {
-      onChangePresetName(e);
-    }
-
-    setBlurCausedByKeyDown(false);
-  };
+  const handleFocusOut = (e: React.FormEvent<HTMLInputElement>) => (
+    !blurCausedByKeyDown && onChangePresetName(e), setBlurCausedByKeyDown(false)
+  );
 
   return (
     <div
