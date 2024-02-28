@@ -10,7 +10,6 @@ export interface IPresetItemProps {
   onToggleSettings: () => void;
   v: any;
   onChangePresetName: (e: React.FormEvent<HTMLInputElement>) => void;
-  onEditPresetSubmit: (e?: React.MouseEvent<HTMLElement>) => void;
   duplicatePreset: (name: string) => void;
   showEditPresetPopUp: boolean;
 }

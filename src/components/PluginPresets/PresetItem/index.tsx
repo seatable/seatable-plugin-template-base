@@ -23,7 +23,6 @@ const PresetItem: React.FC<IPresetItemProps> = ({
   onSelectPreset,
   duplicatePreset,
   togglePresetsUpdate,
-  onEditPresetSubmit,
   onToggleSettings,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -36,12 +35,6 @@ const PresetItem: React.FC<IPresetItemProps> = ({
   // toggle Preset dropdown(edit/delete)
   const togglePresetDropdown = () => {
     setShowPresetDropdown((prev) => !prev);
-  };
-
-  const editOnEnterKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === KeyDownActions.enter) {
-      onEditPresetSubmit();
-    }
   };
 
   // Update a Preset
@@ -78,7 +71,6 @@ const PresetItem: React.FC<IPresetItemProps> = ({
     <div>
       <PresetInput
         onChangePresetName={onChangePresetName}
-        onEditPresetSubmit={onEditPresetSubmit}
         isEditing={isEditing}
         setIsEditing={setIsEditing}
         presetName={presetName}

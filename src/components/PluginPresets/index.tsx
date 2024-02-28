@@ -84,11 +84,12 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   };
 
   // handle preset name change
-  const onChangePresetName = (e: React.FormEvent<HTMLInputElement>) => {
+  const onChangePresetName = (e: React.FormEvent<HTMLInputElement>, type?: string) => {
     if (e.currentTarget.value.includes('  ')) {
       return;
     } else {
       setPresetName(e.currentTarget.value);
+      onNewPresetSubmit(e, e.currentTarget.value, type);
     }
   };
 
@@ -97,9 +98,15 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   });
 
   // Submit new/edited preset name
-  const onNewPresetSubmit = (e?: React.MouseEvent<HTMLElement>, type?: string) => {
+  const onNewPresetSubmit = (
+    e: React.FormEvent<HTMLInputElement>,
+    __presetName: string,
+    type?: string
+  ) => {
     let _presetName =
-      presetName.trim() || DEFAULT_PLUGIN_DATA.presets[0].name + ' ' + _pluginPresets.length;
+      __presetName.trim() ||
+      presetName.trim() ||
+      DEFAULT_PLUGIN_DATA.presets[0].name + ' ' + _pluginPresets.length;
     let _presetNames = _pluginPresets.map((p) => p.name);
     const isUnique = isUniquePresetName(_presetName, _pluginPresets, activePresetIdx);
 
@@ -276,14 +283,13 @@ const PluginPresets: React.FC<IPresetsProps> = ({
               activePresetIdx={activePresetIdx}
               presetName={presetName}
               pluginPresets={pluginPresets}
-              onChangePresetName={onChangePresetName}
+              onChangePresetName={(e: React.FormEvent<HTMLInputElement>) =>
+                onChangePresetName(e, PresetHandleAction.edit)
+              }
               onSelectPreset={onSelectPreset}
               deletePreset={deletePreset}
               duplicatePreset={duplicatePreset}
               togglePresetsUpdate={togglePresetsUpdate}
-              onEditPresetSubmit={(e?: React.MouseEvent<HTMLElement>) =>
-                onNewPresetSubmit(e, PresetHandleAction.edit)
-              }
               showEditPresetPopUp={showEditPresetPopUp}
               onToggleSettings={onToggleSettings}
             />
@@ -292,9 +298,8 @@ const PluginPresets: React.FC<IPresetsProps> = ({
         {/* add new preset input  */}
         {showNewPresetPopUp && (
           <PresetInput
-            onChangePresetName={onChangePresetName}
-            onEditPresetSubmit={(e?: React.MouseEvent<HTMLElement>) =>
-              onNewPresetSubmit(e, PresetHandleAction.new)
+            onChangePresetName={(e: React.FormEvent<HTMLInputElement>) =>
+              onChangePresetName(e, PresetHandleAction.new)
             }
             isEditing={showNewPresetPopUp}
             setIsEditing={setShowNewPresetPopUp}
