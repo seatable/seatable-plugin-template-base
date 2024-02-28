@@ -227,7 +227,9 @@ export const parsePluginDataToActiveState = (
   // Extract relevant data from the pluginDataStore and allTables arrays
   let idx = pluginDataStore.activePresetIdx;
   let id = pluginDataStore.activePresetId;
-  let table = allTables.find((t) => t._id === pluginPresets[idx].settings?.selectedTable?.value)!;
+  let table =
+    allTables.find((t) => t._id === pluginPresets[idx].settings?.selectedTable?.value) ||
+    allTables[0];
   let tableName = table.name;
   let tableView = table.views.find(
     (v) => v._id === pluginPresets[idx].settings?.selectedView?.value
