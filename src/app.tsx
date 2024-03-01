@@ -373,9 +373,9 @@ const App: React.FC<IAppProps> = (props) => {
         {/* main body  */}
         <div
           className="d-flex position-relative"
-          style={{ height: '100%', width: '100%', backgroundColor: '#f5f5f5', padding: '10px' }}>
+          style={{ height: '100%', width: '100%', backgroundColor: '#f5f5f5' }}>
           {/* content  */}
-          <div id={PLUGIN_ID} className={styles.body}>
+          <div id={PLUGIN_ID} className={styles.body} style={{ padding: '10px' }}>
             {pluginPresets.map((obj) => (
               <div
                 key={obj._id}

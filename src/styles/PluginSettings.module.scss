@@ -8,6 +8,7 @@
   right: 0;
   height: 100%;
   width: 25%;
+  max-width: 400px;
   transition: 0.5s width ease-in-out;
   border-left: 1px solid $borderColor;
 
@@ -29,6 +30,12 @@
   &_dropdowns {
     padding-bottom: 20px;
     border-bottom: 1px solid $borderColor;
+  }
+
+  p {
+    margin-bottom: 4px !important;
+    opacity: 0.75;
+    font-size: 11px;
   }
 }
 
