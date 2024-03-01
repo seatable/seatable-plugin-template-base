@@ -371,7 +371,9 @@ const App: React.FC<IAppProps> = (props) => {
           togglePlugin={onPluginToggle}
         />
         {/* main body  */}
-        <div className="d-flex position-relative" style={{ height: '100%' }}>
+        <div
+          className="d-flex position-relative"
+          style={{ height: '100%', width: '100%', backgroundColor: '#f5f5f5', padding: '10px' }}>
           {/* content  */}
           <div id={PLUGIN_ID} className={styles.body}>
             {pluginPresets.map((obj) => (
@@ -382,7 +384,7 @@ const App: React.FC<IAppProps> = (props) => {
                   padding: '10px',
                   marginBottom: '10px',
                   borderRadius: '5px',
-                  backgroundColor: '#f5f5f5',
+                  backgroundColor: '#fff',
                 }}>
                 <div style={{ fontWeight: 'bold' }}>{`Preset ID: ${obj._id}`}</div>
                 <div style={{ color: '#007bff' }}>{`Preset Name: ${obj.name}`}</div>
@@ -402,7 +404,7 @@ const App: React.FC<IAppProps> = (props) => {
                 padding: '10px',
                 marginBottom: '10px',
                 borderRadius: '5px',
-                backgroundColor: '#f5f5f5',
+                backgroundColor: '#fff',
               }}>
               <div
                 style={{
@@ -413,13 +415,23 @@ const App: React.FC<IAppProps> = (props) => {
                   color: '#ff6666',
                 }}>{`Active View: ${appActiveState?.activeTableView?.name}`}</div>
             </div>
-            <div style={{ marginTop: '8px', fontWeight: 'bold' }}>View Rows:</div>
-            <div>
-              {activeViewRows?.map((row) => (
-                <div key={row._id}>
-                  <h6>{row['0000']}</h6>
-                </div>
-              ))}
+            <div
+              key={appActiveState?.activeTableView?._id}
+              style={{
+                border: '1px solid #ddd',
+                padding: '10px',
+                marginBottom: '10px',
+                borderRadius: '5px',
+                backgroundColor: '#fff',
+              }}>
+              <div style={{ marginTop: '8px', fontWeight: 'bold' }}>Rows of this selection:</div>
+              <div>
+                {activeViewRows?.map((row) => (
+                  <div key={row._id}>
+                    <h6>{row['0000']}</h6>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           <div>
