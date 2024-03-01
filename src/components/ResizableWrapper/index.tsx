@@ -23,7 +23,10 @@ const ResizableWrapper: React.FC<IResizableWrapper> = ({ children }) => {
       height = height - dy;
       yCord = event.clientY;
       if (resizableModal) {
-        resizableModal.style.height = `${height}px`;
+        const maxWindowHeight = window.innerHeight - 18;
+        if (height >= 50 && height < maxWindowHeight) {
+          resizableModal.style.height = `${height}px`;
+        }
       }
     };
     const onMouseUpTopResize = (event: MouseEvent) => {
