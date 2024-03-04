@@ -1,5 +1,4 @@
 // External imports
-import * as Icons from 'react-icons/ri';
 import info from '../../plugin-config/info.json';
 
 // Interfaces
@@ -14,8 +13,6 @@ const POSSIBLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz
 const PLUGIN_NAME = info.name
   .replace(/-([a-z])/g, (_, match) => ' ' + match.toUpperCase())
   .replace(/^./, (str) => str.toUpperCase());
-
-const PLUGIN_ICON = Icons['RiOrganizationChart']; // Change PLUGIN Icon Name
 const PLUGIN_ID = 'main-custom-content'; // Insert Plugin ID
 const BACKGROUND_COLOR = 'rgb(29, 40, 56)'; // Insert Background Color
 
@@ -92,7 +89,6 @@ const DEFAULT_SELECTED_PRESET: IActivePresetSettings = {
 // Exported Constants
 export {
   POSSIBLE,
-  PLUGIN_ICON,
   PLUGIN_NAME,
   PLUGIN_ID,
   TABLE_NAME,
