@@ -262,7 +262,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
           </div>
           <div className={styles.presets_name}>{PLUGIN_NAME}</div>
         </div>
-        {pluginPresets?.map((v, i) => (
+        {pluginPresets?.map((preset, i) => (
           <div
             style={
               dragOverItemIndex === i && i === 0
@@ -271,14 +271,14 @@ const PluginPresets: React.FC<IPresetsProps> = ({
                   ? { borderBottom: '2px solid #A9A9A9' }
                   : {}
             }
-            key={v._id}
+            key={preset._id}
             draggable="true"
             onDragStart={(e) => handleDragStart(e, i)}
             onDragEnter={(e) => handleDragEnter(e, i)}
-            onDragEnd={(e) => handleDragEnd(e, v._id)}
+            onDragEnd={(e) => handleDragEnd(e, preset._id)}
             onDragOver={handleDragOver}>
             <PresetItem
-              v={v}
+              p={preset}
               activePresetIdx={activePresetIdx}
               presetName={presetName}
               pluginPresets={pluginPresets}
