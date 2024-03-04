@@ -10,7 +10,7 @@
   padding: 4px 0;
   border-right: 1px solid $borderR-color;
   position: relative;
-  transition: 0.5s width ease-in-out;
+  transition: 0.3s width ease-in-out;
 
   @include tablet {
     position: fixed;
