@@ -9,12 +9,15 @@ const ResizableWrapper: React.FC<IResizableWrapper> = ({ children }) => {
 
   useEffect(() => {
     let resizableModal = modalRef.current;
+    let pluginWrapper: null | HTMLDivElement = document.querySelector('#plugin-wrapper');
     let style;
     let height: number;
+
     if (resizableModal) {
       style = window.getComputedStyle(resizableModal);
       height = parseInt(style.height, 10);
     }
+
     let yCord = 0;
     let topResizer = modalTop.current;
 
@@ -26,6 +29,10 @@ const ResizableWrapper: React.FC<IResizableWrapper> = ({ children }) => {
         const maxWindowHeight = window.innerHeight - 18;
         if (height >= 50 && height < maxWindowHeight) {
           resizableModal.style.height = `${height}px`;
+
+          if (pluginWrapper) {
+            pluginWrapper.style.top = `calc(100% - ${height}px)`;
+          }
         }
       }
     };
