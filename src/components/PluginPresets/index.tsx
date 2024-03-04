@@ -3,6 +3,7 @@ import { getTableByName } from 'dtable-utils';
 import PresetItem from './PresetItem/index';
 import styles from '../../styles/Presets.module.scss';
 import deepCopy from 'deep-copy';
+import icon from '../../plugin-config/icon.png';
 import Preset from '../../model/preset';
 import {
   IPresetsProps,
@@ -18,7 +19,6 @@ import {
 } from '../../utils/utils';
 import {
   DEFAULT_PLUGIN_DATA,
-  PLUGIN_ICON,
   PLUGIN_NAME,
   PresetHandleAction,
   TABLE_NAME,
@@ -257,9 +257,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       </button>
       <div className="d-flex flex-column">
         <div className={`d-flex align-items-center py-2 pb-4 ${styles.presets_logo}`}>
-          <div className={`bg-info py-1 px-2 rounded mr-2`}>
-            <PLUGIN_ICON size={16} color="#fff" />
-          </div>
+          <img src={icon} alt="Plugin Icon" className={styles.presets_icon} />
           <div className={styles.presets_name}>{PLUGIN_NAME}</div>
         </div>
         {pluginPresets?.map((preset, i) => (
