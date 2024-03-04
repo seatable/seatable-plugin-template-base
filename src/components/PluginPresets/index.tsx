@@ -21,7 +21,6 @@ import {
   PLUGIN_ICON,
   PLUGIN_NAME,
   PresetHandleAction,
-  STRING_VALUE,
   TABLE_NAME,
 } from '../../utils/constants';
 import {
@@ -33,6 +32,7 @@ import PresetInput from './PresetInput';
 import useClickOut from '../../hooks/useClickOut';
 import { AppActiveState } from '../../utils/Interfaces/App.interface';
 import { HiOutlineChevronDoubleLeft } from 'react-icons/hi2';
+import intl from 'react-intl-universal';
 
 const PluginPresets: React.FC<IPresetsProps> = ({
   allTables,
@@ -311,13 +311,13 @@ const PluginPresets: React.FC<IPresetsProps> = ({
             onClick={(e) => togglePresetsUpdate(e, PresetHandleAction.new)}
             className={`d-flex ${styles.presets_add_button}`}>
             <i className="dtable-font dtable-icon-add-table"></i>
-            <p className="mx-1">{STRING_VALUE.addPreset}</p>
+            <p className="mx-1">{intl.get('preset_add')}</p>
           </button>
         )}
       </div>
       {presetNameAlreadyExists && (
         <div className="error-message d-flex justify-content-center mt-9">
-          <span className="alert-danger">{STRING_VALUE.nameExistWarn}</span>
+          <span className="alert-danger">{intl.get('preset_warn_exist')}</span>
         </div>
       )}
     </div>
