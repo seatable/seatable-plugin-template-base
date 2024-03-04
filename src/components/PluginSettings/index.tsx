@@ -8,6 +8,7 @@ import {
 } from '../../utils/Interfaces/PluginSettings.interface';
 import { truncateTableName } from '../../utils/utils';
 import { HiOutlineChevronDoubleRight } from 'react-icons/hi2';
+import { SettingsOption } from '../../utils/types';
 
 // PluginSettings component for managing table and view options
 const PluginSettings: React.FC<IPluginSettingsProps> = ({
@@ -76,7 +77,7 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
                 value={tableSelectedOption}
                 options={tableOptions}
                 onChange={(selectedOption: SelectOption) => {
-                  let type = 'table' as 'table' | 'view';
+                  let type = 'table' as SettingsOption;
                   onTableOrViewChange(type, selectedOption);
                 }}
               />
@@ -89,13 +90,12 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
                 value={viewSelectedOption}
                 options={viewOptions}
                 onChange={(selectedOption: SelectOption) => {
-                  let type = 'view' as 'table' | 'view';
+                  let type = 'view' as SettingsOption;
                   onTableOrViewChange(type, selectedOption);
                 }}
               />
             </div>
           </div>
-
           {/* Insert custom settings */}
         </div>
       </div>

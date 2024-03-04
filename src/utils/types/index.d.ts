@@ -10,7 +10,4 @@ declare global {
   }
 }
 
-export type PresetsUpdateOptions = {
-  _presetName?: string;
-  type?: 'edit';
-};
+export type SettingsOption = 'table' | 'view';

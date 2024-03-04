@@ -43,6 +43,7 @@ import {
   getPluginDataStore,
   parsePluginDataToActiveState,
 } from './utils/utils';
+import { SettingsOption } from './utils/types';
 import pluginContext from './plugin-context';
 
 const App: React.FC<IAppProps> = (props) => {
@@ -282,7 +283,7 @@ const App: React.FC<IAppProps> = (props) => {
   /**
    * Handles the change of the active table or view, updating the application state and presets accordingly.
    */
-  const onTableOrViewChange = (type: 'table' | 'view', option: SelectOption) => {
+  const onTableOrViewChange = (type: SettingsOption, option: SelectOption) => {
     let _activeViewRows: TableRow[];
     let updatedPluginPresets: PresetsArray;
 
