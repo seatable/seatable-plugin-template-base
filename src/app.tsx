@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { FaPlus } from 'react-icons/fa6';
 // Import of Component
 import Header from './components/Header';
 import PluginSettings from './components/PluginSettings';
@@ -18,6 +19,7 @@ import {
   TableView,
   TableRow,
   IActiveTableAndView,
+  TableColumn,
 } from './utils/Interfaces/Table.interface';
 import { PresetsArray } from './utils/Interfaces/PluginPresets/Presets.interface';
 import { SelectOption } from './utils/Interfaces/PluginSettings.interface';
@@ -41,6 +43,7 @@ import {
   getPluginDataStore,
   parsePluginDataToActiveState,
 } from './utils/utils';
+import pluginContext from './plugin-context';
 
 const App: React.FC<IAppProps> = (props) => {
   const { isDevelopment } = props;
@@ -56,7 +59,9 @@ const App: React.FC<IAppProps> = (props) => {
   // For better understanding read the comments in the AppActiveState interface
   const [appActiveState, setAppActiveState] = useState<AppActiveState>(INITIAL_CURRENT_STATE);
   // Destructure properties from the app's active state for easier access
-  const { activeTable, activePresetId, activePresetIdx, activeViewRows } = appActiveState;
+  const { activeTable, activePresetId, activePresetIdx, activeViewRows, activeTableView } =
+    appActiveState;
+  const { collaborators } = window.app.state;
 
   useEffect(() => {
     initPluginDTableData();
@@ -339,7 +344,67 @@ const App: React.FC<IAppProps> = (props) => {
     updatePluginDataStore({ ...pluginDataStore, presets: updatedPluginPresets });
   };
 
-  const { collaborators } = window.app.state;
+  const getInsertedRowInitData = (view: TableView, table: Table, rowID: string) => {
+    return window.dtableSDK.getInsertedRowInitData(view, table, rowID);
+  };
+
+  // functions for add row functionality
+  const onAddOrgChartItem = (view: TableView, table: Table, rowID: string) => {
+    let rowData = getInsertedRowInitData(view, table, rowID);
+    onInsertRow(table, view, rowData);
+  };
+
+  const addRowItem = () => {
+    let rows = appActiveState.activeViewRows;
+    if (rows) {
+      let row_id = rows.length > 0 ? rows[rows.length - 1]._id : '';
+      onAddOrgChartItem(appActiveState.activeTableView!, appActiveState.activeTable!, row_id);
+    }
+  };
+
+  const onInsertRow = (table: Table, view: TableView, rowData: any) => {
+    let columns = window.dtableSDK.getColumns(table);
+    let newRowData: { [key: string]: any } = {};
+    console.log('columns', columns);
+    for (let key in rowData) {
+      console.log('key', key);
+      let column = columns.find((column: TableColumn) => column.name === key);
+      console.log('column.type', column.type);
+      if (!column) {
+        continue;
+      }
+      switch (column.type) {
+        case 'single-select': {
+          newRowData[column.name] =
+            column.data.options.find((item: any) => item.name === rowData[key])?.name || '';
+          break;
+        }
+        case 'multiple-select': {
+          let multipleSelectNameList: any[] = [];
+          rowData[key].forEach((multiItemId: any) => {
+            let multiSelectItemName = column.data.options.find(
+              (multiItem: any) => multiItem.id === multiItemId
+            );
+            if (multiSelectItemName) {
+              multipleSelectNameList.push(multiSelectItemName.name);
+            }
+          });
+          newRowData[column.name] = multipleSelectNameList;
+          break;
+        }
+        default:
+          newRowData[column.name] = rowData[key];
+      }
+    }
+
+    let row_data = { ...newRowData };
+    window.dtableSDK.appendRow(table, row_data, view);
+    let viewRows = window.dtableSDK.getViewRows(view, table);
+    let insertedRow = viewRows[viewRows.length - 1];
+    if (insertedRow) {
+      pluginContext.expandRow(insertedRow, table);
+    }
+  };
 
   if (!isShowPlugin) {
     return null;
@@ -398,7 +463,6 @@ const App: React.FC<IAppProps> = (props) => {
               </div>
             ))}
             <div
-              key={appActiveState?.activeTableView?._id}
               style={{
                 border: '1px solid #ddd',
                 padding: '10px',
@@ -416,7 +480,6 @@ const App: React.FC<IAppProps> = (props) => {
                 }}>{`Active View: ${appActiveState?.activeTableView?.name}`}</div>
             </div>
             <div
-              key={appActiveState?.activeTableView?._id}
               style={{
                 border: '1px solid #ddd',
                 padding: '10px',
@@ -433,6 +496,10 @@ const App: React.FC<IAppProps> = (props) => {
                 ))}
               </div>
             </div>
+
+            <button className={styles.add_row} onClick={addRowItem}>
+              <FaPlus size={30} color="#fff" />
+            </button>
           </div>
           <div>
             <PluginSettings
