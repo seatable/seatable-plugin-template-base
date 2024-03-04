@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 // External dependencies
 import useClickOut from '../../../hooks/useClickOut';
@@ -14,7 +14,7 @@ import styles from '../../../styles/Modal.module.scss';
 import '../../../assets/css/plugin-layout.css';
 
 const PresetItem: React.FC<IPresetItemProps> = ({
-  v,
+  p,
   activePresetIdx,
   presetName,
   pluginPresets,
@@ -27,6 +27,13 @@ const PresetItem: React.FC<IPresetItemProps> = ({
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [showPresetDropdown, setShowPresetDropdown] = useState(false);
+  const [pName, setPName] = useState(p.name);
+
+  useEffect(() => {
+    if (p.name.length > 15) {
+      setPName(p.name.slice(0, 15) + '...');
+    }
+  }, []);
 
   let popupDomNode = useClickOut(() => {
     setShowPresetDropdown(false);
@@ -52,7 +59,7 @@ const PresetItem: React.FC<IPresetItemProps> = ({
         setShowPresetDropdown(false);
         break;
       case PresetHandleAction.duplicate:
-        duplicatePreset(v);
+        duplicatePreset(p);
         setShowPresetDropdown(false);
         break;
       default:
@@ -63,7 +70,7 @@ const PresetItem: React.FC<IPresetItemProps> = ({
     if (e.detail === 2) {
       handlePresetsUpdate(e);
     } else {
-      onSelectPreset(v?._id);
+      onSelectPreset(p?._id);
     }
   };
 
@@ -80,12 +87,12 @@ const PresetItem: React.FC<IPresetItemProps> = ({
           onClick={onClickPreset}
           style={{ display: isEditing ? 'none' : 'flex' }}
           className={
-            pluginPresets[activePresetIdx]?._id === v?._id
+            pluginPresets[activePresetIdx]?._id === p?._id
               ? styles.modal_header_viewBtn_active
               : styles.modal_header_viewBtn
           }>
           <div className="d-flex align-items-center">
-            <p className="mb-0">{v.name}</p>
+            <p className="mb-0">{pName}</p>
           </div>
           <span className="d-flex align-items-center">
             <span>
