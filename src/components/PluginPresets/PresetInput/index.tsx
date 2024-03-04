@@ -28,10 +28,6 @@ const PresetInput: React.FC<IPresetInput> = ({
     setPresetName(e.target.value);
   };
 
-  let editDomNode = useClickOut(() => {
-    setIsEditing(false);
-  });
-
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     switch (e.key) {
       case KeyDownActions.enter:
@@ -54,7 +50,6 @@ const PresetInput: React.FC<IPresetInput> = ({
   return (
     <div
       className={styles2.presets_input}
-      ref={editDomNode}
       style={{ display: !isEditing ? 'none' : 'flex' }}>
       <input
         id="select-input"
