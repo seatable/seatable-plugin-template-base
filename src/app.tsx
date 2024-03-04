@@ -356,6 +356,10 @@ const App: React.FC<IAppProps> = (props) => {
   };
 
   const addRowItem = () => {
+    if(isDevelopment) {
+      return;
+    }
+
     let rows = appActiveState.activeViewRows;
     if (rows) {
       let row_id = rows.length > 0 ? rows[rows.length - 1]._id : '';
@@ -500,6 +504,7 @@ const App: React.FC<IAppProps> = (props) => {
 
             <button className={styles.add_row} onClick={addRowItem}>
               <FaPlus size={30} color="#fff" />
+              <div className={styles.add_row_toolTip}><p>Adding a row only works in production</p></div>
             </button>
           </div>
           <div>
