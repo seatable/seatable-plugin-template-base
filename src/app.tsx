@@ -338,16 +338,24 @@ const App: React.FC<IAppProps> = (props) => {
     updatePluginDataStore({ ...pluginDataStore, presets: updatedPluginPresets });
   };
 
+  const getInsertedRowInitData = (view: TableView, table: Table, rowID: string) => {
+    return window.dtableSDK.getInsertedRowInitData(view, table, rowID);
+  };
+
+  // functions for add row functionality
+  const onAddOrgChartItem = (view: TableView, table: Table, rowID: string) => {
+    let rowData = getInsertedRowInitData(view, table, rowID);
+    onInsertRow(table, view, rowData);
+  };
+
   const addRowItem = () => {
-    if (activeViewRows) {
-      console.log('activeViewRows', activeViewRows);
-      let row_id = activeViewRows.length > 0 ? activeViewRows[activeViewRows.length - 1]._id : '';
-      console.log('row_id', row_id);
-      let rowData = window.dtableSDK.getInsertedRowInitData(activeTableView!, activeTable!, row_id);
-      console.log('rowData', rowData);
-      onInsertRow(activeTable!, activeTableView!, rowData);
+    let rows = appActiveState.activeViewRows;
+    if (rows) {
+      let row_id = rows.length > 0 ? rows[rows.length - 1]._id : '';
+      onAddOrgChartItem(appActiveState.activeTableView!, appActiveState.activeTable!, row_id);
     }
   };
+
   const onInsertRow = (table: Table, view: TableView, rowData: any) => {
     let columns = window.dtableSDK.getColumns(table);
     let newRowData: { [key: string]: any } = {};
@@ -384,18 +392,12 @@ const App: React.FC<IAppProps> = (props) => {
     }
 
     let row_data = { ...newRowData };
-    console.log('row_data', row_data);
     window.dtableSDK.appendRow(table, row_data, view);
     let viewRows = window.dtableSDK.getViewRows(view, table);
-    console.log('viewRows', viewRows);
-    setAppActiveState((prevState) => ({
-      ...prevState,
-      activeViewRows: viewRows,
-    }));
-    // let insertedRow = viewRows[viewRows.length - 1];
-    // if (insertedRow) {
-    //   pluginContext.expandRow(insertedRow, table);
-    // }
+    let insertedRow = viewRows[viewRows.length - 1];
+    if (insertedRow) {
+      pluginContext.expandRow(insertedRow, table);
+    }
   };
 
   if (!isShowPlugin) {
