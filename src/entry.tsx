@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import App from './app';
-import { name } from './plugin-config/info.json';
+import info from './plugin-config/info.json';
 
 const TaskList = {
   execute: () => {
@@ -10,4 +10,4 @@ const TaskList = {
 
 export default TaskList;
 
-window.app.registerPluginItemCallback(name, TaskList.execute);
+window.app.registerPluginItemCallback(info.name, TaskList.execute);

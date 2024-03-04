@@ -3,6 +3,7 @@ import styles from '../../../styles/Modal.module.scss';
 import stylesPresets from '../../../styles/Presets.module.scss';
 import { IPresetDropdownProps } from '../../../utils/Interfaces/PluginPresets/Dropdown.interface';
 import { PresetHandleAction } from '../../../utils/constants';
+import intl from 'react-intl-universal';
 
 const PresetDropdown: React.FC<IPresetDropdownProps> = ({
   togglePresetsUpdatePopUp,
@@ -18,14 +19,14 @@ const PresetDropdown: React.FC<IPresetDropdownProps> = ({
         id={PresetHandleAction.rename}
         className="d-flex align-items-center">
         <i className="item-icon dtable-font dtable-icon-rename"></i>
-        <p className="ml-2">Rename Preset</p>
+        <p className="ml-2">{intl.get('preset_rename')}</p>
       </li>
       <li
         onClick={togglePresetsUpdatePopUp}
         id={PresetHandleAction.duplicate}
         className="d-flex align-items-center">
         <i className="item-icon dtable-font dtable-icon-copy"></i>
-        <p className="ml-2">Duplicate Preset</p>
+        <p className="ml-2">{intl.get('preset_duplicate')}</p>
       </li>
       <li
         onClick={isPresets ? togglePresetsUpdatePopUp : undefined}
@@ -37,7 +38,7 @@ const PresetDropdown: React.FC<IPresetDropdownProps> = ({
             !isPresets ? stylesPresets.isPresetsCondition : ''
           }`}></i>
         <p className={`ml-2 ${!isPresets ? stylesPresets.isPresetsCondition : ''}`}>
-          Delete Preset
+          {intl.get('preset_delete')}
         </p>
       </li>
     </ul>

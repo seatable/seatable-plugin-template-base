@@ -309,8 +309,8 @@
 
 .preset_dropdown {
   position: absolute;
-  top: 0;
-  right: -160px;
+  top: 46px;
+  right: 0px;
   background-color: $preset-bgColor;
   border: 1px solid rgba($preset-bgColor, 0.12);
   box-shadow: 0 0 5px $dropDown-boxShadow;
@@ -318,7 +318,7 @@
   padding: 0;
 
   li {
-    padding: 10px 20px;
+    padding: 6px 20px;
     font-weight: 400;
     cursor: pointer;
 

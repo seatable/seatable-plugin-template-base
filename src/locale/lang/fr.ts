@@ -1,8 +1,17 @@
 const fr = {
-  international_demo: 'international demo',
-  shanshui: 'english',
-  hello_someone: 'hello,{name}!',
-  contans_html_params: "test child component <span class='bg-primary'>{params}</span>",
+  /* Settings area */
+  settings_headline: 'Paramètres',
+  table: 'Tableau',
+  view: 'Vue',
+
+  /* Preset area */
+  preset_add: 'Nouvelle préréglage',
+  preset_rename: 'Renommer',
+  preset_duplicate: 'Dupliquer',
+  preset_delete: 'Supprimmer',
+  preset_warn_exist: 'Veuillez saisir un nom de préréglage unique',
+
+  /* Content area */
 };
 
 export default fr;

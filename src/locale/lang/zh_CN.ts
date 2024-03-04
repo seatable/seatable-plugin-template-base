@@ -1,8 +1,17 @@
 const zh_CN = {
-  international_demo: '国际化 demo',
-  shanshui: '英语',
-  hello_someone: '你好, {name}!',
-  contans_html_params: '测试子组件 {params}',
+  /* Settings area */
+  settings_headline: '设置',
+  table: '子表',
+  view: '视图',
+
+  /* Preset area */
+  preset_add: '添加预设',
+  preset_rename: '重命名预置',
+  preset_duplicate: '复制预置',
+  preset_delete: '删除预设',
+  preset_warn_exist: '请输入唯一的预设名称',
+
+  /* Content area */
 };
 
 export default zh_CN;
