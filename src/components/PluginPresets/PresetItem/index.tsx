@@ -90,13 +90,13 @@ const PresetItem: React.FC<IPresetItemProps> = ({
           <span className="d-flex align-items-center">
             <span>
               <i
-                className={`dtable-font dtable-icon-drag mx-1 ${styles.modal_header_viewBtn_icons}`}></i>
+                className={`dtable-font dtable-icon-drag mr-1 ${styles.modal_header_viewBtn_icons}`}></i>
             </span>
             <span
               className={`dtable-font dtable-icon-set-up ${styles.modal_header_viewBtn_settings}`}
               onClick={onToggleSettings}></span>
             <BsThreeDots
-              className={`mx-1 ${styles.modal_header_viewBtn_icons}`}
+              className={`ml-1 ${styles.modal_header_viewBtn_icons}`}
               onClick={togglePresetDropdown}
             />
           </span>
