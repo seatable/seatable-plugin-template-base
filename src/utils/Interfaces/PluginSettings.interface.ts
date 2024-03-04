@@ -1,3 +1,4 @@
+import { SettingsOption } from '../types';
 import { AppActiveState } from './App.interface';
 import { PresetSettings, PresetsArray } from './PluginPresets/Presets.interface';
 import { TableArray, TableViewArray } from './Table.interface';
@@ -7,7 +8,7 @@ interface IPluginSettingsProps {
   appActiveState: AppActiveState;
   activeTableViews: TableViewArray;
   pluginPresets: PresetsArray;
-  onTableOrViewChange: (type: 'table' | 'view', option: SelectOption) => void;
+  onTableOrViewChange: (type: SettingsOption, option: SelectOption) => void;
   onToggleSettings: () => void;
   isShowSettings: boolean;
 }
