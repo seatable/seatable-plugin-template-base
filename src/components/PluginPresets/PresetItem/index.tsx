@@ -33,7 +33,7 @@ const PresetItem: React.FC<IPresetItemProps> = ({
     if (p.name.length > 15) {
       setPName(p.name.slice(0, 15) + '...');
     }
-  }, []);
+  }, [p.name]);
 
   let popupDomNode = useClickOut(() => {
     setShowPresetDropdown(false);
