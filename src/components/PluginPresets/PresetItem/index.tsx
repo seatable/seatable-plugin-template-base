@@ -12,12 +12,14 @@ import { IPresetItemProps } from '../../../utils/Interfaces/PluginPresets/Item.i
 // Styles
 import styles from '../../../styles/Modal.module.scss';
 import '../../../assets/css/plugin-layout.css';
+import intl from 'react-intl-universal';
 
 const PresetItem: React.FC<IPresetItemProps> = ({
   p,
   activePresetIdx,
   presetName,
   pluginPresets,
+  presetNameAlreadyExists,
   onChangePresetName,
   deletePreset,
   onSelectPreset,
@@ -82,6 +84,13 @@ const PresetItem: React.FC<IPresetItemProps> = ({
         setIsEditing={setIsEditing}
         presetName={presetName}
       />
+      {presetNameAlreadyExists && (
+        <div
+          className="px-2 d-flex justify-content-start mt-1"
+          style={{ fontSize: '11px', fontWeight: 'bold' }}>
+          <span className="text-danger text-sm">{intl.get('preset_warn_exist')}</span>
+        </div>
+      )}
       <div style={{ position: 'relative' }}>
         <div
           onClick={onClickPreset}
