@@ -4,6 +4,7 @@ export interface IPresetItemProps {
   pluginPresets: PresetsArray;
   activePresetIdx: number;
   presetName: string;
+  presetNameAlreadyExists: boolean;
   onSelectPreset: (presetId: string) => void;
   togglePresetsUpdate: (e: React.MouseEvent<HTMLElement>, type?: string) => void;
   deletePreset: () => void;
