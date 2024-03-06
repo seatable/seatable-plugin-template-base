@@ -50,7 +50,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
 
   return (
     <div className={styles.modal_header}>
-      <div className={`d-flex align-items-center justify-content-start`}>
+      <div className={'d-flex align-items-center justify-content-start'}>
         <div className={`align-items-center ${isShowPresets ? 'd-none' : 'd-flex'} `}>
           <button className={styles2.presets_uncollapse_btn2_settings} onClick={onTogglePresets}>
             <HiOutlineChevronDoubleRight />

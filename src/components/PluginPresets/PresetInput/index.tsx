@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useRef, useState } from 'react';
 import styles2 from '../../../styles/Presets.module.scss';
 import { IPresetInput } from '../../../utils/Interfaces/PluginPresets/Input.interface';
-import useClickOut from '../../../hooks/useClickOut';
 import { KeyDownActions } from '../../../utils/constants';
 
 const PresetInput: React.FC<IPresetInput> = ({
@@ -43,9 +44,12 @@ const PresetInput: React.FC<IPresetInput> = ({
     }
   };
 
-  const handleFocusOut = (e: React.FormEvent<HTMLInputElement>) => (
-    !blurCausedByKeyDown && onChangePresetName(e), setBlurCausedByKeyDown(false)
-  );
+  const handleFocusOut = (e: React.FormEvent<HTMLInputElement>) => {
+    if(!blurCausedByKeyDown) {
+      onChangePresetName(e);
+      setBlurCausedByKeyDown(false);
+    }
+  };
 
   return (
     <div
