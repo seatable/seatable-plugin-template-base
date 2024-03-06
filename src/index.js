@@ -1,8 +1,27 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
 import DTable from 'dtable-sdk';
 import App from './app.tsx';
 import './setting.ts';
+import LanguageDropdown from './components/LanguageDropDown/index';
+import intl from 'react-intl-universal';
+
+import de from './locale/lang/de';
+import en from './locale/lang/en';
+import fr from './locale/lang/fr';
+import es from './locale/lang/es';
+import pt from './locale/lang/pt';
+import ru from './locale/lang/ru';
+import zh_CN from './locale/lang/zh_CN';
+
+const AVAILABLE_LOCALES = {
+  de: de,
+  en: en,
+  fr: fr,
+  es: es,
+  pt: pt,
+  ru: ru,
+  'zh-cn': zh_CN,
+};
 
 class TaskList {
   static async init() {
@@ -25,14 +44,21 @@ class TaskList {
     window.dtableSDK = dtableSDK;
   }
 
-  static async execute() {
+  static async execute(newLang) {
+    let DEFAULT_LANGUAGE = 'en';
+    let lang = newLang || DEFAULT_LANGUAGE;
     await this.init();
     const rootElement = document.getElementById('root');
     ReactDOM.unmountComponentAtNode(rootElement);
     ReactDOM.render(<App isDevelopment />, rootElement);
+    const langDropElement = document.getElementById('langDrop');
+    ReactDOM.unmountComponentAtNode(langDropElement);
+    intl.init({ currentLocale: lang, locales: AVAILABLE_LOCALES });
   }
 
   static onClosePlugin() {
+    const langDropElement = document.getElementById('langDrop');
+    ReactDOM.render(<LanguageDropdown />, langDropElement);
     ReactDOM.unmountComponentAtNode(document.getElementById('root'));
   }
 }
@@ -40,10 +66,14 @@ class TaskList {
 TaskList.execute();
 
 const openBtn = document.getElementById('plugin-controller');
+let lang;
+export function updateLanguageAndIntl(newLang) {
+  lang = newLang;
+}
 openBtn.addEventListener(
   'click',
   function () {
-    TaskList.execute();
+    TaskList.execute(lang);
   },
   false
 );

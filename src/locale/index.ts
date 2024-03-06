@@ -1,4 +1,3 @@
-import intl from 'react-intl-universal';
 import de from './lang/de';
 import en from './lang/en';
 import fr from './lang/fr';
@@ -17,7 +16,4 @@ const AVAILABLE_LOCALES = {
   'zh-cn': zh_CN,
 };
 
-const LANGUAGE = 'en';
-
-let lang = window.dtable && window.dtable.lang ? window.dtable.lang : LANGUAGE;
-intl.init({ currentLocale: lang, locales: AVAILABLE_LOCALES });
+export { AVAILABLE_LOCALES };
