@@ -17,7 +17,6 @@
   },
   "plugins": ["react", "jsx-a11y"],
   "rules": {
-    "indent": ["warn", 2, { "SwitchCase": 1 }],
     "linebreak-style": ["warn", "unix"],
     "quotes": ["warn", "single"],
     "semi": [
@@ -28,7 +27,7 @@
       }
     ],
 
-    "no-case-declarations": "warn",
+    "no-case-declarations": "off",
     "no-cond-assign": "warn",
     "no-redeclare": "warn",
     "no-unreachable": "warn",

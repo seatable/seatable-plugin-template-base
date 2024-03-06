@@ -84,6 +84,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
 
   // handle preset name change
   const onChangePresetName = (e: React.FormEvent<HTMLInputElement>, type?: string) => {
+    setPresetNameAlreadyExists(false);
     if (e.currentTarget.value.includes('  ')) {
       return;
     } else {
@@ -280,6 +281,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
               activePresetIdx={activePresetIdx}
               presetName={presetName}
               pluginPresets={pluginPresets}
+              presetNameAlreadyExists={presetNameAlreadyExists && activePresetIdx === i}
               onChangePresetName={(e: React.FormEvent<HTMLInputElement>) =>
                 onChangePresetName(e, PresetHandleAction.edit)
               }
@@ -313,11 +315,6 @@ const PluginPresets: React.FC<IPresetsProps> = ({
           </button>
         )}
       </div>
-      {presetNameAlreadyExists && (
-        <div className="error-message d-flex justify-content-center mt-9">
-          <span className="alert-danger">{intl.get('preset_warn_exist')}</span>
-        </div>
-      )}
     </div>
   );
 };
