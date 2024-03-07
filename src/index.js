@@ -6,7 +6,7 @@ import LanguageDropdown from './components/LanguageDropDown/index';
 import intl from 'react-intl-universal';
 import { AVAILABLE_LOCALES } from './locale/index.ts';
 
-class TaskList {
+class SeaTablePlugin {
   static async init() {
     const dtableSDK = new DTable();
 
@@ -23,7 +23,7 @@ class TaskList {
     window.app.collaboratorsCache = {};
     window.app.state.collaborators = dtableSDK.dtableStore.collaborators;
     window.dtableWebAPI = dtableSDK.dtableWebAPI;
-    window.app.onClosePlugin = TaskList.onClosePlugin;
+    window.app.onClosePlugin = SeaTablePlugin.onClosePlugin;
     window.dtableSDK = dtableSDK;
   }
 
@@ -44,7 +44,7 @@ class TaskList {
   }
 }
 
-TaskList.execute();
+SeaTablePlugin.execute();
 
 const openBtn = document.getElementById('plugin-controller');
 let lang;
@@ -54,7 +54,7 @@ export function updateLanguageAndIntl(newLang) {
 openBtn.addEventListener(
   'click',
   function () {
-    TaskList.execute(lang);
+    SeaTablePlugin.execute(lang);
   },
   false
 );

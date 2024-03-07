@@ -2,12 +2,12 @@ import ReactDOM from 'react-dom';
 import App from './app';
 import info from './plugin-config/info.json';
 
-const TaskList = {
+const SeaTablePlugin = {
   execute: () => {
     ReactDOM.render(<App showDialog={true} />, document.querySelector('#plugin-wrapper'));
   },
 };
 
-export default TaskList;
+export default SeaTablePlugin;
 
-window.app.registerPluginItemCallback(info.name, TaskList.execute);
+window.app.registerPluginItemCallback(info.name, SeaTablePlugin.execute);

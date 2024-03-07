@@ -2,22 +2,6 @@
   "name": "plugin-template",
   "version": "0.9.0",
   "display_type": "overlay",
-  "display_name": {
-    "de": "Plugin-Vorlage",
-    "en": "Plugin template",
-    "fr": "Modèle de plugin",
-    "es": "",
-    "pt": "",
-    "ru": "",
-    "zh-cn": "插件模版"
-  },
-  "description": {
-    "de": "Gestalten Sie Ihr eigenes SeaTable Plugin.",
-    "en": "Design your own SeaTable plugin.",
-    "fr": "Créez votre propre plugin SeaTable.",
-    "es": "Diseñe su propio plugin SeaTable.",
-    "pt": "Conceba o seu próprio plugin SeaTable.",
-    "ru": "Создайте свой собственный плагин SeaTable.",
-    "zh-cn": "设计自己的 SeaTable 插件"
-  }
+  "display_name": "Plugin template",
+  "description": "Design your own SeaTable plugin."
 }
