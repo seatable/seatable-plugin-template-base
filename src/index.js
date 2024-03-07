@@ -29,19 +29,19 @@ class SeaTablePlugin {
 
   static async execute(lang = 'en') {
     await this.init();
+    intl.init({ currentLocale: lang, locales: AVAILABLE_LOCALES });
     const rootElement = document.getElementById('plugin-wrapper');
     ReactDOM.unmountComponentAtNode(rootElement);
     ReactDOM.render(<App isDevelopment language={lang} />, rootElement);
     const langDropElement = document.getElementById('langDrop');
     ReactDOM.unmountComponentAtNode(langDropElement);
-    intl.init({ currentLocale: lang, locales: AVAILABLE_LOCALES });
   }
 
   static onClosePlugin(language) {
     const lang = language;
     const langDropElement = document.getElementById('langDrop');
     ReactDOM.render(<LanguageDropdown lang={lang} />, langDropElement);
-    ReactDOM.unmountComponentAtNode(document.getElementById('root'));
+    ReactDOM.unmountComponentAtNode(document.getElementById('plugin-controller'));
   }
 }
 
