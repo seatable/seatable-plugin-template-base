@@ -48,7 +48,7 @@ class TaskList {
     let DEFAULT_LANGUAGE = 'en';
     let lang = newLang || DEFAULT_LANGUAGE;
     await this.init();
-    const rootElement = document.getElementById('root');
+    const rootElement = document.getElementById('plugin-wrapper');
     ReactDOM.unmountComponentAtNode(rootElement);
     ReactDOM.render(<App isDevelopment />, rootElement);
     const langDropElement = document.getElementById('langDrop');
@@ -59,7 +59,7 @@ class TaskList {
   static onClosePlugin() {
     const langDropElement = document.getElementById('langDrop');
     ReactDOM.render(<LanguageDropdown />, langDropElement);
-    ReactDOM.unmountComponentAtNode(document.getElementById('root'));
+    ReactDOM.unmountComponentAtNode(document.getElementById('plugin-wrapper'));
   }
 }
 
