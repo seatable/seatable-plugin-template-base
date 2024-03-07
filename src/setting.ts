@@ -7,14 +7,12 @@ let config: Config = {} as Config;
 try {
   config = require('./setting.local.js').default || {};
   if (config.loadVerbose) {
-    console.log(
+    console.info(
       '[SeaTable Plugin Development] Configuration merged with "./src/setting.local.js" (this message can be disabled by adding `loadVerbose: false` to the local development settings)'
     );
-    console.log('[SeaTable Plugin Development] This is your config object:');
-    console.log(config);
+    console.info('[SeaTable Plugin Development] This is your config object:', config);
   }
 } catch (error) {
-  // fall-through by intention
   console.error(
     '[SeaTable Plugin Development] Please create "./src/setting.local.js" (from `setting.local.dist.js`)'
   );
