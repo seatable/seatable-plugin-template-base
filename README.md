@@ -2,36 +2,40 @@
 
 ## What is a SeaTable Plugin?
 
+SeaTable, the world-leading no-code app-building platform, supports plugins. Plugins provide additional visualization or interaction possibilities within a SeaTable base. Examples of SeaTable Plugins include the Gallery, the Map Plugin, or the Kanban board. You can find a list of all publicly available plugins at the SeaTable Marketplace.
+
+In general, a Plugin needs to be installed by the system admin on the SeaTable server and can then be activated in any base by the user. More information about plugins in general can be found in the user documentation at SeaTable Docs.
+
 SeaTable - the world leading no-code app building platform supports plugins. Plugins provide additional visualization or interaction possibilities with a SeaTable base. Examples of SeaTable Plugins are the Gallery, The Map Plugin or the Kanban board. You can find a list of all public available plugins at https://market.seatable.io.
 
 In general a Plugin has to be installed by the system admin on the seatable server and then can be activated in any base by the user.
 You can read more about plugins in general at the user documentation at https://docs.seatable.io.
 
-## Purpose of this repository: develop your own Plugin
+## Purpose of this Repository: Develop Your Own Plugin
 
-This GitHub repository provides everything that you need to develop your own plugin. This repository provides:
+This GitHub repository provides everything you need to develop your own plugin. It includes:
 
-- a local development area to test your plugins before you build and compile it into a zip file
-- the necessary libraries to interact with the content of a seatable base
-- a framework with the basic functions that you can immediately start visualization your data.
+- A local development area to test your plugins before building and compiling them into a zip file.
+- Necessary libraries to interact with the content of a SeaTable base.
+- A framework with basic functions to immediately start visualizing your data.
 
-In fact this repo does all the heavy lifting for you. We will take you by the hand and guide you how to build your own plugin. If you know how to code in Typescript/Javascript there is no reason why you should not try to build your own plugin.
+This repository handles all the heavy lifting for you. We will guide you through the process of building your own plugin step by step. If you know how to code in TypeScript/JavaScript, there is no reason why you shouldn't try to build your own plugin.
 
-Let's start.
+Let's get started.
 
-## Install your local developement
+## Installing Your Local Development Environment
 
-As already mentioned, you will develop your SeaTable Plugin in a local development area. In this development area you just tell the code to which SeaTable Server and which table the plugin should connect. If you later package and install the plugin in a seatable server and activate it in a base, the plugin ignores this development settings and directly connects to the base and its data.
+As previously mentioned, you'll be developing your SeaTable Plugin in a local development environment. In this setup, you simply instruct the code on which SeaTable Server and base the plugin should connect to. When you later package and install the plugin on a SeaTable server and activate it within a base, the plugin disregards these development settings and connects directly to the base and its data.
 
 You can image it like this:
 
-In Development, the plugin is initialized by index.js, it reads its configuration from setting.local.js and passes everything to the plugin, defined in app.tsx.
+- During Development, the plugin is initialized by `index.js`, which reads its configuration from `setting.local.js` and passes everything to the plugin defined in `app.tsx`.
 
-In Production, the plugin is initialized by entry.tsx, it can directly connect to app.tsx and interact with the base.
+- In Production, the plugin is initialized by `entry.tsx`, enabling it to directly connect to `app.tsx` and interact with the base.
 
 ### 0. Requirements
 
-You need to install node 17 or 18. ?? You will required a good understanding of how to develop react or javascript apps.
+You need to install node 17 or 18. (?? needs to be clarified) You will required a good understanding of how to develop react or javascript apps.
 
 ### 1. clone project
 
