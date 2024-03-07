@@ -157,6 +157,22 @@
         width: 15%;
       }
     }
+
+    &_languageDropdownContainer {
+      margin-bottom: 10px;
+    }
+
+    &_label {
+      margin-right: 8px;
+    }
+
+    &_select {
+      border: none;
+      outline: none;
+      padding: 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
   }
 }
 

@@ -14,22 +14,22 @@ const zip = new JSZip();
 const jsFilePath = getFullFileName(config.dir + 'js');
 const cssFilePath = getFullFileName(config.dir + 'css');
 
-zip.folder('task');
-zip.folder('task/media');
+zip.folder('plugin');
+zip.folder('plugin/media');
 
-zip.file('task/main.js', getFileContent(jsFilePath));
+zip.file('plugin/main.js', getFileContent(jsFilePath));
 if (isDirExist(paths.appBuild + '/static/css') && cssFilePath) {
-  zip.file('task/media/main.css', getFileContent(cssFilePath));
+  zip.file('plugin/media/main.css', getFileContent(cssFilePath));
 }
 
 if (isFileExist(paths.pluginConfigPath, 'icon.png')) {
   const iconPath = path.join(paths.pluginConfigPath, 'icon.png');
-  zip.file('task/media/icon.png', fs.readFileSync(iconPath));
+  zip.file('plugin/media/icon.png', fs.readFileSync(iconPath));
 }
 
 if (isFileExist(paths.pluginConfigPath, 'card_image.png')) {
   const cardImagePath = path.join(paths.pluginConfigPath, 'card_image.png');
-  zip.file('task/media/card_image.png', fs.readFileSync(cardImagePath));
+  zip.file('plugin/media/card_image.png', fs.readFileSync(cardImagePath));
 }
 
 // info file
@@ -45,7 +45,7 @@ const pluginInfoContentExpand = {
 
 let jsonFileContent = Object.assign({}, pluginInfoContent, pluginInfoContentExpand);
 
-zip.file('task/info.json', JSON.stringify(jsonFileContent, null, '  '));
+zip.file('plugin/info.json', JSON.stringify(jsonFileContent, null, '  '));
 
 zip.generateAsync({ type: 'nodebuffer' }).then(function (content) {
   let zip = `${pluginInfoContent.name}-${pluginInfoContent.version}.zip`;

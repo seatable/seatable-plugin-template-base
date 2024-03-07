@@ -48,8 +48,10 @@ import {
 import { SettingsOption } from './utils/types';
 import pluginContext from './plugin-context';
 
+import CustomPlugin from './custom-plugin';
+
 const App: React.FC<IAppProps> = (props) => {
-  const { isDevelopment } = props;
+  const { isDevelopment, language } = props;
   // Boolean state to show/hide the plugin's components
   const [isShowState, setIsShowState] = useState<AppIsShowState>(INITIAL_IS_SHOW_STATE);
   const { isShowPlugin, isShowSettings, isLoading, isShowPresets } = isShowState;
@@ -167,7 +169,7 @@ const App: React.FC<IAppProps> = (props) => {
     setTimeout(() => {
       setIsShowState((prevState) => ({ ...prevState, isShowPlugin: false }));
     }, 300);
-    window.app.onClosePlugin();
+    window.app.onClosePlugin(language);
   };
 
   /**
@@ -358,7 +360,7 @@ const App: React.FC<IAppProps> = (props) => {
   };
 
   const addRowItem = () => {
-    if(isDevelopment) {
+    if (isDevelopment) {
       return;
     }
 
@@ -448,65 +450,17 @@ const App: React.FC<IAppProps> = (props) => {
           style={{ height: '100%', width: '100%', backgroundColor: '#f5f5f5' }}>
           {/* content  */}
           <div id={PLUGIN_ID} className={styles.body} style={{ padding: '10px' }}>
-            {pluginPresets.map((obj) => (
-              <div
-                key={obj._id}
-                style={{
-                  border: '1px solid #ddd',
-                  padding: '10px',
-                  marginBottom: '10px',
-                  borderRadius: '5px',
-                  backgroundColor: '#fff',
-                }}>
-                <div style={{ fontWeight: 'bold' }}>{`Preset ID: ${obj._id}`}</div>
-                <div style={{ color: '#007bff' }}>{`Preset Name: ${obj.name}`}</div>
-                <div style={{ marginTop: '8px', fontWeight: 'bold' }}>Settings:</div>
-                <div style={{ marginLeft: '15px', color: '#28a745' }}>{`selectedTableId: ${
-                  obj.settings?.selectedTable?.label ?? 'N/A'
-                }`}</div>
-                <div style={{ marginLeft: '15px', color: '#28a745' }}>{`selectedViewId: ${
-                  obj.settings?.selectedView?.label ?? 'N/A'
-                }`}</div>
-              </div>
-            ))}
-            <div
-              style={{
-                border: '1px solid #ddd',
-                padding: '10px',
-                marginBottom: '10px',
-                borderRadius: '5px',
-                backgroundColor: '#fff',
-              }}>
-              <div
-                style={{
-                  color: '#ff6666',
-                }}>{`Active Table: ${appActiveState.activeTableName}`}</div>
-              <div
-                style={{
-                  color: '#ff6666',
-                }}>{`Active View: ${appActiveState?.activeTableView?.name}`}</div>
-            </div>
-            <div
-              style={{
-                border: '1px solid #ddd',
-                padding: '10px',
-                marginBottom: '10px',
-                borderRadius: '5px',
-                backgroundColor: '#fff',
-              }}>
-              <div style={{ marginTop: '8px', fontWeight: 'bold' }}>Rows of this selection:</div>
-              <div>
-                {activeViewRows?.map((row) => (
-                  <div key={row._id}>
-                    <h6>{row['0000']}</h6>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <CustomPlugin
+              pluginPresets={pluginPresets}
+              appActiveState={appActiveState}
+              activeViewRows={activeViewRows}
+            />
 
             <button className={styles.add_row} onClick={addRowItem}>
               <FaPlus size={30} color="#fff" />
-              <div className={styles.add_row_toolTip}><p>Adding a row only works in production</p></div>
+              <div className={styles.add_row_toolTip}>
+                <p>Adding a row only works in production</p>
+              </div>
             </button>
           </div>
           <div>

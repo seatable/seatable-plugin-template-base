@@ -12937,6 +12937,7 @@ a.tag-addon:hover {
   margin-top: 0px;
   margin-bottom: 0px;
 }
+/*
 .article li.task-list-item p:nth-child(2) {
   margin-top: 0px;
   margin-bottom: 0px;
@@ -12950,7 +12951,7 @@ a.tag-addon:hover {
   left: -1.8em;
   top: 0.4em;
   display: inline-block;
-}
+}*/
 .article input[type='checkbox'] {
   width: auto;
 }

@@ -4,6 +4,7 @@ import { Table, TableRow, TableView } from './Table.interface';
 export interface IAppProps {
   isDevelopment?: boolean;
   showDialog?: boolean;
+  language?: string;
   row?: any;
 }
 export interface AppIsShowState {

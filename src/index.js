@@ -1,10 +1,12 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
 import DTable from 'dtable-sdk';
 import App from './app.tsx';
 import './setting.ts';
+import LanguageDropdown from './components/LanguageDropDown/index';
+import intl from 'react-intl-universal';
+import { AVAILABLE_LOCALES } from './locale/index.ts';
 
-class TaskList {
+class SeaTablePlugin {
   static async init() {
     const dtableSDK = new DTable();
 
@@ -21,29 +23,39 @@ class TaskList {
     window.app.collaboratorsCache = {};
     window.app.state.collaborators = dtableSDK.dtableStore.collaborators;
     window.dtableWebAPI = dtableSDK.dtableWebAPI;
-    window.app.onClosePlugin = TaskList.onClosePlugin;
+    window.app.onClosePlugin = SeaTablePlugin.onClosePlugin;
     window.dtableSDK = dtableSDK;
   }
 
-  static async execute() {
+  static async execute(lang = 'en') {
     await this.init();
-    const rootElement = document.getElementById('root');
+    intl.init({ currentLocale: lang, locales: AVAILABLE_LOCALES });
+    const rootElement = document.getElementById('plugin-wrapper');
     ReactDOM.unmountComponentAtNode(rootElement);
-    ReactDOM.render(<App isDevelopment />, rootElement);
+    ReactDOM.render(<App isDevelopment language={lang} />, rootElement);
+    const langDropElement = document.getElementById('langDrop');
+    ReactDOM.unmountComponentAtNode(langDropElement);
   }
 
-  static onClosePlugin() {
-    ReactDOM.unmountComponentAtNode(document.getElementById('root'));
+  static onClosePlugin(language) {
+    const lang = language;
+    const langDropElement = document.getElementById('langDrop');
+    ReactDOM.render(<LanguageDropdown lang={lang} />, langDropElement);
+    ReactDOM.unmountComponentAtNode(document.getElementById('plugin-controller'));
   }
 }
 
-TaskList.execute();
+SeaTablePlugin.execute();
 
 const openBtn = document.getElementById('plugin-controller');
+let lang;
+export function updateLanguageAndIntl(newLang) {
+  lang = newLang;
+}
 openBtn.addEventListener(
   'click',
   function () {
-    TaskList.execute();
+    SeaTablePlugin.execute(lang);
   },
   false
 );
