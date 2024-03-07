@@ -123,17 +123,25 @@
       justify-content: space-between;
 
       @include mobile {
-        font-size: 10px;
+        font-size: 12px;
       }
 
       &_icons {
         justify-self: center;
         opacity: 0;
         color: colorContrast($preset-bgColor);
+        
+        @include mobile {
+          opacity: 1;
+        }
       }
       &_settings {
         opacity: 0;
         color: colorContrast($preset-bgColor);
+
+        @include mobile {
+          opacity: 1;
+        }
       }
 
       &:hover {
@@ -154,7 +162,7 @@
       width: 25%;
 
       @include mobile {
-        width: 15%;
+        width: 20%;
       }
     }
 

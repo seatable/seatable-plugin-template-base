@@ -43,6 +43,7 @@ import {
   getActiveStateSafeGuard,
   getActiveTableAndActiveView,
   getPluginDataStore,
+  isMobile,
   parsePluginDataToActiveState,
 } from './utils/utils';
 import { SettingsOption } from './utils/types';
@@ -76,6 +77,12 @@ const App: React.FC<IAppProps> = (props) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (isMobile()) {
+      setIsShowState((prevState) => ({ ...prevState, isShowPresets: false }));
+    }
+  }, []);
+
   const initPluginDTableData = async () => {
     if (isDevelopment) {
       // local develop //
@@ -90,10 +97,6 @@ const App: React.FC<IAppProps> = (props) => {
       onDTableChanged();
     });
     resetData();
-  };
-
-  const toggleSettings = () => {
-    setIsShowState((prevState) => ({ ...prevState, isShowSettings: !prevState.isShowSettings }));
   };
 
   let unsubscribeLocalDtableChanged = () => {
@@ -280,7 +283,21 @@ const App: React.FC<IAppProps> = (props) => {
     setAppActiveState(newPresetActiveState);
   };
 
+  const toggleSettings = () => {
+    if (isMobile() && isShowState.isShowPresets) {
+      // Collapse presets if open
+      togglePresets();
+    }
+
+    setIsShowState((prevState) => ({ ...prevState, isShowSettings: !prevState.isShowSettings }));
+  };
+
   const togglePresets = () => {
+    if (isMobile() && isShowState.isShowSettings) {
+      // Collapse settings if open
+      toggleSettings();
+    }
+
     setIsShowState((prevState) => ({ ...prevState, isShowPresets: !prevState.isShowPresets }));
   };
 
@@ -463,17 +480,16 @@ const App: React.FC<IAppProps> = (props) => {
               </div>
             </button>
           </div>
-          <div>
-            <PluginSettings
-              isShowSettings={isShowSettings}
-              allTables={allTables}
-              appActiveState={appActiveState}
-              activeTableViews={activeTableViews}
-              pluginPresets={pluginPresets}
-              onTableOrViewChange={onTableOrViewChange}
-              onToggleSettings={toggleSettings}
-            />
-          </div>
+
+          <PluginSettings
+            isShowSettings={isShowSettings}
+            allTables={allTables}
+            appActiveState={appActiveState}
+            activeTableViews={activeTableViews}
+            pluginPresets={pluginPresets}
+            onTableOrViewChange={onTableOrViewChange}
+            onToggleSettings={toggleSettings}
+          />
         </div>
       </div>
     </ResizableWrapper>
