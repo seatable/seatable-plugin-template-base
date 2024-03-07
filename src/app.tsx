@@ -48,7 +48,7 @@ import {
 import { SettingsOption } from './utils/types';
 import pluginContext from './plugin-context';
 
-import CustomPlugin from './custom-plugin';
+import CustomPlugin from './CustomPlugin';
 
 const App: React.FC<IAppProps> = (props) => {
   const { isDevelopment, language } = props;
