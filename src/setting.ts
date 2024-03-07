@@ -28,7 +28,6 @@ if (config.server !== config.server.replace(/\/+$/, '')) {
 }
 
 /** (4/5) set locale for ReactIntlUniversal */
-/*
 if (intl.options && intl.options.locales && intl.options.locales[config.lang]) {
   intl.options.currentLocale = config.lang;
 } else {
@@ -42,7 +41,6 @@ if (intl.options && intl.options.locales && intl.options.locales[config.lang]) {
     '[SeaTable Plugin Development] Suggestions: verify "./src/setting.local.js" and/or the locales in "./src/locale"'
   );
 }
-*/
 
 /* (5/5) init window.dtablePluginConfig  */
 window.dtablePluginConfig = config;
