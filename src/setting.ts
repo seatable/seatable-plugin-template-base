@@ -8,9 +8,14 @@ try {
   config = require('./setting.local.js').default || {};
   if (config.loadVerbose) {
     console.info(
-      '[SeaTable Plugin Development] Configuration merged with "./src/setting.local.js" (this message can be disabled by adding `loadVerbose: false` to the local development settings)'
+      '%c [SeaTable Plugin Development] Configuration merged with "./src/setting.local.js" (this message can be disabled by adding `loadVerbose: false` to the local development settings)',
+      'color: #ff8000'
     );
-    console.info('[SeaTable Plugin Development] This is your config object:', config);
+    console.info(
+      '%c [SeaTable Plugin Development] This is your config object:',
+      'color: #ff8000',
+      config
+    );
   }
 } catch (error) {
   console.error(
