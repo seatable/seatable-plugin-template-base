@@ -8,7 +8,7 @@ const LanguageDropdown: React.FC<any> = (props) => {
   const [selectedLanguage, setSelectedLanguage] = useState<string>('en');
 
   useEffect(() => {
-    console.log('language', lang);
+    setSelectedLanguage(lang);
   }, [lang]);
 
   const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -21,7 +21,7 @@ const LanguageDropdown: React.FC<any> = (props) => {
     <select
       id="languageDropdown"
       onChange={handleLanguageChange}
-      value={lang || selectedLanguage}
+      value={selectedLanguage}
       className={styles.modal_header_select}>
       {Object.keys(AVAILABLE_LOCALES).map((langCode) => (
         <option key={langCode} value={langCode}>

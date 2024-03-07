@@ -1,10 +1,9 @@
-import { Config, CustomIntl } from './utils/Interfaces/Setting.interface';
-const intl: CustomIntl = {} as CustomIntl;
+import { Config } from './utils/Interfaces/Setting.interface';
 
-/** (1/5) initialize config object */
+/** (1/4) initialize config object */
 let config: Config = {} as Config;
 
-/** (2/5) load local development settings ./setting.local.js (if exist) */
+/** (2/4) load local development settings ./setting.local.js (if exist) */
 try {
   config = require('./setting.local.js').default || {};
   if (config.loadVerbose) {
@@ -22,25 +21,10 @@ try {
   throw error;
 }
 
-/** (3/5) remove server trailing slash(es) (if any, common configuration error)*/
+/** (3/4) remove server trailing slash(es) (if any, common configuration error)*/
 if (config.server !== config.server.replace(/\/+$/, '')) {
   config.server = config.server.replace(/\/+$/, '');
 }
 
-/** (4/5) set locale for ReactIntlUniversal */
-if (intl.options && intl.options.locales && intl.options.locales[config.lang]) {
-  intl.options.currentLocale = config.lang;
-} else {
-  console.warn(`[SeaTable Plugin Development] Locale "${config.lang}" not available`);
-  console.info(
-    `[SeaTable Plugin Development] Available locales are: "${Object.keys(
-      (intl && intl.options && intl.options.locales) || { 'ReactIntlUniversal Loading Error': 1 }
-    ).join('", "')}"`
-  );
-  console.info(
-    '[SeaTable Plugin Development] Suggestions: verify "./src/setting.local.js" and/or the locales in "./src/locale"'
-  );
-}
-
-/* (5/5) init window.dtablePluginConfig  */
+/* (4/4) init window.dtablePluginConfig  */
 window.dtablePluginConfig = config;
