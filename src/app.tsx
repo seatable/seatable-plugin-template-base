@@ -51,7 +51,7 @@ import pluginContext from './plugin-context';
 import CustomPlugin from './custom-plugin';
 
 const App: React.FC<IAppProps> = (props) => {
-  const { isDevelopment } = props;
+  const { isDevelopment, language } = props;
   // Boolean state to show/hide the plugin's components
   const [isShowState, setIsShowState] = useState<AppIsShowState>(INITIAL_IS_SHOW_STATE);
   const { isShowPlugin, isShowSettings, isLoading, isShowPresets } = isShowState;
@@ -169,7 +169,7 @@ const App: React.FC<IAppProps> = (props) => {
     setTimeout(() => {
       setIsShowState((prevState) => ({ ...prevState, isShowPlugin: false }));
     }, 300);
-    window.app.onClosePlugin();
+    window.app.onClosePlugin(language);
   };
 
   /**

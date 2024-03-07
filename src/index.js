@@ -31,16 +31,17 @@ class SeaTablePlugin {
     await this.init();
     const rootElement = document.getElementById('plugin-wrapper');
     ReactDOM.unmountComponentAtNode(rootElement);
-    ReactDOM.render(<App isDevelopment />, rootElement);
+    ReactDOM.render(<App isDevelopment language={lang} />, rootElement);
     const langDropElement = document.getElementById('langDrop');
     ReactDOM.unmountComponentAtNode(langDropElement);
     intl.init({ currentLocale: lang, locales: AVAILABLE_LOCALES });
   }
 
-  static onClosePlugin() {
+  static onClosePlugin(language) {
+    const lang = language;
     const langDropElement = document.getElementById('langDrop');
-    ReactDOM.render(<LanguageDropdown />, langDropElement);
-    ReactDOM.unmountComponentAtNode(document.getElementById('plugin-wrapper'));
+    ReactDOM.render(<LanguageDropdown lang={lang} />, langDropElement);
+    ReactDOM.unmountComponentAtNode(document.getElementById('root'));
   }
 }
 
