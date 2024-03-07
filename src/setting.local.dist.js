@@ -10,8 +10,6 @@ export default {
   APIToken: '01ab23[...]45cd67',
   // id of the workspace with the dtable of the plugin (required, workspace must exist)
   workspaceID: '1',
-  // default language ('en' or 'zh-cn' are common, see "src/locale/index.js" for all lang keys)
-  lang: 'en',
   // show verbose messages
   loadVerbose: true,
 };
