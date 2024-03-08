@@ -85,7 +85,7 @@ const PresetItem: React.FC<IPresetItemProps> = ({
 
   const onClickPreset = (e: React.MouseEvent<HTMLElement>) => {
     if (e.detail === 2) {
-      handlePresetsUpdate(e);
+      onToggleSettings()
     } else {
       onSelectPreset(p?._id);
     }

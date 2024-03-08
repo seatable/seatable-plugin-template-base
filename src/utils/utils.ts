@@ -384,6 +384,6 @@ export const findPresetName = (presets: PresetsArray, presetId: string) => {
   return presets.find((preset) => preset._id === presetId)?.name;
 };
 
-export const getScreenWidth = () => {
-  return (window.innerWidth);
+export const isMobile = () => {
+  return (window.innerWidth <= 800);
 };
