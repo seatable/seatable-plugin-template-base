@@ -174,7 +174,7 @@
     }
 
     &_select {
-      border: none;
+      border: 1px solid $toggle-active-bgColor;
       outline: none;
       padding: 8px;
       border-radius: 4px;
