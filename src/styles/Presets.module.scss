@@ -13,8 +13,11 @@
   transition: 0.3s width ease-in-out;
 
   @include tablet {
-    position: fixed;
-    display: none;
+    width: 70%;
+  }
+
+  @include mini {
+    width: 90%;
   }
 
   &_icon {
@@ -24,7 +27,6 @@
     border-radius: 10%;
     margin-right: 8px;
   }
-
   &_collapsed {
     width: 0;
     margin-right: -1px;
@@ -32,13 +34,13 @@
     .presets_collapse_btn {
       display: none;
     }
+
+    @include tablet {
+    }
   }
 
   &_logo {
     padding-left: 24px;
-    @include mobile {
-      transform: scale(0.7);
-    }
   }
 
   &_name {
@@ -49,8 +51,7 @@
     margin-bottom: 0;
 
     @include mobile {
-      font-size: 11px;
-      margin-left: -5px;
+      font-size: 12px;
     }
   }
 
@@ -72,6 +73,10 @@
     opacity: 0;
     transition: 0.2s opacity ease-in-out;
     cursor: pointer;
+
+    @include tablet {
+      opacity: 1;
+    }
   }
 
   &_uncollapse_btn2,
@@ -107,6 +112,18 @@
     &:hover {
       background-color: $add-btn-hover;
     }
+
+    .dtable-font {
+      @include mobile {
+        font-size: 14px;
+      }
+    }
+
+    p {
+      @include mobile {
+        font-size: 12px;
+      }
+    }
   }
 
   &_input {
@@ -129,6 +146,10 @@
       font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans,
         Ubuntu, Cantarell, 'Helvetica Neue', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', sans-serif;
+
+      @include mobile {
+        font-size: 12px;
+      }
     }
 
     button {

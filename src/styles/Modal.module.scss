@@ -8,7 +8,6 @@
   height: 95%;
   bottom: 0;
   border-radius: 10px 10px 0 0;
-  box-shadow: 0 0 0 1000px $modal-boxShadow;
   background: $modal-bgColor;
   display: flex;
 }
@@ -123,17 +122,25 @@
       justify-content: space-between;
 
       @include mobile {
-        font-size: 10px;
+        font-size: 12px;
       }
 
       &_icons {
         justify-self: center;
         opacity: 0;
         color: colorContrast($preset-bgColor);
+        
+        @include mobile {
+          opacity: 1;
+        }
       }
       &_settings {
         opacity: 0;
         color: colorContrast($preset-bgColor);
+
+        @include mobile {
+          opacity: 1;
+        }
       }
 
       &:hover {
@@ -154,7 +161,7 @@
       width: 25%;
 
       @include mobile {
-        width: 15%;
+        width: 20%;
       }
     }
 

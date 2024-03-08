@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 // External dependencies
@@ -32,10 +34,23 @@ const PresetItem: React.FC<IPresetItemProps> = ({
   const [showPresetDropdown, setShowPresetDropdown] = useState(false);
   const [pName, setPName] = useState(p.name);
 
-  useEffect(() => {
-    if (p.name.length > 15) {
+  const onWindowResize = () => {
+    if ((window.innerWidth <= 1200) && p.name.length > 15) {
       setPName(p.name.slice(0, 15) + '...');
-    }
+    } else if ((window.innerWidth > 1200) && p.name.length > 25) {
+      setPName(p.name.slice(0, 25) + '...');
+    } else {
+      setPName(p.name);
+    };
+  };
+
+  useEffect(() => {
+    onWindowResize();
+    window.addEventListener('resize', onWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', onWindowResize);
+    };
   }, [p.name]);
 
   let popupDomNode = useClickOut(() => {
@@ -71,7 +86,7 @@ const PresetItem: React.FC<IPresetItemProps> = ({
 
   const onClickPreset = (e: React.MouseEvent<HTMLElement>) => {
     if (e.detail === 2) {
-      handlePresetsUpdate(e);
+      onToggleSettings()
     } else {
       onSelectPreset(p?._id);
     }
