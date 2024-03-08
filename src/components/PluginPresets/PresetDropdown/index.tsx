@@ -4,7 +4,8 @@ import stylesPresets from '../../../styles/Presets.module.scss';
 import { IPresetDropdownProps } from '../../../utils/Interfaces/PluginPresets/Dropdown.interface';
 import { PresetHandleAction } from '../../../utils/constants';
 import intl from 'react-intl-universal';
-// import en from '../../../locale/lang/en';
+import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from '../../../locale';
+const { [DEFAULT_LOCALE]: d } = AVAILABLE_LOCALES;
 
 const PresetDropdown: React.FC<IPresetDropdownProps> = ({
   togglePresetsUpdatePopUp,
@@ -20,16 +21,14 @@ const PresetDropdown: React.FC<IPresetDropdownProps> = ({
         id={PresetHandleAction.rename}
         className="d-flex align-items-center">
         <i className="item-icon dtable-font dtable-icon-rename"></i>
-        {/* <p className="ml-2">{intl.get('preset_rename').d(`${en.preset_rename}`)}</p> */}
-        <p className="ml-2">{intl.get('preset_rename').d(`rename`)}</p>
+        <p className="ml-2">{intl.get('preset_rename').d(`${d.preset_rename}`)}</p>
       </li>
       <li
         onClick={togglePresetsUpdatePopUp}
         id={PresetHandleAction.duplicate}
         className="d-flex align-items-center">
         <i className="item-icon dtable-font dtable-icon-copy"></i>
-        {/* <p className="ml-2">{intl.get('preset_duplicate').d(`${en.preset_duplicate}`)}</p> */}
-        <p className="ml-2">{intl.get('preset_duplicate').d(`duplicate`)}</p>
+        <p className="ml-2">{intl.get('preset_duplicate').d(`${d.preset_duplicate}`)}</p>
       </li>
       <li
         onClick={isPresets ? togglePresetsUpdatePopUp : undefined}
@@ -41,8 +40,7 @@ const PresetDropdown: React.FC<IPresetDropdownProps> = ({
             !isPresets ? stylesPresets.isPresetsCondition : ''
           }`}></i>
         <p className={`ml-2 ${!isPresets ? stylesPresets.isPresetsCondition : ''}`}>
-          {intl.get('preset_delete').d(`delete`)}
-          {/* {intl.get('preset_delete').d(`${en.preset_delete}`)} */}
+          {intl.get('preset_delete').d(`${d.preset_delete}`)}
         </p>
       </li>
     </ul>
