@@ -39,13 +39,12 @@ class SeaTablePlugin {
   static onClosePlugin(lang) {
     const LanguageDropdown = require('./components/LanguageDropDown/index').default;
     const langDropElement = document.getElementById('language-dropdown');
-    const updateLanguageAndIntl = (newLang) => {
-      lang = newLang;
-    };
+
     ReactDOM.render(
       <LanguageDropdown lang={lang} updateLanguageAndIntl={updateLanguageAndIntl} />,
       langDropElement
     );
+
     ReactDOM.unmountComponentAtNode(document.getElementById('plugin-controller'));
   }
 }
@@ -55,6 +54,9 @@ SeaTablePlugin.execute();
 const openBtn = document.getElementById('plugin-controller');
 let lang;
 
+const updateLanguageAndIntl = (newLang) => {
+  lang = newLang;
+};
 openBtn.addEventListener(
   'click',
   function () {
