@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../../styles/Modal.module.scss';
 import { AVAILABLE_LOCALES } from '../../locale';
-import { updateLanguageAndIntl } from '../..';
 
 const LanguageDropdown: React.FC<any> = (props) => {
-  const { lang } = props;
+  const { lang, updateLanguageAndIntl } = props;
   const [selectedLanguage, setSelectedLanguage] = useState<string>('en');
 
   useEffect(() => {

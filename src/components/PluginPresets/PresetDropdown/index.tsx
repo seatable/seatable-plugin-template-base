@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styles from '../../../styles/Modal.module.scss';
 import stylesPresets from '../../../styles/Presets.module.scss';
 import { IPresetDropdownProps } from '../../../utils/Interfaces/PluginPresets/Dropdown.interface';

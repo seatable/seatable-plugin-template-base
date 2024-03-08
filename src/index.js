@@ -2,7 +2,6 @@ import ReactDOM from 'react-dom';
 import DTable from 'dtable-sdk';
 import App from './app.tsx';
 import './setting.ts';
-import LanguageDropdown from './components/LanguageDropDown/index';
 import intl from 'react-intl-universal';
 import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from './locale/index.ts';
 
@@ -38,8 +37,15 @@ class SeaTablePlugin {
   }
 
   static onClosePlugin(lang) {
+    const LanguageDropdown = require('./components/LanguageDropDown/index').default;
     const langDropElement = document.getElementById('language-dropdown');
-    ReactDOM.render(<LanguageDropdown lang={lang} />, langDropElement);
+    const updateLanguageAndIntl = (newLang) => {
+      lang = newLang;
+    };
+    ReactDOM.render(
+      <LanguageDropdown lang={lang} updateLanguageAndIntl={updateLanguageAndIntl} />,
+      langDropElement
+    );
     ReactDOM.unmountComponentAtNode(document.getElementById('plugin-controller'));
   }
 }
@@ -48,9 +54,7 @@ SeaTablePlugin.execute();
 
 const openBtn = document.getElementById('plugin-controller');
 let lang;
-export function updateLanguageAndIntl(updatedLang) {
-  lang = updatedLang;
-}
+
 openBtn.addEventListener(
   'click',
   function () {
