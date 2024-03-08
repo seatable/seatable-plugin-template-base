@@ -15,7 +15,7 @@ import { IPresetItemProps } from '../../../utils/Interfaces/PluginPresets/Item.i
 import styles from '../../../styles/Modal.module.scss';
 import '../../../assets/css/plugin-layout.css';
 import intl from 'react-intl-universal';
-import { AVAILABLE_LOCALES, DEFAULT_LOCALE} from '../../../locale';
+import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from '../../../locale';
 const { [DEFAULT_LOCALE]: d } = AVAILABLE_LOCALES;
 
 const PresetItem: React.FC<IPresetItemProps> = ({
