@@ -39,3 +39,7 @@ export interface IPluginDataStore
   presets: PresetsArray;
   pluginName: string;
 }
+
+export interface AvailableLocales {
+  [key: string]: any;
+}

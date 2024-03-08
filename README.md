@@ -69,7 +69,7 @@ It is important that you only hve to work in the `/src` folder.
 
 ### 2. Give your plugin a unique name
 
-There is a central configuration file at `src/plugin-info/info.js`. In this file you give your plugin a unique name and add a short description. Also you can upload a custom icon.png (128x128px) or a card_image.png (560x240px) that is used in the system admin area of SeaTable.
+There is a central configuration file at `src/plugin-config/info.js`. In this file you give your plugin a unique name and add a short description. Also you can upload a custom icon.png (128x128px) or a card_image.png (560x240px) that is used in the system admin area of SeaTable.
 
 ```js
   "name": "plugin-template",
@@ -204,9 +204,5 @@ Steps:
 
 1. Add supported language files in `src/locale/lang` \*\*. Js
 2. Add the corresponding international key and value key-value pairs in the file
-3. In `src/locale/index.ts` file
-   - Import the defined language file
-   - Define the language type supported by default
-   - Add language to locales object
-4. Import translation components in components that need to add internationalized content `import intl from 'react-intl-universal`
-5. Call the intl interface function to complete the corresponding international call work, please use the documentation to move ➡️[react-intl-universal](https://github.com/alibaba/react-intl-universal)
+3. Import translation components in components that need to add internationalized content `import intl from 'react-intl-universal`
+4. Call the intl interface function to complete the corresponding international call work, please use the documentation to move ➡️[react-intl-universal](https://github.com/alibaba/react-intl-universal)

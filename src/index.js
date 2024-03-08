@@ -4,7 +4,7 @@ import App from './app.tsx';
 import './setting.ts';
 import LanguageDropdown from './components/LanguageDropDown/index';
 import intl from 'react-intl-universal';
-import { AVAILABLE_LOCALES } from './locale/index.ts';
+import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from './locale/index.ts';
 
 class SeaTablePlugin {
   static async init() {
@@ -27,7 +27,7 @@ class SeaTablePlugin {
     window.dtableSDK = dtableSDK;
   }
 
-  static async execute(lang = 'en') {
+  static async execute(lang = DEFAULT_LOCALE) {
     await this.init();
     intl.init({ currentLocale: lang, locales: AVAILABLE_LOCALES });
     const rootElement = document.getElementById('plugin-wrapper');
