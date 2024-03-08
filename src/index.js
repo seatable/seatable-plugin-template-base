@@ -32,14 +32,13 @@ class SeaTablePlugin {
     intl.init({ currentLocale: lang, locales: AVAILABLE_LOCALES });
     const rootElement = document.getElementById('plugin-wrapper');
     ReactDOM.unmountComponentAtNode(rootElement);
-    ReactDOM.render(<App isDevelopment language={lang} />, rootElement);
-    const langDropElement = document.getElementById('langDrop');
+    ReactDOM.render(<App isDevelopment lang={lang} />, rootElement);
+    const langDropElement = document.getElementById('language-dropdown');
     ReactDOM.unmountComponentAtNode(langDropElement);
   }
 
-  static onClosePlugin(language) {
-    const lang = language;
-    const langDropElement = document.getElementById('langDrop');
+  static onClosePlugin(lang) {
+    const langDropElement = document.getElementById('language-dropdown');
     ReactDOM.render(<LanguageDropdown lang={lang} />, langDropElement);
     ReactDOM.unmountComponentAtNode(document.getElementById('plugin-controller'));
   }
@@ -49,8 +48,8 @@ SeaTablePlugin.execute();
 
 const openBtn = document.getElementById('plugin-controller');
 let lang;
-export function updateLanguageAndIntl(newLang) {
-  lang = newLang;
+export function updateLanguageAndIntl(updatedLang) {
+  lang = updatedLang;
 }
 openBtn.addEventListener(
   'click',

@@ -10,6 +10,7 @@ import { truncateTableName } from '../../utils/utils';
 import { HiOutlineChevronDoubleRight } from 'react-icons/hi2';
 import { SettingsOption } from '../../utils/types';
 import intl from 'react-intl-universal';
+import en from '../../locale/lang/en';
 
 // PluginSettings component for managing table and view options
 const PluginSettings: React.FC<IPluginSettingsProps> = ({
@@ -64,7 +65,7 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
       <div className="p-5">
         <div
           className={`d-flex align-items-center justify-content-between ${styles.settings_header}`}>
-          <h4 className="m-0">{intl.get('settings_headline')}</h4>
+          <h4 className="m-0">{intl.get('settings_headline').d(`${en.settings_headline}`)}</h4>
           <button className={styles2.presets_uncollapse_btn2_settings} onClick={onToggleSettings}>
             <HiOutlineChevronDoubleRight />
           </button>
@@ -72,7 +73,7 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
         <div>
           <div className={styles.settings_dropdowns}>
             <div>
-              <p className="d-inline-block mb-2">{intl.get('table')}</p>
+              <p className="d-inline-block mb-2">{intl.get('table').d(`${en.table}`)}</p>
               {/* Toggle table view */}
               <DtableSelect
                 value={tableSelectedOption}
@@ -85,7 +86,7 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
             </div>
 
             <div>
-              <p className="d-inline-block mb-2 mt-3">{intl.get('view')}</p>
+              <p className="d-inline-block mb-2 mt-3">{intl.get('view').d(`${en.view}`)}</p>
               {/* Toggle table view */}
               <DtableSelect
                 value={viewSelectedOption}

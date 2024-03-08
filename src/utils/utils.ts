@@ -24,7 +24,6 @@ export const generatorPresetId = (presets: Array<{ _id: string }>): string => {
   while (!isUnique) {
     preset_id = generatorBase64Code(4);
 
-    // eslint-disable-next-line
     isUnique = presets?.every((item) => {
       return item._id !== preset_id;
     });
