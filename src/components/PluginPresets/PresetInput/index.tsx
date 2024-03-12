@@ -1,53 +1,66 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+
+import React, { useEffect, useRef, useState } from 'react';
 import styles2 from '../../../styles/Presets.module.scss';
 import { IPresetInput } from '../../../utils/Interfaces/PluginPresets/Input.interface';
-import useClickOut from '../../../hooks/useClickOut';
+import { KeyDownActions } from '../../../utils/constants';
 
 const PresetInput: React.FC<IPresetInput> = ({
-  onChangePresetName,
-  onEditPresetSubmit,
-  setIsEditing,
-  isEditing,
   presetName,
+  onChangePresetName,
+  isEditing,
+  setIsEditing,
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [_presetName, setPresetName] = useState('');
+  const [blurCausedByKeyDown, setBlurCausedByKeyDown] = useState(false);
 
   useEffect(() => {
-    setPresetName(presetName);
-  }, [presetName]);
+    if (isEditing && inputRef.current) {
+      setPresetName(presetName);
+      inputRef.current.focus();
+      setTimeout(() => {
+        inputRef?.current?.select();
+      }, 0);
+    }
+  }, [isEditing]);
 
-  let editDomNode = useClickOut(() => {
-    setIsEditing(false);
-  });
+  const onChangePresetNameSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPresetName(e.target.value);
+  };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      onEditPresetSubmit();
+    switch (e.key) {
+      case KeyDownActions.enter:
+        onChangePresetName(e);
+        break;
+      case KeyDownActions.escape: {
+        setBlurCausedByKeyDown(true);
+        setIsEditing(false);
+        break;
+      }
+      default:
+        break;
     }
   };
 
-  const onCheckMarkClick = () => {
-    onEditPresetSubmit();
-    setIsEditing(false);
-  };
-
-  const onBtnCloseClick = () => {
-    onEditPresetSubmit();
-    setIsEditing(false);
+  const handleFocusOut = (e: React.FormEvent<HTMLInputElement>) => {
+    if (!blurCausedByKeyDown) {
+      onChangePresetName(e);
+      setBlurCausedByKeyDown(false);
+    }
   };
 
   return (
-    <div
-      className={styles2.presets_input}
-      ref={editDomNode}
-      style={{ display: !isEditing ? 'none' : 'flex' }}>
-      <input autoFocus value={_presetName} onKeyDown={onKeyDown} onChange={onChangePresetName} />
-      <button onClick={onCheckMarkClick}>
-        <span className="dtable-font dtable-icon-check-mark"></span>
-      </button>
-      <button onClick={onBtnCloseClick}>
-        <span className="dtable-font dtable-icon-x btn-close"></span>
-      </button>
+    <div className={styles2.presets_input} style={{ display: !isEditing ? 'none' : 'flex' }}>
+      <input
+        id="select-input"
+        ref={inputRef}
+        value={_presetName}
+        onKeyDown={onKeyDown}
+        onChange={onChangePresetNameSubmit}
+        onBlur={handleFocusOut}
+      />
     </div>
   );
 };

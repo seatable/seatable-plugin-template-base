@@ -4,12 +4,13 @@ export interface IPresetItemProps {
   pluginPresets: PresetsArray;
   activePresetIdx: number;
   presetName: string;
+  presetNameAlreadyExists: boolean;
   onSelectPreset: (presetId: string) => void;
   togglePresetsUpdate: (e: React.MouseEvent<HTMLElement>, type?: string) => void;
   deletePreset: () => void;
-  v: any;
+  onToggleSettings: () => void;
+  p: any; // preset
   onChangePresetName: (e: React.FormEvent<HTMLInputElement>) => void;
-  onEditPresetSubmit: (e?: React.MouseEvent<HTMLElement>) => void;
   duplicatePreset: (name: string) => void;
   showEditPresetPopUp: boolean;
 }

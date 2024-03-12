@@ -16,6 +16,8 @@ export interface IPresetsProps {
   pluginDataStore: IPluginDataStore;
   isShowPresets: boolean;
   allTables: TableArray;
+  onTogglePresets: () => void;
+  onToggleSettings: () => void;
   updateActiveData: () => void;
 }
 

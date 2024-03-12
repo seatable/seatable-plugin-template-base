@@ -1,8 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from 'react';
+import { FaPlus } from 'react-icons/fa6';
 // Import of Component
 import Header from './components/Header';
 import PluginSettings from './components/PluginSettings';
 import PluginPresets from './components/PluginPresets';
+import ResizableWrapper from './components/ResizableWrapper';
 // Import of Interfaces
 import {
   AppActiveState,
@@ -17,6 +21,7 @@ import {
   TableView,
   TableRow,
   IActiveTableAndView,
+  TableColumn,
 } from './utils/Interfaces/Table.interface';
 import { PresetsArray } from './utils/Interfaces/PluginPresets/Presets.interface';
 import { SelectOption } from './utils/Interfaces/PluginSettings.interface';
@@ -34,14 +39,20 @@ import {
 import './locale';
 import {
   createDefaultPluginDataStore,
+  findPresetName,
   getActiveStateSafeGuard,
   getActiveTableAndActiveView,
   getPluginDataStore,
+  isMobile,
   parsePluginDataToActiveState,
 } from './utils/utils';
+import { SettingsOption } from './utils/types';
+import pluginContext from './plugin-context';
+
+import CustomPlugin from './CustomPlugin';
 
 const App: React.FC<IAppProps> = (props) => {
-  const { isDevelopment } = props;
+  const { isDevelopment, lang } = props;
   // Boolean state to show/hide the plugin's components
   const [isShowState, setIsShowState] = useState<AppIsShowState>(INITIAL_IS_SHOW_STATE);
   const { isShowPlugin, isShowSettings, isLoading, isShowPresets } = isShowState;
@@ -54,8 +65,9 @@ const App: React.FC<IAppProps> = (props) => {
   // For better understanding read the comments in the AppActiveState interface
   const [appActiveState, setAppActiveState] = useState<AppActiveState>(INITIAL_CURRENT_STATE);
   // Destructure properties from the app's active state for easier access
-  const { activeTable, activePresetId, activePresetIdx, activeViewRows } = appActiveState;
-  const [togglePresetsComponent, setTogglePresetsComponent] = useState<boolean>(false);
+  const { activeTable, activePresetId, activePresetIdx, activeViewRows, activeTableView } =
+    appActiveState;
+  const { collaborators } = window.app.state;
 
   useEffect(() => {
     initPluginDTableData();
@@ -65,9 +77,15 @@ const App: React.FC<IAppProps> = (props) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (isMobile()) {
+      setIsShowState((prevState) => ({ ...prevState, isShowPresets: false }));
+    }
+  }, []);
+
   const initPluginDTableData = async () => {
     if (isDevelopment) {
-      // local develop
+      // local develop //
       window.dtableSDK.subscribe('dtable-connect', () => {
         onDTableConnect();
       });
@@ -79,10 +97,6 @@ const App: React.FC<IAppProps> = (props) => {
       onDTableChanged();
     });
     resetData();
-  };
-
-  const toggleSettings = () => {
-    setIsShowState((prevState) => ({ ...prevState, isShowSettings: !prevState.isShowSettings }));
   };
 
   let unsubscribeLocalDtableChanged = () => {
@@ -120,7 +134,6 @@ const App: React.FC<IAppProps> = (props) => {
       );
 
       onSelectPreset(pluginDataStore.activePresetId, appActiveState);
-
       return;
     } else {
       // If there are no presets, the default one is created
@@ -159,7 +172,7 @@ const App: React.FC<IAppProps> = (props) => {
     setTimeout(() => {
       setIsShowState((prevState) => ({ ...prevState, isShowPlugin: false }));
     }, 300);
-    window.app.onClosePlugin();
+    window.app.onClosePlugin(lang);
   };
 
   /**
@@ -247,8 +260,14 @@ const App: React.FC<IAppProps> = (props) => {
    */
   const updateActiveData = () => {
     let allTables: TableArray = window.dtableSDK.getTables();
-    let tableOfPresetOne = pluginPresets[0].settings?.selectedTable!;
-    let viewOfPresetOne = pluginPresets[0].settings?.selectedView!;
+    let tableOfPresetOne = pluginPresets[0].settings?.selectedTable || {
+      value: allTables[0]._id,
+      label: allTables[0].name,
+    };
+    let viewOfPresetOne = pluginPresets[0].settings?.selectedView || {
+      value: allTables[0].views[0]._id,
+      label: allTables[0].views[0].name,
+    };
     let table = allTables.find((t) => t._id === tableOfPresetOne.value)!;
     let view = table?.views.find((v) => v._id === viewOfPresetOne.value)!;
 
@@ -264,14 +283,28 @@ const App: React.FC<IAppProps> = (props) => {
     setAppActiveState(newPresetActiveState);
   };
 
+  const toggleSettings = () => {
+    if (isMobile() && isShowState.isShowPresets) {
+      // Collapse presets if open
+      togglePresets();
+    }
+
+    setIsShowState((prevState) => ({ ...prevState, isShowSettings: !prevState.isShowSettings }));
+  };
+
   const togglePresets = () => {
-    setTogglePresetsComponent((prev) => !prev);
+    if (isMobile() && isShowState.isShowSettings) {
+      // Collapse settings if open
+      toggleSettings();
+    }
+
+    setIsShowState((prevState) => ({ ...prevState, isShowPresets: !prevState.isShowPresets }));
   };
 
   /**
    * Handles the change of the active table or view, updating the application state and presets accordingly.
    */
-  const onTableOrViewChange = (type: 'table' | 'view', option: SelectOption) => {
+  const onTableOrViewChange = (type: SettingsOption, option: SelectOption) => {
     let _activeViewRows: TableRow[];
     let updatedPluginPresets: PresetsArray;
 
@@ -333,7 +366,71 @@ const App: React.FC<IAppProps> = (props) => {
     updatePluginDataStore({ ...pluginDataStore, presets: updatedPluginPresets });
   };
 
-  const { collaborators } = window.app.state;
+  const getInsertedRowInitData = (view: TableView, table: Table, rowID: string) => {
+    return window.dtableSDK.getInsertedRowInitData(view, table, rowID);
+  };
+
+  // functions for add row functionality
+  const onAddOrgChartItem = (view: TableView, table: Table, rowID: string) => {
+    let rowData = getInsertedRowInitData(view, table, rowID);
+    onInsertRow(table, view, rowData);
+  };
+
+  const addRowItem = () => {
+    if (isDevelopment) {
+      return;
+    }
+
+    let rows = appActiveState.activeViewRows;
+    if (rows) {
+      let row_id = rows.length > 0 ? rows[rows.length - 1]._id : '';
+      onAddOrgChartItem(appActiveState.activeTableView!, appActiveState.activeTable!, row_id);
+    }
+  };
+
+  const onInsertRow = (table: Table, view: TableView, rowData: any) => {
+    let columns = window.dtableSDK.getColumns(table);
+    let newRowData: { [key: string]: any } = {};
+    console.log('columns', columns);
+    for (let key in rowData) {
+      console.log('key', key);
+      let column = columns.find((column: TableColumn) => column.name === key);
+      console.log('column.type', column.type);
+      if (!column) {
+        continue;
+      }
+      switch (column.type) {
+        case 'single-select': {
+          newRowData[column.name] =
+            column.data.options.find((item: any) => item.name === rowData[key])?.name || '';
+          break;
+        }
+        case 'multiple-select': {
+          let multipleSelectNameList: any[] = [];
+          rowData[key].forEach((multiItemId: any) => {
+            let multiSelectItemName = column.data.options.find(
+              (multiItem: any) => multiItem.id === multiItemId
+            );
+            if (multiSelectItemName) {
+              multipleSelectNameList.push(multiSelectItemName.name);
+            }
+          });
+          newRowData[column.name] = multipleSelectNameList;
+          break;
+        }
+        default:
+          newRowData[column.name] = rowData[key];
+      }
+    }
+
+    let row_data = { ...newRowData };
+    window.dtableSDK.appendRow(table, row_data, view);
+    let viewRows = window.dtableSDK.getViewRows(view, table);
+    let insertedRow = viewRows[viewRows.length - 1];
+    if (insertedRow) {
+      pluginContext.expandRow(insertedRow, table);
+    }
+  };
 
   if (!isShowPlugin) {
     return null;
@@ -341,88 +438,61 @@ const App: React.FC<IAppProps> = (props) => {
   return isLoading ? (
     <div></div>
   ) : (
-    <div className={styles.modal}>
-      <Header
-        togglePresets={togglePresets}
-        toggleSettings={toggleSettings}
-        isShowSettings={isShowSettings}
-        togglePlugin={onPluginToggle}
+    <ResizableWrapper>
+      {/* presets  */}
+      <PluginPresets
+        allTables={allTables}
+        pluginPresets={pluginPresets}
+        activePresetIdx={activePresetIdx}
+        pluginDataStore={pluginDataStore}
+        isShowPresets={isShowPresets}
+        onTogglePresets={togglePresets}
+        onToggleSettings={toggleSettings}
+        onSelectPreset={onSelectPreset}
+        updatePresets={updatePresets}
+        updateActiveData={updateActiveData}
       />
-      {/* main body  */}
-      <div className="d-flex position-relative" style={{ height: '100%' }}>
-        {/* presets  */}
-        <PluginPresets
-          allTables={allTables}
-          pluginPresets={pluginPresets}
-          activePresetIdx={activePresetIdx}
-          pluginDataStore={pluginDataStore}
+      <div className={styles.modal}>
+        <Header
+          presetName={findPresetName(pluginPresets, activePresetId)}
           isShowPresets={isShowPresets}
-          onSelectPreset={onSelectPreset}
-          updatePresets={updatePresets}
-          updateActiveData={updateActiveData}
+          isShowSettings={isShowSettings}
+          onTogglePresets={togglePresets}
+          toggleSettings={toggleSettings}
+          togglePlugin={onPluginToggle}
         />
-        {/* content  */}
-        <div id={PLUGIN_ID} className={styles.body}>
-          {pluginPresets.map((obj) => (
-            <div
-              key={obj._id}
-              style={{
-                border: '1px solid #ddd',
-                padding: '10px',
-                marginBottom: '10px',
-                borderRadius: '5px',
-                backgroundColor: '#f5f5f5',
-              }}>
-              <div style={{ fontWeight: 'bold' }}>{`Preset ID: ${obj._id}`}</div>
-              <div style={{ color: '#007bff' }}>{`Preset Name: ${obj.name}`}</div>
-              <div style={{ marginTop: '8px', fontWeight: 'bold' }}>Settings:</div>
-              <div style={{ marginLeft: '15px', color: '#28a745' }}>{`selectedTableId: ${
-                obj.settings?.selectedTable?.label ?? 'N/A'
-              }`}</div>
-              <div style={{ marginLeft: '15px', color: '#28a745' }}>{`selectedViewId: ${
-                obj.settings?.selectedView?.label ?? 'N/A'
-              }`}</div>
-            </div>
-          ))}
-          <div
-            key={appActiveState?.activeTableView?._id}
-            style={{
-              border: '1px solid #ddd',
-              padding: '10px',
-              marginBottom: '10px',
-              borderRadius: '5px',
-              backgroundColor: '#f5f5f5',
-            }}>
-            <div
-              style={{ color: '#ff6666' }}>{`Active Table: ${appActiveState.activeTableName}`}</div>
-            <div
-              style={{
-                color: '#ff6666',
-              }}>{`Active View: ${appActiveState?.activeTableView?.name}`}</div>
-          </div>
-          <div style={{ marginTop: '8px', fontWeight: 'bold' }}>View Rows:</div>
-          <div>
-            {activeViewRows?.map((row) => (
-              <div key={row._id}>
-                <h6>{row['0000']}</h6>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {isShowSettings && (
-          <div>
-            <PluginSettings
-              allTables={allTables}
-              appActiveState={appActiveState}
-              activeTableViews={activeTableViews}
+        {/* main body  */}
+        <div
+          className="d-flex position-relative"
+          style={{ height: '100%', width: '100%', backgroundColor: '#f5f5f5' }}>
+          {/* content  */}
+          <div id={PLUGIN_ID} className={styles.body} style={{ padding: '10px' }}>
+            <CustomPlugin
               pluginPresets={pluginPresets}
-              onTableOrViewChange={onTableOrViewChange}
+              appActiveState={appActiveState}
+              activeViewRows={activeViewRows}
             />
+
+            <button className={styles.add_row} onClick={addRowItem}>
+              <FaPlus size={30} color="#fff" />
+              <div className={styles.add_row_toolTip}>
+                <p>Adding a row only works in production</p>
+              </div>
+            </button>
           </div>
-        )}
+
+          <PluginSettings
+            isShowSettings={isShowSettings}
+            allTables={allTables}
+            appActiveState={appActiveState}
+            activeTableViews={activeTableViews}
+            pluginPresets={pluginPresets}
+            onTableOrViewChange={onTableOrViewChange}
+            onToggleSettings={toggleSettings}
+          />
+        </div>
       </div>
-    </div>
+    </ResizableWrapper>
   );
 };
 

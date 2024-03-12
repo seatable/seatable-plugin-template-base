@@ -1,6 +1,8 @@
 export interface IHeaderProps {
+  presetName: string | undefined;
   isShowSettings: boolean;
+  isShowPresets: boolean;
   toggleSettings: () => void;
   togglePlugin: () => void;
-  togglePresets: () => void;
+  onTogglePresets: () => void;
 }

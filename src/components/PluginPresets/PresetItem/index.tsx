@@ -1,29 +1,58 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
-
+// External dependencies
+import useClickOut from '../../../hooks/useClickOut';
+// Internal dependencies
+import PresetDropdown from '../PresetDropdown';
+import PresetInput from '../PresetInput';
+// Constants
+import { KeyDownActions, PresetHandleAction } from '../../../utils/constants';
+// Interfaces
+import { IPresetItemProps } from '../../../utils/Interfaces/PluginPresets/Item.interface';
+// Styles
 import styles from '../../../styles/Modal.module.scss';
 import '../../../assets/css/plugin-layout.css';
-
-import PresetDropdown from '../PresetDropdown';
-import useClickOut from '../../../hooks/useClickOut';
-import { IPresetItemProps } from '../../../utils/Interfaces/PluginPresets/Item.interface';
-import PresetInput from '../PresetInput';
-import { PresetHandleAction } from '../../../utils/constants';
+import intl from 'react-intl-universal';
+import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from '../../../locale';
+const { [DEFAULT_LOCALE]: d } = AVAILABLE_LOCALES;
 
 const PresetItem: React.FC<IPresetItemProps> = ({
-  v,
+  p,
   activePresetIdx,
   presetName,
   pluginPresets,
+  presetNameAlreadyExists,
   onChangePresetName,
   deletePreset,
   onSelectPreset,
   duplicatePreset,
   togglePresetsUpdate,
-  onEditPresetSubmit,
+  onToggleSettings,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [showPresetDropdown, setShowPresetDropdown] = useState(false);
+  const [pName, setPName] = useState(p.name);
+
+  const onWindowResize = () => {
+    if (window.innerWidth <= 1200 && p.name.length > 15) {
+      setPName(p.name.slice(0, 15) + '...');
+    } else if (window.innerWidth > 1200 && p.name.length > 25) {
+      setPName(p.name.slice(0, 25) + '...');
+    } else {
+      setPName(p.name);
+    }
+  };
+
+  useEffect(() => {
+    onWindowResize();
+    window.addEventListener('resize', onWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', onWindowResize);
+    };
+  }, [p.name]);
 
   let popupDomNode = useClickOut(() => {
     setShowPresetDropdown(false);
@@ -32,12 +61,6 @@ const PresetItem: React.FC<IPresetItemProps> = ({
   // toggle Preset dropdown(edit/delete)
   const togglePresetDropdown = () => {
     setShowPresetDropdown((prev) => !prev);
-  };
-
-  const editOnEnterKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      onEditPresetSubmit();
-    }
   };
 
   // Update a Preset
@@ -55,7 +78,7 @@ const PresetItem: React.FC<IPresetItemProps> = ({
         setShowPresetDropdown(false);
         break;
       case PresetHandleAction.duplicate:
-        duplicatePreset(v);
+        duplicatePreset(p);
         setShowPresetDropdown(false);
         break;
       default:
@@ -64,9 +87,9 @@ const PresetItem: React.FC<IPresetItemProps> = ({
 
   const onClickPreset = (e: React.MouseEvent<HTMLElement>) => {
     if (e.detail === 2) {
-      handlePresetsUpdate(e);
+      onToggleSettings();
     } else {
-      onSelectPreset(v?._id);
+      onSelectPreset(p?._id);
     }
   };
 
@@ -74,26 +97,43 @@ const PresetItem: React.FC<IPresetItemProps> = ({
     <div>
       <PresetInput
         onChangePresetName={onChangePresetName}
-        onEditPresetSubmit={onEditPresetSubmit}
         isEditing={isEditing}
         setIsEditing={setIsEditing}
         presetName={presetName}
       />
+      {presetNameAlreadyExists && (
+        <div
+          className="px-2 d-flex justify-content-start mt-1"
+          style={{ fontSize: '11px', fontWeight: 'bold' }}>
+          <span className="text-danger text-sm">
+            {intl.get('preset_warn_exist').d(`${d.preset_warn_exist}`)}
+          </span>
+        </div>
+      )}
       <div style={{ position: 'relative' }}>
         <div
           onClick={onClickPreset}
           style={{ display: isEditing ? 'none' : 'flex' }}
           className={
-            pluginPresets[activePresetIdx]?._id === v?._id
+            pluginPresets[activePresetIdx]?._id === p?._id
               ? styles.modal_header_viewBtn_active
               : styles.modal_header_viewBtn
           }>
           <div className="d-flex align-items-center">
-            <i className={`dtable-font dtable-icon-drag ${styles.modal_header_viewBtn_icons}`}></i>
-            <p className="ml-2 mb-0">{v.name}</p>
+            <p className="mb-0">{pName}</p>
           </div>
-          <span onClick={togglePresetDropdown}>
-            <BsThreeDots color="#191717" className={styles.modal_header_viewBtn_icons} />
+          <span className="d-flex align-items-center">
+            <span>
+              <i
+                className={`dtable-font dtable-icon-drag mr-1 ${styles.modal_header_viewBtn_icons}`}></i>
+            </span>
+            <span
+              className={`dtable-font dtable-icon-set-up ${styles.modal_header_viewBtn_settings}`}
+              onClick={onToggleSettings}></span>
+            <BsThreeDots
+              className={`ml-1 ${styles.modal_header_viewBtn_icons}`}
+              onClick={togglePresetDropdown}
+            />
           </span>
         </div>
         {showPresetDropdown && (

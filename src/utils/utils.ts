@@ -21,17 +21,22 @@ export const generatorBase64Code = (keyLength = 4) => {
 export const generatorPresetId = (presets: Array<{ _id: string }>): string => {
   let preset_id: string = '',
     isUnique = false;
+
+  const isIdUnique = (id: string): boolean => {
+    return presets?.every((item) => {
+      return item._id !== id;
+    });
+  };
+
   while (!isUnique) {
     preset_id = generatorBase64Code(4);
+    isUnique = isIdUnique(preset_id);
 
-    // eslint-disable-next-line
-    isUnique = presets?.every((item) => {
-      return item._id !== preset_id;
-    });
     if (isUnique) {
       break;
     }
   }
+
   return preset_id;
 };
 
@@ -227,7 +232,9 @@ export const parsePluginDataToActiveState = (
   // Extract relevant data from the pluginDataStore and allTables arrays
   let idx = pluginDataStore.activePresetIdx;
   let id = pluginDataStore.activePresetId;
-  let table = allTables.find((t) => t._id === pluginPresets[idx].settings?.selectedTable?.value)!;
+  let table =
+    allTables.find((t) => t._id === pluginPresets[idx].settings?.selectedTable?.value) ||
+    allTables[0];
   let tableName = table.name;
   let tableView = table.views.find(
     (v) => v._id === pluginPresets[idx].settings?.selectedView?.value
@@ -376,4 +383,12 @@ export const createDefaultPresetSettings = (allTables: TableArray) => {
     selectedTable: tableInfo,
     selectedView: viewInfo,
   };
+};
+
+export const findPresetName = (presets: PresetsArray, presetId: string) => {
+  return presets.find((preset) => preset._id === presetId)?.name;
+};
+
+export const isMobile = () => {
+  return window.innerWidth <= 800;
 };

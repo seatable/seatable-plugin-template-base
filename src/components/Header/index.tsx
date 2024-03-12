@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../styles/Modal.module.scss';
+import styles2 from '../../styles/Presets.module.scss';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import { IHeaderProps } from '../../utils/Interfaces/Header.interface';
-import { PLUGIN_ICON, PLUGIN_ID, PLUGIN_NAME } from '../../utils/constants';
-import { compareLoose } from 'semver';
+import { PLUGIN_ID } from '../../utils/constants';
+import { HiOutlineChevronDoubleRight } from 'react-icons/hi2';
 
 const Header: React.FC<IHeaderProps> = (props) => {
-  const { isShowSettings, togglePresets, toggleSettings, togglePlugin } = props;
+  const {
+    presetName,
+    isShowSettings,
+    isShowPresets,
+    onTogglePresets,
+    toggleSettings,
+    togglePlugin,
+  } = props;
   const [orgChartContent, setOrgChartContent] = useState<string | null>(null);
 
   useEffect(() => {
@@ -42,18 +50,16 @@ const Header: React.FC<IHeaderProps> = (props) => {
 
   return (
     <div className={styles.modal_header}>
-      {/* logo and plugin name  */}
-      <div className="d-flex align-items-center">
-        <button className={styles.modal_header_viewBtn_menu} onClick={togglePresets}>
-          <span className="dtable-font dtable-icon-menu"></span>
-        </button>
-        <div className={`bg-info py-1 px-2 rounded mr-2 ${styles.modal_header_logo}`}>
-          <PLUGIN_ICON size={16} color="#fff" />
+      <div className={'d-flex align-items-center justify-content-start'}>
+        <div className={`align-items-center ${isShowPresets ? 'd-none' : 'd-flex'} `}>
+          <button className={styles2.presets_uncollapse_btn2_settings} onClick={onTogglePresets}>
+            <HiOutlineChevronDoubleRight />
+          </button>
         </div>
-        <div className={styles.modal_header_name}>{PLUGIN_NAME}</div>
+        <div className={styles.modal_header_pluginName}>
+          <p className="font-weight-bold">{presetName}</p>
+        </div>
       </div>
-
-      {/* settings and close icons  */}
       <div
         className={`d-flex align-items-center justify-content-end ${styles.modal_header_settings}`}>
         <span className={styles.modal_header_icon_btn} onClick={downloadPdfDocument}>
@@ -61,16 +67,6 @@ const Header: React.FC<IHeaderProps> = (props) => {
         </span>
         <span className={styles.modal_header_icon_btn} onClick={printPdfDocument}>
           <span className="dtable-font dtable-icon-print"></span>
-        </span>
-        <span
-          className={`${styles.modal_header_icon_btn} ${
-            isShowSettings ? styles.modal_header_icon_btn_active : ''
-          }`}
-          onClick={toggleSettings}>
-          <span className="dtable-font dtable-icon-set-up"></span>
-          {isShowSettings && (
-            <span className={styles.modal_header_icon_btn_settings}>Settings</span>
-          )}
         </span>
         <span className={styles.modal_header_icon_btn} onClick={togglePlugin}>
           <span className="dtable-font dtable-icon-x btn-close"></span>

@@ -3,6 +3,7 @@ import { getTableByName } from 'dtable-utils';
 import PresetItem from './PresetItem/index';
 import styles from '../../styles/Presets.module.scss';
 import deepCopy from 'deep-copy';
+import icon from '../../plugin-config/icon.png';
 import Preset from '../../model/preset';
 import {
   IPresetsProps,
@@ -16,7 +17,12 @@ import {
   getActiveTableAndActiveView,
   isUniquePresetName,
 } from '../../utils/utils';
-import { DEFAULT_PLUGIN_DATA, PresetHandleAction, TABLE_NAME } from '../../utils/constants';
+import {
+  DEFAULT_PLUGIN_DATA,
+  PLUGIN_NAME,
+  PresetHandleAction,
+  TABLE_NAME,
+} from '../../utils/constants';
 import {
   IActiveTableAndView,
   TableArray,
@@ -25,6 +31,10 @@ import {
 import PresetInput from './PresetInput';
 import useClickOut from '../../hooks/useClickOut';
 import { AppActiveState } from '../../utils/Interfaces/App.interface';
+import { HiOutlineChevronDoubleLeft } from 'react-icons/hi2';
+import intl from 'react-intl-universal';
+import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from '../../locale';
+const { [DEFAULT_LOCALE]: d } = AVAILABLE_LOCALES;
 
 const PluginPresets: React.FC<IPresetsProps> = ({
   allTables,
@@ -32,6 +42,8 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   activePresetIdx,
   pluginDataStore,
   isShowPresets,
+  onTogglePresets,
+  onToggleSettings,
   onSelectPreset,
   updatePresets,
   updateActiveData,
@@ -73,11 +85,13 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   };
 
   // handle preset name change
-  const onChangePresetName = (e: React.FormEvent<HTMLInputElement>) => {
+  const onChangePresetName = (e: React.FormEvent<HTMLInputElement>, type?: string) => {
+    setPresetNameAlreadyExists(false);
     if (e.currentTarget.value.includes('  ')) {
       return;
     } else {
       setPresetName(e.currentTarget.value);
+      onNewPresetSubmit(e, e.currentTarget.value, type);
     }
   };
 
@@ -86,9 +100,15 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   });
 
   // Submit new/edited preset name
-  const onNewPresetSubmit = (e?: React.MouseEvent<HTMLElement>, type?: string) => {
+  const onNewPresetSubmit = (
+    e: React.FormEvent<HTMLInputElement>,
+    __presetName: string,
+    type?: string
+  ) => {
     let _presetName =
-      presetName.trim() || DEFAULT_PLUGIN_DATA.presets[0].name + ' ' + _pluginPresets.length;
+      __presetName.trim() ||
+      presetName.trim() ||
+      DEFAULT_PLUGIN_DATA.presets[0].name + ' ' + _pluginPresets.length;
     let _presetNames = _pluginPresets.map((p) => p.name);
     const isUnique = isUniquePresetName(_presetName, _pluginPresets, activePresetIdx);
 
@@ -184,7 +204,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     newPluginPresets.splice(activePresetIdx, 1, updatedPreset);
     pluginDataStore.presets = newPluginPresets;
 
-    updatePresets(activePresetIdx, newPluginPresets, pluginDataStore, PresetHandleAction.edit);
+    updatePresets(activePresetIdx, newPluginPresets, pluginDataStore, _id);
   };
 
   // Delete the selected Preset
@@ -226,16 +246,24 @@ const PluginPresets: React.FC<IPresetsProps> = ({
       setPluginPresets(__pluginPresets);
       setDragItemIndex(null);
       setDragOverItemIndex(null);
+      let newIdx = __pluginPresets.findIndex((preset) => preset._id === v_id);
       let _pluginDataStore = { ...pluginDataStore, presets: __pluginPresets };
 
-      updatePresets(activePresetIdx, __pluginPresets, _pluginDataStore, 'drag');
+      updatePresets(newIdx, __pluginPresets, _pluginDataStore, v_id);
     }
   };
 
   return (
-    <div style={isShowPresets ? { display: 'block' } : {}} className={`${styles.presets}`}>
+    <div className={`${styles.presets}  ${!isShowPresets && styles.presets_collapsed}`}>
+      <button onClick={onTogglePresets} className={styles.presets_collapse_btn}>
+        <HiOutlineChevronDoubleLeft />
+      </button>
       <div className="d-flex flex-column">
-        {pluginPresets?.map((v, i) => (
+        <div className={`d-flex align-items-center py-2 pb-4 ${styles.presets_logo}`}>
+          <img src={icon} alt="Plugin Icon" className={styles.presets_icon} />
+          <div className={styles.presets_name}>{PLUGIN_NAME}</div>
+        </div>
+        {pluginPresets?.map((preset, i) => (
           <div
             style={
               dragOverItemIndex === i && i === 0
@@ -244,55 +272,51 @@ const PluginPresets: React.FC<IPresetsProps> = ({
                   ? { borderBottom: '2px solid #A9A9A9' }
                   : {}
             }
-            key={v._id}
+            key={preset._id}
             draggable="true"
             onDragStart={(e) => handleDragStart(e, i)}
             onDragEnter={(e) => handleDragEnter(e, i)}
-            onDragEnd={(e) => handleDragEnd(e, v._id)}
+            onDragEnd={(e) => handleDragEnd(e, preset._id)}
             onDragOver={handleDragOver}>
             <PresetItem
-              v={v}
+              p={preset}
               activePresetIdx={activePresetIdx}
               presetName={presetName}
               pluginPresets={pluginPresets}
-              onChangePresetName={onChangePresetName}
+              presetNameAlreadyExists={presetNameAlreadyExists && activePresetIdx === i}
+              onChangePresetName={(e: React.FormEvent<HTMLInputElement>) =>
+                onChangePresetName(e, PresetHandleAction.edit)
+              }
               onSelectPreset={onSelectPreset}
               deletePreset={deletePreset}
               duplicatePreset={duplicatePreset}
               togglePresetsUpdate={togglePresetsUpdate}
-              onEditPresetSubmit={(e?: React.MouseEvent<HTMLElement>) =>
-                onNewPresetSubmit(e, PresetHandleAction.edit)
-              }
               showEditPresetPopUp={showEditPresetPopUp}
+              onToggleSettings={onToggleSettings}
             />
           </div>
         ))}
+        {/* add new preset input  */}
+        {showNewPresetPopUp && (
+          <PresetInput
+            onChangePresetName={(e: React.FormEvent<HTMLInputElement>) =>
+              onChangePresetName(e, PresetHandleAction.new)
+            }
+            isEditing={showNewPresetPopUp}
+            setIsEditing={setShowNewPresetPopUp}
+            presetName={presetName}
+          />
+        )}
+        {/* add new preset button  */}
+        {!showNewPresetPopUp && (
+          <button
+            onClick={(e) => togglePresetsUpdate(e, PresetHandleAction.new)}
+            className={`d-flex ${styles.presets_add_button}`}>
+            <i className="dtable-font dtable-icon-add-table"></i>
+            <p className="mx-1">{intl.get('preset_add').d(`${d.preset_add}`)}</p>
+          </button>
+        )}
       </div>
-      {/* add new preset input  */}
-      {showNewPresetPopUp && (
-        <PresetInput
-          onChangePresetName={onChangePresetName}
-          onEditPresetSubmit={(e?: React.MouseEvent<HTMLElement>) =>
-            onNewPresetSubmit(e, PresetHandleAction.new)
-          }
-          isEditing={showNewPresetPopUp}
-          setIsEditing={setShowNewPresetPopUp}
-          presetName={presetName}
-        />
-      )}
-      {/* add new preset button  */}
-      {!showNewPresetPopUp && (
-        <button
-          onClick={(e) => togglePresetsUpdate(e, PresetHandleAction.new)}
-          className={styles.presets_add_button}>
-          <i className="dtable-font dtable-icon-add-table"></i>
-        </button>
-      )}
-      {presetNameAlreadyExists && (
-        <div className="error-message d-flex justify-content-center mt-9">
-          <span className="alert-danger">There is another preset with this name</span>
-        </div>
-      )}
     </div>
   );
 };

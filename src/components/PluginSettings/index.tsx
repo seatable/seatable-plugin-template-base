@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import DtableSelect from '../Elements/dtable-select';
 import styles from '../../styles/PluginSettings.module.scss';
+import styles2 from '../../styles/Presets.module.scss';
 import {
   SelectOption,
   IPluginSettingsProps,
 } from '../../utils/Interfaces/PluginSettings.interface';
 import { truncateTableName } from '../../utils/utils';
+import { HiOutlineChevronDoubleRight } from 'react-icons/hi2';
+import { SettingsOption } from '../../utils/types';
+import intl from 'react-intl-universal';
+import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from '../../locale';
+const { [DEFAULT_LOCALE]: d } = AVAILABLE_LOCALES;
 
 // PluginSettings component for managing table and view options
 const PluginSettings: React.FC<IPluginSettingsProps> = ({
   allTables,
   appActiveState,
   activeTableViews,
+  isShowSettings,
+  onToggleSettings,
   onTableOrViewChange,
 }) => {
   // State variables for table and view options
@@ -54,37 +62,45 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
   }, [appActiveState]);
 
   return (
-    <div className={`p-5 bg-white ${styles.settings}`}>
-      <div>
-        <div className={styles.settings_dropdowns}>
-          <div>
-            <p className="d-inline-block mb-2">Table</p>
-            {/* Toggle table view */}
-            <DtableSelect
-              value={tableSelectedOption}
-              options={tableOptions}
-              onChange={(selectedOption: SelectOption) => {
-                let type = 'table' as 'table' | 'view';
-                onTableOrViewChange(type, selectedOption);
-              }}
-            />
-          </div>
-
-          <div>
-            <p className="d-inline-block mb-2 mt-3">View</p>
-            {/* Toggle table view */}
-            <DtableSelect
-              value={viewSelectedOption}
-              options={viewOptions}
-              onChange={(selectedOption: SelectOption) => {
-                let type = 'view' as 'table' | 'view';
-                onTableOrViewChange(type, selectedOption);
-              }}
-            />
-          </div>
+    <div className={`bg-white ${isShowSettings ? styles.settings : styles.settings_hide}`}>
+      <div className="p-5">
+        <div
+          className={`d-flex align-items-center justify-content-between ${styles.settings_header}`}>
+          <h4 className="m-0">{intl.get('settings_headline').d(`${d.settings_headline}`)}</h4>
+          <button className={styles2.presets_uncollapse_btn2_settings} onClick={onToggleSettings}>
+            <HiOutlineChevronDoubleRight />
+          </button>
         </div>
+        <div>
+          <div className={styles.settings_dropdowns}>
+            <div>
+              <p className="d-inline-block mb-2">{intl.get('table').d(`${d.table}`)}</p>
+              {/* Toggle table view */}
+              <DtableSelect
+                value={tableSelectedOption}
+                options={tableOptions}
+                onChange={(selectedOption: SelectOption) => {
+                  let type = 'table' as SettingsOption;
+                  onTableOrViewChange(type, selectedOption);
+                }}
+              />
+            </div>
 
-        {/* Insert custom settings */}
+            <div>
+              <p className="d-inline-block mb-2 mt-3">{intl.get('view').d(`${d.view}/`)}</p>
+              {/* Toggle table view */}
+              <DtableSelect
+                value={viewSelectedOption}
+                options={viewOptions}
+                onChange={(selectedOption: SelectOption) => {
+                  let type = 'view' as SettingsOption;
+                  onTableOrViewChange(type, selectedOption);
+                }}
+              />
+            </div>
+          </div>
+          {/* Insert custom settings */}
+        </div>
       </div>
     </div>
   );

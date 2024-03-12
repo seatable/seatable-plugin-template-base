@@ -1,6 +1,5 @@
 // External imports
-import * as Icons from 'react-icons/ri';
-
+import info from '../../plugin-config/info.json';
 // Interfaces
 import { PresetSettings } from '../Interfaces/PluginPresets/Presets.interface';
 import { AppActiveState, AppIsShowState } from '../Interfaces/App.interface';
@@ -9,10 +8,10 @@ import { IActivePresetSettings } from '../Interfaces/PluginSettings.interface';
 // Constants
 const POSSIBLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789';
 
-// Plugin Configuration
-const PLUGIN_NAME = 'Plugin template'; // INSERT PLUGIN NAME
-const PLUGIN_ICON = Icons['RiOrganizationChart']; // Change PLUGIN Icon Name
-const PLUGIN_ID = 'main-custom-content'; // Insert Plugin ID
+const PLUGIN_NAME = info.name
+  .replace(/-([a-z])/g, (_, match) => ' ' + match.toUpperCase())
+  .replace(/^./, (str) => str.toUpperCase());
+const PLUGIN_ID = `${info.name}-component`;
 
 // Table and Preset Defaults
 const TABLE_NAME = 'table_name';
@@ -34,7 +33,7 @@ const DEFAULT_PRESET_SETTINGS: PresetSettings = {
 
 // Default Plugin Data
 const DEFAULT_PLUGIN_DATA = {
-  [PLUGIN_NAME]: PLUGIN_NAME,
+  pluginName: PLUGIN_NAME,
   activePresetId: '0000',
   activePresetIdx: 0,
   presets: [
@@ -55,12 +54,18 @@ const PresetHandleAction = {
   new: 'new',
 };
 
+// KeyDown Actions
+const KeyDownActions = {
+  enter: 'Enter',
+  escape: 'Escape',
+};
+
 // Initial App State
 const INITIAL_IS_SHOW_STATE: AppIsShowState = {
   isShowPlugin: true,
   isShowSettings: false,
   isLoading: true,
-  isShowPresets: false,
+  isShowPresets: true,
 };
 
 const INITIAL_CURRENT_STATE: AppActiveState = {
@@ -81,7 +86,6 @@ const DEFAULT_SELECTED_PRESET: IActivePresetSettings = {
 // Exported Constants
 export {
   POSSIBLE,
-  PLUGIN_ICON,
   PLUGIN_NAME,
   PLUGIN_ID,
   TABLE_NAME,
@@ -89,6 +93,7 @@ export {
   DEFAULT_PRESET_NAME,
   DEFAULT_PRESET_SETTINGS,
   PresetHandleAction,
+  KeyDownActions,
   INITIAL_IS_SHOW_STATE,
   INITIAL_CURRENT_STATE,
   DEFAULT_SELECTED_PRESET,

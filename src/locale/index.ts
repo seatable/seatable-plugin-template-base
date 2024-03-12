@@ -1,17 +1,15 @@
-import intl from 'react-intl-universal';
-import de from './lang/de';
-import en from './lang/en';
-import fr from './lang/fr';
-import zh_CN from './lang/zh_CN';
+import { AvailableLocales } from '../utils/Interfaces/App.interface';
+import setting from '../setting.local';
 
-const LOCALES = {
-  de: de,
-  en: en,
-  fr: fr,
-  'zh-cn': zh_CN,
-};
+const files = require.context('./lang', false, /\.json$/);
 
-const LAUGUAGE = 'zh-cn';
+const AVAILABLE_LOCALES: AvailableLocales = files.keys().reduce((locales: any, key) => {
+  const fileName = key.replace(/\.\/|\.json/g, '');
+  locales[fileName] = files(key);
+  return locales;
+}, {});
 
-let lang = window.dtable && window.dtable.lang ? window.dtable.lang : LAUGUAGE;
-intl.init({ currentLocale: lang, locales: LOCALES });
+// If the lang in setting.local.js is not set, then 'en' is the default language value
+const DEFAULT_LOCALE = setting.lang || 'en';
+
+export { AVAILABLE_LOCALES, DEFAULT_LOCALE };
