@@ -1,19 +1,15 @@
-import de from './lang/de';
-import en from './lang/en';
-//import fr from './lang/fr';
-//import es from './lang/es';
-//import pt from './lang/pt';
-//import ru from './lang/ru';
-//import zh_CN from './lang/zh_CN';
+import { AvailableLocales } from '../utils/Interfaces/App.interface';
+import setting from '../setting.local';
 
-const AVAILABLE_LOCALES = {
-  de: de,
-  en: en,
-  //fr: fr,
-  //es: es,
-  //pt: pt,
-  //ru: ru,
-  //'zh-cn': zh_CN,
-};
+const files = require.context('./lang', false, /\.json$/);
 
-export { AVAILABLE_LOCALES };
+const AVAILABLE_LOCALES: AvailableLocales = files.keys().reduce((locales: any, key) => {
+  const fileName = key.replace(/\.\/|\.json/g, '');
+  locales[fileName] = files(key);
+  return locales;
+}, {});
+
+// If the lang in setting.local.js is not set, then 'en' is the default language value
+const DEFAULT_LOCALE = setting.lang || 'en';
+
+export { AVAILABLE_LOCALES, DEFAULT_LOCALE };

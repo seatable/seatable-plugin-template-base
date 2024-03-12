@@ -120,6 +120,8 @@
     }
 
     p {
+      margin-bottom: 0;
+
       @include mobile {
         font-size: 12px;
       }

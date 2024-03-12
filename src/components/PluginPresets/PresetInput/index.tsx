@@ -45,16 +45,14 @@ const PresetInput: React.FC<IPresetInput> = ({
   };
 
   const handleFocusOut = (e: React.FormEvent<HTMLInputElement>) => {
-    if(!blurCausedByKeyDown) {
+    if (!blurCausedByKeyDown) {
       onChangePresetName(e);
       setBlurCausedByKeyDown(false);
     }
   };
 
   return (
-    <div
-      className={styles2.presets_input}
-      style={{ display: !isEditing ? 'none' : 'flex' }}>
+    <div className={styles2.presets_input} style={{ display: !isEditing ? 'none' : 'flex' }}>
       <input
         id="select-input"
         ref={inputRef}

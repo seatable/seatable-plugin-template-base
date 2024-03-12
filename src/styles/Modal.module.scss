@@ -129,7 +129,7 @@
         justify-self: center;
         opacity: 0;
         color: colorContrast($preset-bgColor);
-        
+
         @include mobile {
           opacity: 1;
         }
@@ -174,11 +174,17 @@
     }
 
     &_select {
-      border: none;
+      border: 1px solid $toggle-active-bgColor;
       outline: none;
       padding: 8px;
       border-radius: 4px;
       cursor: pointer;
+    }
+
+    &_pluginName {
+      p {
+        margin-bottom: 0;
+      }
     }
   }
 }

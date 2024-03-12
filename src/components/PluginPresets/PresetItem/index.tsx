@@ -15,6 +15,8 @@ import { IPresetItemProps } from '../../../utils/Interfaces/PluginPresets/Item.i
 import styles from '../../../styles/Modal.module.scss';
 import '../../../assets/css/plugin-layout.css';
 import intl from 'react-intl-universal';
+import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from '../../../locale';
+const { [DEFAULT_LOCALE]: d } = AVAILABLE_LOCALES;
 
 const PresetItem: React.FC<IPresetItemProps> = ({
   p,
@@ -34,13 +36,13 @@ const PresetItem: React.FC<IPresetItemProps> = ({
   const [pName, setPName] = useState(p.name);
 
   const onWindowResize = () => {
-    if ((window.innerWidth <= 1200) && p.name.length > 15) {
+    if (window.innerWidth <= 1200 && p.name.length > 15) {
       setPName(p.name.slice(0, 15) + '...');
-    } else if ((window.innerWidth > 1200) && p.name.length > 25) {
+    } else if (window.innerWidth > 1200 && p.name.length > 25) {
       setPName(p.name.slice(0, 25) + '...');
     } else {
       setPName(p.name);
-    };
+    }
   };
 
   useEffect(() => {
@@ -85,7 +87,7 @@ const PresetItem: React.FC<IPresetItemProps> = ({
 
   const onClickPreset = (e: React.MouseEvent<HTMLElement>) => {
     if (e.detail === 2) {
-      onToggleSettings()
+      onToggleSettings();
     } else {
       onSelectPreset(p?._id);
     }
@@ -103,7 +105,9 @@ const PresetItem: React.FC<IPresetItemProps> = ({
         <div
           className="px-2 d-flex justify-content-start mt-1"
           style={{ fontSize: '11px', fontWeight: 'bold' }}>
-          <span className="text-danger text-sm">{intl.get('preset_warn_exist')}</span>
+          <span className="text-danger text-sm">
+            {intl.get('preset_warn_exist').d(`${d.preset_warn_exist}`)}
+          </span>
         </div>
       )}
       <div style={{ position: 'relative' }}>

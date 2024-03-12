@@ -56,7 +56,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
             <HiOutlineChevronDoubleRight />
           </button>
         </div>
-        <div className={styles2.presets_pluginName}>
+        <div className={styles.modal_header_pluginName}>
           <p className="font-weight-bold">{presetName}</p>
         </div>
       </div>

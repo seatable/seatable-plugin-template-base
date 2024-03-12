@@ -33,6 +33,8 @@ import useClickOut from '../../hooks/useClickOut';
 import { AppActiveState } from '../../utils/Interfaces/App.interface';
 import { HiOutlineChevronDoubleLeft } from 'react-icons/hi2';
 import intl from 'react-intl-universal';
+import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from '../../locale';
+const { [DEFAULT_LOCALE]: d } = AVAILABLE_LOCALES;
 
 const PluginPresets: React.FC<IPresetsProps> = ({
   allTables,
@@ -311,7 +313,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
             onClick={(e) => togglePresetsUpdate(e, PresetHandleAction.new)}
             className={`d-flex ${styles.presets_add_button}`}>
             <i className="dtable-font dtable-icon-add-table"></i>
-            <p className="mx-1">{intl.get('preset_add')}</p>
+            <p className="mx-1">{intl.get('preset_add').d(`${d.preset_add}`)}</p>
           </button>
         )}
       </div>
