@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../styles/template-styles/Modal.module.scss';
-import styles2 from '../../styles/template-styles/Presets.module.scss';
+import stylesPresets from '../../styles/template-styles/Presets.module.scss';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import { IHeaderProps } from '../../utils/Interfaces/Header.interface';
@@ -45,7 +45,9 @@ const Header: React.FC<IHeaderProps> = (props) => {
     <div className={styles.modal_header}>
       <div className={'d-flex align-items-center justify-content-start'}>
         <div className={`align-items-center ${isShowPresets ? 'd-none' : 'd-flex'} `}>
-          <button className={styles2.presets_uncollapse_btn2_settings} onClick={onTogglePresets}>
+          <button
+            className={stylesPresets.presets_uncollapse_btn2_settings}
+            onClick={onTogglePresets}>
             <HiOutlineChevronDoubleRight />
           </button>
         </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getTableByName } from 'dtable-utils';
 import PresetItem from './PresetItem/index';
-import styles from '../../styles/template-styles/Presets.module.scss';
+import stylesPresets from '../../styles/template-styles/Presets.module.scss';
 import deepCopy from 'deep-copy';
 import icon from '../../plugin-config/icon.png';
 import Preset from '../../model/preset';
@@ -254,14 +254,15 @@ const PluginPresets: React.FC<IPresetsProps> = ({
   };
 
   return (
-    <div className={`${styles.presets}  ${!isShowPresets && styles.presets_collapsed}`}>
-      <button onClick={onTogglePresets} className={styles.presets_collapse_btn}>
+    <div
+      className={`${stylesPresets.presets}  ${!isShowPresets && stylesPresets.presets_collapsed}`}>
+      <button onClick={onTogglePresets} className={stylesPresets.presets_collapse_btn}>
         <HiOutlineChevronDoubleLeft />
       </button>
       <div className="d-flex flex-column">
-        <div className={`d-flex align-items-center py-2 pb-4 ${styles.presets_logo}`}>
-          <img src={icon} alt="Plugin Icon" className={styles.presets_icon} />
-          <div className={styles.presets_name}>{PLUGIN_NAME}</div>
+        <div className={`d-flex align-items-center py-2 pb-4 ${stylesPresets.presets_logo}`}>
+          <img src={icon} alt="Plugin Icon" className={stylesPresets.presets_icon} />
+          <div className={stylesPresets.presets_name}>{PLUGIN_NAME}</div>
         </div>
         {pluginPresets?.map((preset, i) => (
           <div
@@ -311,7 +312,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
         {!showNewPresetPopUp && (
           <button
             onClick={(e) => togglePresetsUpdate(e, PresetHandleAction.new)}
-            className={`d-flex ${styles.presets_add_button}`}>
+            className={`d-flex ${stylesPresets.presets_add_button}`}>
             <i className="dtable-font dtable-icon-add-table"></i>
             <p className="mx-1">{intl.get('preset_add').d(`${d.preset_add}`)}</p>
           </button>
