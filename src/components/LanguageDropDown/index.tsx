@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from '../../styles/Modal.module.scss';
+import styles from '../../styles/template-styles/Plugin.module.scss';
 import { AVAILABLE_LOCALES } from '../../locale';
 
 const LanguageDropdown: React.FC<any> = (props) => {
@@ -21,7 +21,7 @@ const LanguageDropdown: React.FC<any> = (props) => {
       id="languageDropdown"
       onChange={handleLanguageChange}
       value={selectedLanguage}
-      className={styles.modal_header_select}>
+      className={styles.plugin_header_select}>
       {Object.keys(AVAILABLE_LOCALES).map((langCode) => (
         <option key={langCode} value={langCode}>
           {langCode}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DtableSelect from '../Elements/dtable-select';
-import styles from '../../styles/PluginSettings.module.scss';
-import styles2 from '../../styles/Presets.module.scss';
+import stylesPSettings from '../../styles/template-styles/PluginSettings.module.scss';
+import stylesPresets from '../../styles/template-styles/PluginPresets.module.scss';
 import {
   SelectOption,
   IPluginSettingsProps,
@@ -62,17 +62,22 @@ const PluginSettings: React.FC<IPluginSettingsProps> = ({
   }, [appActiveState]);
 
   return (
-    <div className={`bg-white ${isShowSettings ? styles.settings : styles.settings_hide}`}>
+    <div
+      className={`bg-white ${
+        isShowSettings ? stylesPSettings.settings : stylesPSettings.settings_hide
+      }`}>
       <div className="p-5">
         <div
-          className={`d-flex align-items-center justify-content-between ${styles.settings_header}`}>
+          className={`d-flex align-items-center justify-content-between ${stylesPSettings.settings_header}`}>
           <h4 className="m-0">{intl.get('settings_headline').d(`${d.settings_headline}`)}</h4>
-          <button className={styles2.presets_uncollapse_btn2_settings} onClick={onToggleSettings}>
+          <button
+            className={stylesPresets.presets_uncollapse_btn2_settings}
+            onClick={onToggleSettings}>
             <HiOutlineChevronDoubleRight />
           </button>
         </div>
         <div>
-          <div className={styles.settings_dropdowns}>
+          <div className={stylesPSettings.settings_dropdowns}>
             <div>
               <p className="d-inline-block mb-2">{intl.get('table').d(`${d.table}`)}</p>
               {/* Toggle table view */}

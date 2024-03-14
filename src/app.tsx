@@ -26,7 +26,7 @@ import {
 import { PresetsArray } from './utils/Interfaces/PluginPresets/Presets.interface';
 import { SelectOption } from './utils/Interfaces/PluginSettings.interface';
 // Import of CSS
-import styles from './styles/Modal.module.scss';
+import styles from './styles/template-styles/Plugin.module.scss';
 import './assets/css/plugin-layout.css';
 // Import of Constants
 import {
@@ -371,7 +371,7 @@ const App: React.FC<IAppProps> = (props) => {
   };
 
   // functions for add row functionality
-  const onAddOrgChartItem = (view: TableView, table: Table, rowID: string) => {
+  const onAddItem = (view: TableView, table: Table, rowID: string) => {
     let rowData = getInsertedRowInitData(view, table, rowID);
     onInsertRow(table, view, rowData);
   };
@@ -384,7 +384,7 @@ const App: React.FC<IAppProps> = (props) => {
     let rows = appActiveState.activeViewRows;
     if (rows) {
       let row_id = rows.length > 0 ? rows[rows.length - 1]._id : '';
-      onAddOrgChartItem(appActiveState.activeTableView!, appActiveState.activeTable!, row_id);
+      onAddItem(appActiveState.activeTableView!, appActiveState.activeTable!, row_id);
     }
   };
 
@@ -452,7 +452,7 @@ const App: React.FC<IAppProps> = (props) => {
         updatePresets={updatePresets}
         updateActiveData={updateActiveData}
       />
-      <div className={styles.modal}>
+      <div className={styles.plugin}>
         <Header
           presetName={findPresetName(pluginPresets, activePresetId)}
           isShowPresets={isShowPresets}
@@ -465,14 +465,13 @@ const App: React.FC<IAppProps> = (props) => {
         <div
           className="d-flex position-relative"
           style={{ height: '100%', width: '100%', backgroundColor: '#f5f5f5' }}>
-          {/* content  */}
-          <div id={PLUGIN_ID} className={styles.body} style={{ padding: '10px' }}>
+          <div id={PLUGIN_ID} className={styles.body} style={{ padding: '10px', width: '100%' }}>
+            {/* Note: The CustomPlugin component serves as a placeholder and should be replaced with your custom plugin component. */}
             <CustomPlugin
               pluginPresets={pluginPresets}
               appActiveState={appActiveState}
               activeViewRows={activeViewRows}
             />
-
             <button className={styles.add_row} onClick={addRowItem}>
               <FaPlus size={30} color="#fff" />
               {isDevelopment && (

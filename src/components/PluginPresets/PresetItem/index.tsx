@@ -8,11 +8,11 @@ import useClickOut from '../../../hooks/useClickOut';
 import PresetDropdown from '../PresetDropdown';
 import PresetInput from '../PresetInput';
 // Constants
-import { KeyDownActions, PresetHandleAction } from '../../../utils/constants';
+import { PresetHandleAction } from '../../../utils/constants';
 // Interfaces
 import { IPresetItemProps } from '../../../utils/Interfaces/PluginPresets/Item.interface';
 // Styles
-import styles from '../../../styles/Modal.module.scss';
+import styles from '../../../styles/template-styles/Plugin.module.scss';
 import '../../../assets/css/plugin-layout.css';
 import intl from 'react-intl-universal';
 import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from '../../../locale';
@@ -116,8 +116,8 @@ const PresetItem: React.FC<IPresetItemProps> = ({
           style={{ display: isEditing ? 'none' : 'flex' }}
           className={
             pluginPresets[activePresetIdx]?._id === p?._id
-              ? styles.modal_header_viewBtn_active
-              : styles.modal_header_viewBtn
+              ? styles.plugin_header_viewBtn_active
+              : styles.plugin_header_viewBtn
           }>
           <div className="d-flex align-items-center">
             <p className="mb-0">{pName}</p>
@@ -125,13 +125,13 @@ const PresetItem: React.FC<IPresetItemProps> = ({
           <span className="d-flex align-items-center">
             <span>
               <i
-                className={`dtable-font dtable-icon-drag mr-1 ${styles.modal_header_viewBtn_icons}`}></i>
+                className={`dtable-font dtable-icon-drag mr-1 ${styles.plugin_header_viewBtn_icons}`}></i>
             </span>
             <span
-              className={`dtable-font dtable-icon-set-up ${styles.modal_header_viewBtn_settings}`}
+              className={`dtable-font dtable-icon-set-up ${styles.plugin_header_viewBtn_settings}`}
               onClick={onToggleSettings}></span>
             <BsThreeDots
-              className={`ml-1 ${styles.modal_header_viewBtn_icons}`}
+              className={`ml-1 ${styles.plugin_header_viewBtn_icons}`}
               onClick={togglePresetDropdown}
             />
           </span>
