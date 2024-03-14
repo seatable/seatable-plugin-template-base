@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../styles/template-styles/Plugin.module.scss';
-import stylesPresets from '../../styles/template-styles/PluginPresets.module.scss';
+import stylesPPresets from '../../styles/template-styles/PluginPresets.module.scss';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import { IHeaderProps } from '../../utils/Interfaces/Header.interface';
@@ -46,7 +46,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
       <div className={'d-flex align-items-center justify-content-start'}>
         <div className={`align-items-center ${isShowPresets ? 'd-none' : 'd-flex'} `}>
           <button
-            className={stylesPresets.presets_uncollapse_btn2_settings}
+            className={stylesPPresets.presets_uncollapse_btn2_settings}
             onClick={onTogglePresets}>
             <HiOutlineChevronDoubleRight />
           </button>
