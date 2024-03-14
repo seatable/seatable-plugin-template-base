@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from '../../../styles/Modal.module.scss';
-import stylesPresets from '../../../styles/Presets.module.scss';
+import styles from '../../../styles/template-styles/Plugin.module.scss';
+import stylesPPresets from '../../../styles/template-styles/PluginPresets.module.scss';
 import { IPresetDropdownProps } from '../../../utils/Interfaces/PluginPresets/Dropdown.interface';
 import { PresetHandleAction } from '../../../utils/constants';
 import intl from 'react-intl-universal';
@@ -37,9 +37,9 @@ const PresetDropdown: React.FC<IPresetDropdownProps> = ({
         style={{ pointerEvents: isPresets ? 'auto' : 'none' }}>
         <i
           className={`item-icon dtable-font dtable-icon-delete ${
-            !isPresets ? stylesPresets.isPresetsCondition : ''
+            !isPresets ? stylesPPresets.isPresetsCondition : ''
           }`}></i>
-        <p className={`ml-2 ${!isPresets ? stylesPresets.isPresetsCondition : ''}`}>
+        <p className={`ml-2 ${!isPresets ? stylesPPresets.isPresetsCondition : ''}`}>
           {intl.get('preset_delete').d(`${d.preset_delete}`)}
         </p>
       </li>

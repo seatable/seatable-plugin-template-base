@@ -1,8 +1,7 @@
-@import './abstracts/_media.scss';
-@import './constants.scss';
+@import '../abstracts/_media.scss';
+@import '../constants.scss';
 
-// STYLE FOR MODAL COMPONENT
-.modal_wrapper {
+.plugin_wrapper {
   width: 100%;
   position: fixed;
   height: 95%;
@@ -13,7 +12,7 @@
   display: flex;
 }
 
-.modal {
+.plugin {
   width: 100%;
   background: $modal-bgColor;
   height: 100%;
@@ -145,10 +144,10 @@
       }
 
       &:hover {
-        .modal_header_viewBtn_icons {
+        .plugin_header_viewBtn_icons {
           opacity: 1;
         }
-        .modal_header_viewBtn_settings {
+        .plugin_header_viewBtn_settings {
           opacity: 1;
         }
       }
