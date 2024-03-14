@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styles from '../../styles/Modal.module.scss';
+import styles from '../../styles/template-styles/Modal.module.scss';
 import { IResizableWrapper } from '../../utils/Interfaces/ResizableWrapper.interface';
 
 const ResizableWrapper: React.FC<IResizableWrapper> = ({ children }) => {

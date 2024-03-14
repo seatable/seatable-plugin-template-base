@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getTableByName } from 'dtable-utils';
 import PresetItem from './PresetItem/index';
-import styles from '../../styles/Presets.module.scss';
+import styles from '../../styles/template-styles/Presets.module.scss';
 import deepCopy from 'deep-copy';
 import icon from '../../plugin-config/icon.png';
 import Preset from '../../model/preset';

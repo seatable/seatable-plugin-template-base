@@ -8,11 +8,11 @@ import useClickOut from '../../../hooks/useClickOut';
 import PresetDropdown from '../PresetDropdown';
 import PresetInput from '../PresetInput';
 // Constants
-import { KeyDownActions, PresetHandleAction } from '../../../utils/constants';
+import { PresetHandleAction } from '../../../utils/constants';
 // Interfaces
 import { IPresetItemProps } from '../../../utils/Interfaces/PluginPresets/Item.interface';
 // Styles
-import styles from '../../../styles/Modal.module.scss';
+import styles from '../../../styles/template-styles/Modal.module.scss';
 import '../../../assets/css/plugin-layout.css';
 import intl from 'react-intl-universal';
 import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from '../../../locale';

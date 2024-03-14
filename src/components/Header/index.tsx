@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../../styles/Modal.module.scss';
-import styles2 from '../../styles/Presets.module.scss';
+import styles from '../../styles/template-styles/Modal.module.scss';
+import styles2 from '../../styles/template-styles/Presets.module.scss';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import { IHeaderProps } from '../../utils/Interfaces/Header.interface';

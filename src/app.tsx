@@ -26,7 +26,7 @@ import {
 import { PresetsArray } from './utils/Interfaces/PluginPresets/Presets.interface';
 import { SelectOption } from './utils/Interfaces/PluginSettings.interface';
 // Import of CSS
-import styles from './styles/Modal.module.scss';
+import styles from './styles/template-styles/Modal.module.scss';
 import './assets/css/plugin-layout.css';
 // Import of Constants
 import {
@@ -465,14 +465,13 @@ const App: React.FC<IAppProps> = (props) => {
         <div
           className="d-flex position-relative"
           style={{ height: '100%', width: '100%', backgroundColor: '#f5f5f5' }}>
-          {/* content  */}
-          <div id={PLUGIN_ID} className={styles.body} style={{ padding: '10px' }}>
+          <div id={PLUGIN_ID} className={styles.body} style={{ padding: '10px', width: '100%' }}>
+            {/* Note: The CustomPlugin component serves as a placeholder and should be replaced with your custom plugin component. */}
             <CustomPlugin
               pluginPresets={pluginPresets}
               appActiveState={appActiveState}
               activeViewRows={activeViewRows}
             />
-
             <button className={styles.add_row} onClick={addRowItem}>
               <FaPlus size={30} color="#fff" />
               {isDevelopment && (

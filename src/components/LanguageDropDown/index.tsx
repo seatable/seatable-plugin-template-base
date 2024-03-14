@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from '../../styles/Modal.module.scss';
+import styles from '../../styles/template-styles/Modal.module.scss';
 import { AVAILABLE_LOCALES } from '../../locale';
 
 const LanguageDropdown: React.FC<any> = (props) => {
