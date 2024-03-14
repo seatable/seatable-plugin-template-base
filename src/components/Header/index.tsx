@@ -8,26 +8,19 @@ import { PLUGIN_ID } from '../../utils/constants';
 import { HiOutlineChevronDoubleRight } from 'react-icons/hi2';
 
 const Header: React.FC<IHeaderProps> = (props) => {
-  const {
-    presetName,
-    isShowSettings,
-    isShowPresets,
-    onTogglePresets,
-    toggleSettings,
-    togglePlugin,
-  } = props;
-  const [orgChartContent, setOrgChartContent] = useState<string | null>(null);
+  const { presetName, isShowPresets, onTogglePresets, togglePlugin } = props;
+  const [customComponentContent, setCustomComponentContent] = useState<string | null>(null);
 
   useEffect(() => {
-    const input = document.getElementById('org_chart');
+    const input = document.getElementById(PLUGIN_ID);
     if (input) {
-      setOrgChartContent(input.innerHTML);
+      setCustomComponentContent(input.innerHTML);
     }
   }, []);
 
   const printPdfDocument = () => {
     const originalContents = document.body.innerHTML;
-    // document.body.innerHTML = orgChartContent || '';
+    // document.body.innerHTML = customComponentContent || '';
     window.print();
     // document.body.innerHTML = originalContents;
   };

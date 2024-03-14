@@ -68,7 +68,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     return selectedTable;
   };
 
-  const initOrgChartSetting = (settings = {}) => {
+  const initPresetSetting = (settings = {}) => {
     let initUpdated = {};
     let tables = window.dtableSDK.getTables();
     let selectedTable = getSelectedTable(tables, settings);
@@ -162,7 +162,7 @@ const PluginPresets: React.FC<IPresetsProps> = ({
     let newPreset = new Preset({ _id, name: presetName });
     let newPresetsArray = deepCopy(_pluginPresets);
     newPresetsArray.push(newPreset);
-    let initUpdated = initOrgChartSetting();
+    let initUpdated = initPresetSetting();
     newPresetsArray[_activePresetIdx].settings = Object.assign(_presetSettings, initUpdated);
     pluginDataStore.presets = newPresetsArray;
     updatePresets(_activePresetIdx, newPresetsArray, pluginDataStore, _id);
