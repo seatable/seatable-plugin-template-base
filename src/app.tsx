@@ -371,7 +371,7 @@ const App: React.FC<IAppProps> = (props) => {
   };
 
   // functions for add row functionality
-  const onAddOrgChartItem = (view: TableView, table: Table, rowID: string) => {
+  const onAddItem = (view: TableView, table: Table, rowID: string) => {
     let rowData = getInsertedRowInitData(view, table, rowID);
     onInsertRow(table, view, rowData);
   };
@@ -384,7 +384,7 @@ const App: React.FC<IAppProps> = (props) => {
     let rows = appActiveState.activeViewRows;
     if (rows) {
       let row_id = rows.length > 0 ? rows[rows.length - 1]._id : '';
-      onAddOrgChartItem(appActiveState.activeTableView!, appActiveState.activeTable!, row_id);
+      onAddItem(appActiveState.activeTableView!, appActiveState.activeTable!, row_id);
     }
   };
 
