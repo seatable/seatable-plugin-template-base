@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DtableSelect from '../Elements/dtable-select';
 import stylesPSettings from '../../styles/template-styles/PluginSettings.module.scss';
-import stylesPresets from '../../styles/template-styles/Presets.module.scss';
+import stylesPresets from '../../styles/template-styles/PluginPresets.module.scss';
 import {
   SelectOption,
   IPluginSettingsProps,

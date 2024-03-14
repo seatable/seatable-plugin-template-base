@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../../../styles/template-styles/Plugin.module.scss';
-import stylesPresets from '../../../styles/template-styles/Presets.module.scss';
+import stylesPresets from '../../../styles/template-styles/PluginPresets.module.scss';
 import { IPresetDropdownProps } from '../../../utils/Interfaces/PluginPresets/Dropdown.interface';
 import { PresetHandleAction } from '../../../utils/constants';
 import intl from 'react-intl-universal';
