@@ -26,7 +26,7 @@ import {
 import { PresetsArray } from './utils/Interfaces/PluginPresets/Presets.interface';
 import { SelectOption } from './utils/Interfaces/PluginSettings.interface';
 // Import of CSS
-import styles from './styles/template-styles/Modal.module.scss';
+import styles from './styles/template-styles/Plugin.module.scss';
 import './assets/css/plugin-layout.css';
 // Import of Constants
 import {
@@ -452,7 +452,7 @@ const App: React.FC<IAppProps> = (props) => {
         updatePresets={updatePresets}
         updateActiveData={updateActiveData}
       />
-      <div className={styles.modal}>
+      <div className={styles.plugin}>
         <Header
           presetName={findPresetName(pluginPresets, activePresetId)}
           isShowPresets={isShowPresets}

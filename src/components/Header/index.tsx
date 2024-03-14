@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../../styles/template-styles/Modal.module.scss';
+import styles from '../../styles/template-styles/Plugin.module.scss';
 import stylesPresets from '../../styles/template-styles/Presets.module.scss';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
@@ -42,7 +42,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
   };
 
   return (
-    <div className={styles.modal_header}>
+    <div className={styles.plugin_header}>
       <div className={'d-flex align-items-center justify-content-start'}>
         <div className={`align-items-center ${isShowPresets ? 'd-none' : 'd-flex'} `}>
           <button
@@ -51,19 +51,19 @@ const Header: React.FC<IHeaderProps> = (props) => {
             <HiOutlineChevronDoubleRight />
           </button>
         </div>
-        <div className={styles.modal_header_pluginName}>
+        <div className={styles.plugin_header_pluginName}>
           <p className="font-weight-bold">{presetName}</p>
         </div>
       </div>
       <div
-        className={`d-flex align-items-center justify-content-end ${styles.modal_header_settings}`}>
-        <span className={styles.modal_header_icon_btn} onClick={downloadPdfDocument}>
+        className={`d-flex align-items-center justify-content-end ${styles.plugin_header_settings}`}>
+        <span className={styles.plugin_header_icon_btn} onClick={downloadPdfDocument}>
           <span className="dtable-font dtable-icon-download"></span>
         </span>
-        <span className={styles.modal_header_icon_btn} onClick={printPdfDocument}>
+        <span className={styles.plugin_header_icon_btn} onClick={printPdfDocument}>
           <span className="dtable-font dtable-icon-print"></span>
         </span>
-        <span className={styles.modal_header_icon_btn} onClick={togglePlugin}>
+        <span className={styles.plugin_header_icon_btn} onClick={togglePlugin}>
           <span className="dtable-font dtable-icon-x btn-close"></span>
         </span>
       </div>

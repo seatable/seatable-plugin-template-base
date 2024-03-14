@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styles from '../../styles/template-styles/Modal.module.scss';
+import styles from '../../styles/template-styles/Plugin.module.scss';
 import { IResizableWrapper } from '../../utils/Interfaces/ResizableWrapper.interface';
 
 const ResizableWrapper: React.FC<IResizableWrapper> = ({ children }) => {
@@ -61,10 +61,10 @@ const ResizableWrapper: React.FC<IResizableWrapper> = ({ children }) => {
   return (
     <div
       ref={modalRef}
-      className={styles.modal_wrapper}
+      className={styles.plugin_wrapper}
       style={{ userSelect: allowTextSelection ? 'auto' : 'none' }}>
       {/* draggable  */}
-      <div ref={modalTop} className={styles.modal_draggable}>
+      <div ref={modalTop} className={styles.plugin_draggable}>
         <span></span>
         <span></span>
       </div>
