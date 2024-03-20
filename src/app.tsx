@@ -14,7 +14,7 @@ import {
   AppIsShowState,
   IAppProps,
   IPluginDataStore,
-} from 'utils/interfaces/App.interface';
+} from 'utils/interfaces/template-interfaces/App.interface';
 import {
   TableArray,
   TableViewArray,
@@ -23,9 +23,9 @@ import {
   TableRow,
   IActiveTableAndView,
   TableColumn,
-} from 'utils/interfaces/Table.interface';
-import { PresetsArray } from 'utils/interfaces/PluginPresets/Presets.interface';
-import { SelectOption } from 'utils/interfaces/PluginSettings.interface';
+} from 'utils/interfaces/template-interfaces/Table.interface';
+import { PresetsArray } from 'utils/interfaces/template-interfaces/PluginPresets/Presets.interface';
+import { SelectOption } from 'utils/interfaces/template-interfaces/PluginSettings.interface';
 // Import of CSS
 import styles from './styles/template-styles/Plugin.module.scss';
 import 'assets/css/plugin-layout.css';

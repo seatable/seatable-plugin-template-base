@@ -9,7 +9,7 @@ import {
   IPresetsProps,
   PresetSettings,
   PresetsArray,
-} from 'utils/interfaces/PluginPresets/Presets.interface';
+} from 'utils/interfaces/template-interfaces/PluginPresets/Presets.interface';
 import {
   appendPresetSuffix,
   createDefaultPresetSettings,
@@ -18,10 +18,14 @@ import {
   isUniquePresetName,
 } from 'utils/utils';
 import { DEFAULT_PLUGIN_DATA, PLUGIN_NAME, PresetHandleAction, TABLE_NAME } from 'utils/constants';
-import { IActiveTableAndView, TableArray, TableColumn } from 'utils/interfaces/Table.interface';
+import {
+  IActiveTableAndView,
+  TableArray,
+  TableColumn,
+} from 'utils/interfaces/template-interfaces/Table.interface';
 import PresetInput from './PresetInput';
 import useClickOut from 'hooks/useClickOut';
-import { AppActiveState } from 'utils/interfaces/App.interface';
+import { AppActiveState } from 'utils/interfaces/template-interfaces/App.interface';
 import { HiOutlineChevronDoubleLeft } from 'react-icons/hi2';
 import intl from 'react-intl-universal';
 import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from 'locale';

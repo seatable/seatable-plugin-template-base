@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import DtableSelect from '../Elements/dtable-select';
 import stylesPSettings from 't_styles/PluginSettings.module.scss';
 import stylesPresets from 't_styles/PluginPresets.module.scss';
-import { SelectOption, IPluginSettingsProps } from 'utils/interfaces/PluginSettings.interface';
+import {
+  SelectOption,
+  IPluginSettingsProps,
+} from 'utils/interfaces/template-interfaces/PluginSettings.interface';
 import { truncateTableName } from 'utils/utils';
 import { HiOutlineChevronDoubleRight } from 'react-icons/hi2';
 import { SettingsOption } from 'utils/types';
