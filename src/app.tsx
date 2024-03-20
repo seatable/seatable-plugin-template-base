@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa6';
 // Import of Component
-import Header from './components/Header';
-import PluginSettings from './components/PluginSettings';
-import PluginPresets from './components/PluginPresets';
-import ResizableWrapper from './components/ResizableWrapper';
+import Header from './components/template-components/Header';
+import PluginSettings from './components/template-components/PluginSettings';
+import PluginPresets from './components/template-components/PluginPresets';
+import ResizableWrapper from './components/template-components/ResizableWrapper';
 // Import of Interfaces
 import {
   AppActiveState,
@@ -49,7 +49,7 @@ import {
 import { SettingsOption } from './utils/types';
 import pluginContext from './plugin-context';
 
-import CustomPlugin from './CustomPlugin';
+import CustomPlugin from './components/custom-components/CustomPlugin';
 
 const App: React.FC<IAppProps> = (props) => {
   const { isDevelopment, lang } = props;
