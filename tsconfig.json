@@ -15,7 +15,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "typeRoots": ["./node_modules/@types", "src/utils/types"]
+    "typeRoots": ["./node_modules/@types", "src/utils/types"],
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"]
+    }
   },
   "include": ["src/**/*.tsx", "src/**/*.ts", "src/**/*.scss", "src/**/*"],
   "exclude": ["node_modules", "build", "dist"]

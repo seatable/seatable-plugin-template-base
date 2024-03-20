@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import DtableSelect from '../Elements/dtable-select';
-import stylesPSettings from '../../../styles/template-styles/PluginSettings.module.scss';
-import stylesPresets from '../../../styles/template-styles/PluginPresets.module.scss';
-import {
-  SelectOption,
-  IPluginSettingsProps,
-} from '../../../utils/Interfaces/PluginSettings.interface';
-import { truncateTableName } from '../../../utils/utils';
+import stylesPSettings from 't_styles/PluginSettings.module.scss';
+import stylesPresets from 't_styles/PluginPresets.module.scss';
+import { SelectOption, IPluginSettingsProps } from 'utils/interfaces/PluginSettings.interface';
+import { truncateTableName } from 'utils/utils';
 import { HiOutlineChevronDoubleRight } from 'react-icons/hi2';
-import { SettingsOption } from '../../../utils/types';
+import { SettingsOption } from 'utils/types';
 import intl from 'react-intl-universal';
-import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from '../../../locale';
+import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from 'locale';
 const { [DEFAULT_LOCALE]: d } = AVAILABLE_LOCALES;
 
 // PluginSettings component for managing table and view options

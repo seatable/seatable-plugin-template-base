@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
 import App from './app';
 import info from './plugin-config/info.json';
-import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from './locale';
+import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from 'locale';
 import intl from 'react-intl-universal';
 
 const SeaTablePlugin = {

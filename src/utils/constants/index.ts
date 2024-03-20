@@ -1,9 +1,9 @@
 // External imports
 import info from '../../plugin-config/info.json';
 // Interfaces
-import { PresetSettings } from '../Interfaces/PluginPresets/Presets.interface';
-import { AppActiveState, AppIsShowState } from '../Interfaces/App.interface';
-import { IActivePresetSettings } from '../Interfaces/PluginSettings.interface';
+import { PresetSettings } from '../interfaces/PluginPresets/Presets.interface';
+import { AppActiveState, AppIsShowState } from '../interfaces/App.interface';
+import { IActivePresetSettings } from '../interfaces/PluginSettings.interface';
 
 // Constants
 const POSSIBLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789';
