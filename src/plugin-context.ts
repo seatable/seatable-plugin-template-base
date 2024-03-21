@@ -1,4 +1,4 @@
-import { PluginContext } from './utils/Interfaces/PluginContext.interface';
+import { PluginContext } from 'utils/interfaces/template-interfaces/PluginContext.interface';
 
 const pluginContext: PluginContext = {
   getConfig: () => (window.dtable ? window.dtable : window.dtablePluginConfig),

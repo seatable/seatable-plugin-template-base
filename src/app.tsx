@@ -3,17 +3,18 @@
 import React, { useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa6';
 // Import of Component
-import Header from './components/Header';
-import PluginSettings from './components/PluginSettings';
-import PluginPresets from './components/PluginPresets';
-import ResizableWrapper from './components/ResizableWrapper';
+import Header from 'components/template-components/Header';
+import PluginSettings from 'components/template-components/PluginSettings';
+import PluginPresets from 'components/template-components/PluginPresets';
+import ResizableWrapper from 'components/template-components/ResizableWrapper';
+import CustomPlugin from 'components/custom-components/CustomPlugin';
 // Import of Interfaces
 import {
   AppActiveState,
   AppIsShowState,
   IAppProps,
   IPluginDataStore,
-} from './utils/Interfaces/App.interface';
+} from 'utils/interfaces/template-interfaces/App.interface';
 import {
   TableArray,
   TableViewArray,
@@ -22,12 +23,12 @@ import {
   TableRow,
   IActiveTableAndView,
   TableColumn,
-} from './utils/Interfaces/Table.interface';
-import { PresetsArray } from './utils/Interfaces/PluginPresets/Presets.interface';
-import { SelectOption } from './utils/Interfaces/PluginSettings.interface';
+} from 'utils/interfaces/template-interfaces/Table.interface';
+import { PresetsArray } from 'utils/interfaces/template-interfaces/PluginPresets/Presets.interface';
+import { SelectOption } from 'utils/interfaces/template-interfaces/PluginSettings.interface';
 // Import of CSS
 import styles from './styles/template-styles/Plugin.module.scss';
-import './assets/css/plugin-layout.css';
+import 'assets/css/plugin-layout.css';
 // Import of Constants
 import {
   INITIAL_IS_SHOW_STATE,
@@ -35,8 +36,8 @@ import {
   PLUGIN_ID,
   PLUGIN_NAME,
   DEFAULT_PLUGIN_DATA,
-} from './utils/constants';
-import './locale';
+} from 'utils/constants';
+import 'locale';
 import {
   createDefaultPluginDataStore,
   findPresetName,
@@ -45,11 +46,9 @@ import {
   getPluginDataStore,
   isMobile,
   parsePluginDataToActiveState,
-} from './utils/utils';
-import { SettingsOption } from './utils/types';
+} from 'utils/utils';
+import { SettingsOption } from 'utils/types';
 import pluginContext from './plugin-context';
-
-import CustomPlugin from './CustomPlugin';
 
 const App: React.FC<IAppProps> = (props) => {
   const { isDevelopment, lang } = props;

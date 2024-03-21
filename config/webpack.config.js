@@ -306,6 +306,13 @@ module.exports = function (webpackEnv) {
           'react-dom$': 'react-dom/profiling',
           'scheduler/tracing': 'scheduler/tracing-profiling',
         }),
+        t_styles: path.resolve('src/styles/template-styles'),
+        c_style: path.resolve('src/styles/custom-styles'),
+        t_interfaces: path.resolve('src/t_interfaces'),
+        c_interfaces: path.resolve('src/c_interfaces'),
+        utils: path.resolve('src/utils'),
+        assets: path.resolve('src/assets'),
+        hooks: path.resolve('src/hooks'),
         ...(modules.webpackAliases || {}),
       },
       plugins: [
